@@ -1,0 +1,9 @@
+---
+
+- name: run a command
+  onyx_command:
+         commands: "{{ command }}"
+  register: output
+- name: print output 
+  debug:
+    msg: "the output of the command:   {{ output.stdout }}"

@@ -1,0 +1,11 @@
+---
+
+- name: install collectd
+  apt: name=collectd state=present
+
+- name: put default config
+  copy: src=collectd_{{ coll_type }}.conf dest=/etc/collectd/collectd.conf
+  notify: 
+    - enable collectd
+
+

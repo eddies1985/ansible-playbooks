@@ -1,0 +1,6 @@
+SHELL=/bin/bash
+{% if ansible_os_family == "Debian" %}
+{{ schedule }} {{ cron_user }} $(/usr/local/bin/ansible-pull -d {{ workdir }} -U {{ repo_url }} > {{ logfile }} 2>&1)
+{% else %}
+{{ schedule }} {{ cron_user }} `which ansible-pull` -d {{ workdir }} -U {{ repo_url }} > {{ logfile }} 2>&1
+{% endif %}

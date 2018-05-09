@@ -1,0 +1,7 @@
+---
+
+- name: add ansible to cron
+  template: src=cron.j2 dest=/etc/cron.d/ansible-pull owner={{ cron_user }} group={{ cron_user }} mode=0644
+  notify:
+    - enable cron
+

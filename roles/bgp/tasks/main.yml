@@ -1,0 +1,15 @@
+---
+- name: bgp neigbors
+  onyx_bgp:
+     as_number: 65000
+     router_id: 192.168.168.168
+     neighbors:
+        - remote_as: 65002
+          neighbor: 192.168.255.3
+       #   remote_as: 65002 
+       #   neighbor: 192.168.255.4
+     state: present
+     networks:
+       - 192.168.168.168/32
+       -  192.168.100.0/24
+

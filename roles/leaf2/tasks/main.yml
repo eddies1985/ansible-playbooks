@@ -1,0 +1,65 @@
+---
+# MLAG leaf2 switch
+
+- name: configure protocols
+  onyx_protocol:
+    spanning_tree: disabled
+    ip_routing: enabled
+    lacp: enabled
+    mlag: enabled
+    dcb_pfc: enabled
+    magp: enabled
+
+- name: Disable Lag members PFC
+  onyx_pfc_interface:
+    aggregate:
+      - name: Eth1/1
+      - name: Eth1/2
+    state: disabled
+
+- name: Configure Lag interface
+  onyx_linkagg:
+    name: Po1
+    members:
+      - Eth1/1
+      - Eth1/2
+    mode: active
+
+- name: Enable Lag interface PFC
+  onyx_pfc_interface:
+    name: Po1
+    state: enabled
+
+- name: Configure vlan for IPL
+  onyx_vlan:
+    vlan_id: "{{ ipl_vlan }}"
+    name: IPL
+
+- name: Create vlan interface for IPL
+  onyx_interface:
+    name: "Vlan {{ ipl_vlan }}"
+
+- name: Configure vlan interface ip address
+  onyx_l3_interface:
+    name: "Vlan {{ ipl_vlan }}"
+    ipv4: 192.168.1.2/24
+
+- name: configure IPL Lag interface
+  onyx_mlag_ipl:
+    name: Po1
+    vlan_interface: "Vlan {{ ipl_vlan }}"
+    peer_address: 192.168.1.1
+
+- name: configure mlag-vip
+  onyx_mlag_vip:
+    ipaddress: 172.16.1.1/24
+    group_name: ansible-test-group
+    mac_address: 00:11:11:11:11:01
+
+- name: configure MLag port channel with server 1
+  onyx_linkagg:
+    name: Mpo1
+    members:
+      - Eth1/10
+    mode: active
+

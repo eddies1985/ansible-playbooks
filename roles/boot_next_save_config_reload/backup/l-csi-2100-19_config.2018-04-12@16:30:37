@@ -1,0 +1,139 @@
+##
+## Running database "initial"
+## Generated at 2018/04/12 16:30:33 +0300
+## Hostname: l-csi-2100-19
+##
+
+##
+## Running-config temporary prefix mode setting
+##
+no cli default prefix-modes enable
+
+##
+## Interface Ethernet configuration
+##
+   interface ethernet 1/1 speed 10000 force
+   interface ethernet 1/16 speed 40000 force
+   interface ethernet 1/1-1/3 mtu 9216 force
+   interface ethernet 1/16 mtu 9216 force
+   interface ethernet 1/1 switchport mode dot1q-tunnel
+   interface ethernet 1/16 switchport mode trunk
+   
+##
+## VLAN configuration
+##
+   vlan 55
+   vlan 4001-4003
+   vlan 4001 name "BETRT27-MDCRT25"
+   vlan 4002 name "BETSW9002-MDCRT15_16"
+   vlan 4003 name "BETCS3005-MDCCS30"
+   interface ethernet 1/1 switchport access vlan 4001
+   mac-address-table aging-time 480
+   
+##
+## STP configuration
+##
+no spanning-tree
+   
+##
+## L3 configuration
+##
+   ip routing vrf default
+   interface loopback 1
+   interface vlan 55
+   interface loopback 1 ip address 192.168.168.19 255.255.255.255
+   interface vlan 55 ip address 192.168.55.19 255.255.255.0
+   
+##
+## LLDP configuration
+##
+   lldp
+   
+##
+## IGMP Snooping configuration
+##
+   ip igmp snooping version 2
+   
+##
+## IP Multicast router configuration
+##
+   ip multicast-routing vrf default
+   
+##
+## OPENFLOW configuration
+##
+   protocol openflow
+   interface ethernet 1/1-1/3 openflow mode hybrid
+   interface ethernet 1/16 openflow mode hybrid
+   openflow add-flows 1 table=0,priority=20,in_port=Eth1/1,dl_dst=01:80:C2:00:00:02,actions=output:Eth1/16
+   openflow add-flows 2 table=0,priority=20,in_port=Eth1/16,dl_vlan=4001,dl_dst=01:80:C2:00:00:02,actions=pop_vlan,output:Eth1/1
+   openflow add-flows 8 table=0,priority=20,in_port=Eth1/16,dl_vlan=4001,dl_dst=01:80:C2:00:00:00,actions=pop_vlan,output:Eth1/1
+   openflow add-flows 9 table=0,priority=20,in_port=Eth1/2,dl_dst=01:80:C2:00:00:00,actions=output:Eth1/16
+   openflow add-flows 13 table=0,priority=20,in_port=Eth1/1,dl_dst=01:80:c2:00:00:0e,actions=output:Eth1/16
+   openflow add-flows 14 table=0,priority=20,in_port=Eth1/16,dl_vlan=4001,dl_dst=01:80:c2:00:00:0e,actions=pop_vlan,output:Eth1/1
+   openflow add-flows 30 table=0,priority=0,actions=NORMAL
+   
+##
+## BGP configuration
+##
+   protocol bgp
+   router bgp 65001 vrf default
+   router bgp 65001 vrf default neighbor 192.168.55.18 remote-as 65001
+   router bgp 65001 vrf default redistribute connected
+   router bgp 65001 vrf default network 192.168.55.19 /32
+   
+##
+## PIM configuration
+##
+   protocol pim
+   
+##
+## Mellanox Dockers configuration
+##
+   docker
+   docker no shutdown
+   docker start trap-stp 3.6.5000 trap-stp data-path-ready privileged sdk
+   
+##
+## Other IPv6 configuration
+##
+no ipv6 enable
+   
+##
+## AAA remote server configuration
+##
+# ldap bind-password ********
+# radius-server key ********
+# tacacs-server key ********
+   
+##
+## Network management configuration
+##
+# web proxy auth basic password ********
+   clock timezone Asia Middle_East Jerusalem
+   email mailhub exchange.mtl.com
+no email notify event health-module-status
+   email notify recipient eddies@mellanox.com class failure
+   email notify recipient eddies@mellanox.com class info
+   email notify recipient eddies@mellanox.com detail
+no ntp server 10.4.0.134 disable
+   ntp server 10.4.0.134 keyID 0
+no ntp server 10.4.0.134 trusted-enable
+   ntp server 10.4.0.134 version 4
+   
+##
+## Cluster configuration
+##
+no ha dns enable
+   
+##
+## X.509 certificates configuration
+##
+#
+# Certificate name system-self-signed, ID 6aaaecf01af8fa364613dd49a77da76a08504cd4
+# (public-cert config omitted since private-key config is hidden)
+
+##
+## Persistent prefix mode setting
+##
+cli default prefix-modes enable

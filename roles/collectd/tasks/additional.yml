@@ -1,0 +1,23 @@
+---
+
+ - name: install psutil
+   raw:  easy_install psutil
+
+ - name: fetch latest plugin ver
+   git:
+     repo: http://l-gerrit.mtl.labs.mlnx:8080/DevOps_projects/UsageMon
+     dest: /tmp/usagemon
+     force: yes
+     update: yes
+     
+
+ - name: add custom userland collecting
+   raw:  cat /tmp/usagemon/collectd_plugins/userland_procs.py > /usr/lib64/collectd/userland_procs.py && chmod 755 /usr/lib64/collectd/userland_procs.py
+
+ - name: add custom userland typesdb
+   raw: cat /tmp/usagemon/collectd_typesdb/userland_procs.types.db > /usr/share/collectd/userland_procs.types.db
+ 
+ - name: add modified collectd
+   raw:  cat /tmp/usagemon/collectd_typesdb/collectd.conf > /etc/collectd.conf
+
+ - service: name=collectd state=restarted enabled=yes

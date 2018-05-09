@@ -1,0 +1,10 @@
+---
+
+schedule: '0 * * * *'
+cron_user: root
+logfile: /var/log/ansible-pull.log
+workdir: /var/spool/ansible
+repo_url: "{{ repo_base }}/{{ gerrit_project }}"
+repo_base: http://l-gerrit-slave-06.mtl.labs.mlnx:8080/DevOps_projects/Ansible_playbooks/
+gerrit_project: ""
+

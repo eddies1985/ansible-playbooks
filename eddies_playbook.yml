@@ -1,0 +1,28 @@
+---
+- name: EddieS_Playbook
+  hosts: ONYX
+  gather_facts: no
+  connection: network_cli
+  become: yes
+  become_method: enable
+  vars:
+    ansible_network_os: onyx
+    version: ""
+    path: "/mswg/release/sx_mlnx_os/"
+    
+    cpu: "X86_64"   # X86_64 | PC_M460EX
+    user: eddies
+    password: eddies11
+    remote_ip: 10.7.157.118
+    reset: no
+    command: "show clock"
+  remote_user: admin
+  roles:
+    - { role: image_fetch_install , tags: ['image-fetch-install'] }
+    - { role: basic_lab_mgmt_config , tags: ['basic_lab_mgmt_config'] }
+    - { role: boot_next_save_config_reload , tags: ['boot'] }
+    - { role: test , tags: ['test'] }
+    - { role: facts , tags: ['facts'] }
+    - { role: bgp , tags: ['bgp'] }
+    - { role: reset_factory, tags: ['wipe']}
+    - { role: onyx_command, tags: ['onyx_command']}

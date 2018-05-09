@@ -1,0 +1,9 @@
+---
+#- name: gather facts
+#  onyx_facts:
+#    gather_subset: all
+- name: reset factory
+  onyx_config:
+     lines: 
+        - no cli default prompt confirm-reset
+        - reset factory

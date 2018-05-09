@@ -1,0 +1,13 @@
+---
+- name: get_facts
+  onyx_facts:
+     gather_subset: 
+        - version
+     register: version
+
+- name: print version
+  debug:
+    msg: "{{ version }}"
+
+
+

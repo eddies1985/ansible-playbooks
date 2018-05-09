@@ -1,0 +1,8 @@
+---
+- name: reset factory
+  when: reset == "factory"
+  onyx_config:
+      lines: 
+        - no cli default prompt confirm-reset
+        - reset {{ reset  }}
+      backup: no     

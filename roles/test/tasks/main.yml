@@ -1,0 +1,23 @@
+
+#- name: gather facts
+#  onyx_facts:
+#    gather_subset: all
+    
+   #debug: msg= "{{ ansible_net_version  }}"  
+
+
+- name: command
+  onyx_command:
+     commands:
+        - show version 
+     #   - "{{ command }}"  
+    # wait_for:
+    #    result[0] contains 3.6.6102
+         #    
+ #    when:
+ #       - ansible_net_version == 3.6.6102
+
+     
+
+
+

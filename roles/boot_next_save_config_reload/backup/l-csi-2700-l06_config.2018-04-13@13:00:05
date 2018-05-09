@@ -1,0 +1,39 @@
+##
+## Running database "temp_scrub_config.16814"
+## Generated at 2018/04/13 09:59:49 +0000
+## Hostname: l-csi-2700-l06
+##
+
+##
+## Running-config temporary prefix mode setting
+##
+no cli default prefix-modes enable
+
+##
+## QoS switch configuration
+##
+   interface ethernet 1/1 qos map dscp 10 to switch-priority 0
+   
+##
+## AAA remote server configuration
+##
+# ldap bind-password ********
+# radius-server key ********
+# tacacs-server key ********
+   
+##
+## Network management configuration
+##
+# web proxy auth basic password ********
+   
+##
+## X.509 certificates configuration
+##
+#
+# Certificate name system-self-signed, ID 07684941f05e4b43a90f8913f42336cf79d6c16a
+# (public-cert config omitted since private-key config is hidden)
+
+##
+## Persistent prefix mode setting
+##
+cli default prefix-modes enable

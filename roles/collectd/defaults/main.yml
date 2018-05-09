@@ -1,0 +1,3 @@
+---
+# defaults file for collectd_role
+coll_type: "general"

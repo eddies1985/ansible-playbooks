@@ -1,0 +1,22 @@
+---
+
+- name: bring collectd rpms for sles
+  copy: src=sles/{{ ansible_distribution_major_version }} dest=/tmp
+
+- name: install collectd
+  raw: zypper --no-gpg-checks -n install  --no-confirm /tmp/{{ ansible_distribution_major_version }}/*.rpm
+
+- name: put default config
+  copy: src=collectd_{{ coll_type }}.conf dest=/etc/collectd.conf
+  notify:
+    - enable collectd
+  
+
+- name: add collectd.conf link
+  file: src=/etc/collectd.conf dest=/etc/collectd/collectd.conf state=link
+  when: ansible_distribution_major_version == "12"
+
+- name: add collectd dir
+  file: path=/etc/collectd.d state=directory mode=755
+  when: ansible_distribution_major_version == "12"
+

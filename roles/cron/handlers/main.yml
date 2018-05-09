@@ -1,0 +1,10 @@
+---
+# handlers file for cron_gen
+
+- name: enable cron
+  service: name=crond state=restarted enabled=yes
+  when: ansible_os_family == "RedHat"
+
+- name: enable cron
+  service: name=cron state=restarted enabled=yes
+  when: ansible_os_family == "Suse" or ansible_os_family == "Debian"

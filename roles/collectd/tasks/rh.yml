@@ -1,0 +1,12 @@
+---
+
+- name: install collectd
+  package: name=collectd state=present
+
+- name: put default config
+  copy: src=collectd_{{ coll_type }}.conf dest=/etc/collectd.conf
+  notify: 
+    - enable collectd
+
+
+

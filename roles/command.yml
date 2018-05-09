@@ -1,0 +1,16 @@
+- name: test
+  hosts: all
+  become: yes
+   
+  tasks:
+ # - name: run show version on remote devices
+ #   onyx_command:
+ #     commands: show version
+ -name: facts
+        onyx_facts:
+                gather_subset: all 
+ - name: show clock
+     onyx_command:
+       commands: show clock
+       when:
+        - ansible_net_version == 3.6.6102

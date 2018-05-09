@@ -1,0 +1,14 @@
+---
+#- name: gather facts
+#  onyx_facts:
+#    gather_subset: all
+- name: image boot next and reload
+  onyx_config:
+      lines: 
+        - image boot next
+        - configuration write
+        - no boot next fallback-reboot enable
+        - reload
+      backup: yes     
+      save: yes
+        #src

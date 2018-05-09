@@ -1,0 +1,7 @@
+---
+- name: gather facts
+  onyx_facts:
+    gather_subset: all
+- name: show version
+  onyx_command:
+     commands: show version

@@ -1,0 +1,13 @@
+---
+#- gather_facts: no
+#- vars:
+#   local_user: "{{ lookup('env', 'USER') }}"
+# tasks:
+#- name: print local user
+#  debug: msg="{{ lookup('env','HOME') }} is an environment variable"
+
+- name: save_config
+  onyx_config:
+        commands:  
+        save: yes
+  

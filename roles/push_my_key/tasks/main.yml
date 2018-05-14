@@ -28,6 +28,4 @@
     commands: ssh client user admin authorized-key sshv2 "{{ public_key.stdout }}"
   register: config
    
-- name: print switch answer
-  debug: msg "{{ config.updates }}
   

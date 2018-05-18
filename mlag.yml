@@ -50,7 +50,7 @@
     path: "/tmp/"
     cpu: "X86_64"   # X86_64 | PC_M460EX
     user: root
-    password: 3tango
+    password: {{ password }}
     remote_ip: 10.143.34.16
   roles:
     - { role: onyx_image_install , tags: ['image-install'] }
@@ -70,8 +70,12 @@
 
 - name: waiting for switches to boot with new version
   hosts: MLAG
-  pause:
-    minutes: 6
+  tasks:
+    - name: waiting_6_minutes
+      pause:
+        minutes: 6
+      tags:
+        - waiting_6_minutes
 
 - name: MLAG_demo
   hosts: leaf1,leaf2
@@ -180,8 +184,10 @@
 
 
 
-                - name: onyx_save_config
-                    - { role: onyx_save_config , tags: ['save_configuration'] } 
+              #  - name: onyx_save_config
+              #    hosts: MLAG
+              #    roles:
+              #      - { role: onyx_save_config , tags: ['save_configuration'] }
         #        - name: configure vlans
         #          onyx_vlan:
         #                vlan_id: {{ item }}

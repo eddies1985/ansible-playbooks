@@ -50,7 +50,7 @@
     path: "/tmp/"
     cpu: "X86_64"   # X86_64 | PC_M460EX
     user: root
-    password: {{ pass }}
+    password: rootpassword
     remote_ip: 10.143.34.16
   roles:
     - { role: onyx_image_install , tags: ['image-install'] }

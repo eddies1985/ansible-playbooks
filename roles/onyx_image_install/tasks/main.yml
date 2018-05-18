@@ -1,0 +1,23 @@
+---
+
+- name: image fetch
+
+  onyx_command:
+     commands: image fetch scp://{{ user }}:{{ password }}@{{remote_ip }}:{{ path }}/image-{{ cpu }}-{{ version }}.img
+  when:  ansible_net_version['Product release']  != version
+  tags:
+      - fetch
+#- name: Check if an image install is already running
+#  onyx_command:
+#        commands: show version
+
+#- name: show version
+#  onyx_command:
+#        commands: show version
+#        register: version_output
+- name: image install
+  onyx_command:
+     commands: image install image-{{ cpu }}-{{ version }}.img
+  tags:
+    - install
+  when:  ansible_net_version['Product release']  != version

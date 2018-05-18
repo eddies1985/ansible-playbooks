@@ -1,26 +1,49 @@
 ---
-- hosts: MLAG
+- name: reset_factory
+  hosts: MLAG
   gather_facts: no
-- name: reset factory
-  ignore_errors: yes  
-#  connection: network_cli
-
- # become: yes
- # become_method: enable
+  ignore_errors: yes
+  connection: network_cli
+  become: yes
+  become_method: enable
   vars:
-        reset: no
- #       ansible_network_os: onyx      
+    ansible_network_os: onyx
+    reset: factory
   roles:
-  - { role: reset_factory, tags: ['wipe']} 
-  
-- name: pause
-  tasks:        
+      - { role: reset_factory, tags: ['wipe']}
+  tasks:
   - pause:
         minutes: 7
-   
-    
+
+- name: fix_onyx_config_wizerd
+  hosts: MLAG
+  gather_facts: no
+  connection: network_cli
+  become: yes
+  become_method: enable
+  vars:
+    ansible_network_os: onyx
+  roles:
+    - { role: onyx_fix_configuration_wizard, tags: ['fix_onyx_config_wizard']}
+
+- name: get_facts
+  hosts: MLAG
+  gather_facts: no
+  connection: network_cli
+  become: yes
+  become_method: enable
+  vars:
+    ansible_network_os: onyx
+    subset: version
+  roles:
+    - { role: onyx_facts, tags: ['facts']}
+
 - name: install_software
   hosts: MLAG
+  gather_facts: no
+  connection: network_cli
+#  become: yes
+#  become_method: enable
   vars:
     ansible_network_os: onyx
     version: "3.6.6107"
@@ -30,7 +53,25 @@
     password: 3tango
     remote_ip: 10.143.34.16
   roles:
-    - { role: image_fetch_install , tags: ['image-fetch-install'] }
+    - { role: onyx_image_install , tags: ['image-install'] }
+
+- name: boot_to_next_partition_after_install
+  hosts: MLAG
+  ignore_errors: yes
+  gather_facts: no
+  connection: network_cli
+  become: yes
+  become_method: enable
+  vars:
+    ansible_network_os: onyx
+    version: 3.6.6107
+  roles:
+    - { role: onyx_boot_next_save_config_reload , tags: ['boot_next_partition'] }
+
+- name: waiting for switches to boot with new version
+  hosts: MLAG
+  pause:
+    minutes: 6
 
 - name: MLAG_demo
   hosts: leaf1,leaf2
@@ -46,12 +87,13 @@
                         - port: 5
                         - port: 6
                 mlag_system_mac: "00:00:5E:00:01:01"
-                mlag_vip: "169.254.1.1 /24" 
+                mlag_vip: "169.254.1.1 /24"
                 mlag_cluster_name: ansible-demo1
                 mlag_ipl_lag_name: Po1
-                mlag_ipl_vlan: vlan 4094
-                mlag_ipl_ip: "169.254.1.1 /30" 
-                VLANS: 
+                mlag_ipl_vlan: 4094
+                mlag_ipl_ip: "169.254.1.1 /30"
+                mlag_ipl_peer_ip: 169.254.1.2
+                VLANS:
                         - vlan: 10
                           vlan_ip: 192.168.10.252/24
                           vlan_magp_ip: 192.168.10.254
@@ -60,56 +102,88 @@
                 mlag_ipl_ports:
                         - port: 5
                         - port: 6
-                mlag_ipl_lag_name: Po1
-                mlag_ipl_vlan: "vlan 4094"
-                mlag_ipl_ip: "169.254.1.2 /30"
                 mlag_system_mac: "00:00:5E:00:01:01"
                 mlag_vip: "169.254.1.1 /24"
                 mlag_cluster_name: ansible-demo1
+                mlag_ipl_lag_name: Po1
+                mlag_ipl_vlan: 4094
+                mlag_ipl_ip: "169.254.1.2 /30"
+                mlag_ipl_peer_ip: 169.254.1.1
                 VLANS:
                         - vlan: 10
                           vlan_ip: 192.168.10.253/24
                           vlan_magp_ip: 192.168.10.254
                           vlan_magp_mac: "00:11:11:11:11:11"
-        tasks:
+
+  tasks:
+                #- name: get_ipl_vlan_ip
+              #    set_fact:
+                #    ip_address: "{{  {{ devices[inventory_hostname].mlag_ipl_ip }} | ipaddr('subnet') }}"
                 - name: enable protocols
-                  onyx_protocol:    
-                        lacp: enabled    
-                        spanning_tree: disabled    
-                        ip_routing: enabled    
-                        mlag: enabled    
+                  onyx_protocol:
+                        lacp: enabled
+                        lldp: enabled
+                        spanning_tree: disabled
+                        ip_routing: enabled
+                        mlag: enabled
                         dcb_pfc: enabled
                         magp: enabled
-                  tags: 
+
+                  tags:
                        - protocols
                 - name: configure IPL vlan
                   onyx_vlan:
-                        vlan_id: "{{ devices[ansible_hostname].mlag_ipl_vlan }}"
+                        vlan_id: "{{ devices[inventory_hostname].mlag_ipl_vlan }}"
                         name: ipl-vlan
                   tags:
                         - ipl_vlan
                 - name: ipl_lag
                   onyx_linkagg:
-                        name: {{ devices[ansible_hostname].mlag_ipl_lag_name }}
-                        members: 
-                                - {{ devices[ansible_hostname].mlag_ipl_ports[0] }}      
-                                - {{ devices[ansible_hostname].mlag_ipl_ports[1] }}
-                - name: pfc on IPL
-                  onyx_pfc_interface:    
-                        name: {{ devices[ansible_hostname].mlag_ipl_lag_name }}    
+                        name: "{{ devices[inventory_hostname].mlag_ipl_lag_name }}"
+                        members:
+                                - "Eth1/{{ devices[inventory_hostname].mlag_ipl_ports[0].port }}"
+                                - "Eth1/{{ devices[inventory_hostname].mlag_ipl_ports[1].port }}"
+                        mode: active
+                        state: present
+                  tags:
+                        - ipl_lag
+                - name: IPL PFC
+                  onyx_pfc_interface:
+                        name: "{{ devices[inventory_hostname].mlag_ipl_lag_name }}"
                         state: enabled
+                  tags:
+                        - ipl_pfc
 
-               # - name: create MLAG_cluster
-                - name: run configure ipl  
-                  onyx_mlag_ipl:    
-                        name: {{ devices[ansible_hostname]. mlag_ipl_lag_name }}   
-                        vlan_interface: {{ devices[ansible_hostname]. mlag_ipl_vlan }}   
-                        state: present    
-                        peer_address: 192.168.7.1
-        
+                - name: ipl_L3_vlan_ip_address
+                  onyx_l3_interface:
+                        name: "Vlan {{ devices[inventory_hostname].mlag_ipl_vlan}}"
+                        ipv4: "{{ devices[inventory_hostname].mlag_ipl_ip }}"
+                  tags:
+                        - ipl_l3_vlan_ip
+                - name: mlag_ipl
+                  onyx_mlag_ipl:
+                        name: "{{ devices[inventory_hostname].mlag_ipl_lag_name }}"
+                        vlan_interface: "Vlan {{ devices[inventory_hostname].mlag_ipl_vlan }}"
+                        state: present
+                        peer_address: "{{ devices[inventory_hostname].mlag_ipl_peer_ip }}"
+                  tags:
+                        - mlag_ipl
 
+                - name: mlag_vip
+                  onyx_mlag_vip:
+                    ipaddress: "{{ devices[inventory_hostname].mlag_vip }}"
+                    group_name:  "{{ devices[inventory_hostname].mlag_cluster_name }}"
+                    mac_address: "{{ devices[inventory_hostname].mlag_system_mac }}"
+                  tags:
+                        - mlag_vip
+
+
+
+
+                - name: onyx_save_config
+                    - { role: onyx_save_config , tags: ['save_configuration'] } 
         #        - name: configure vlans
         #          onyx_vlan:
         #                vlan_id: {{ item }}
         #                name: {{ item }}
-        #          loop: "{{ devices[ansible_hostname].VLANS.vlan"
+        #          loop: "{{ devices[inventory_hostname].VLANS.vlan"

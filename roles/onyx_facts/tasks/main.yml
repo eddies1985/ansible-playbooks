@@ -1,0 +1,12 @@
+---
+#  onyx_facts:
+#    gather_subset: all
+- name: get_facts
+  onyx_facts:
+     gather_subset: "{{ subset }}"
+  register: facts_received
+
+#- debug:
+    #msg: "version: {{ facts_received.ansible_net_version }}"
+    #msg: "{{ ansible_net_version.['product release'] }}"
+  #  msg: "{{ ansible_net_version['Product release'] }}"

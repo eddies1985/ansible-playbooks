@@ -1,14 +1,15 @@
 ---
-#- name: gather facts
-#  onyx_facts:
-#    gather_subset: all
+- name: get_facts_from_device
+  onyx_facts:
+    gather_subset: version
 - name: image boot next and reload
   onyx_config:
-      lines: 
+      lines:
         - image boot next
         - configuration write
         - no boot next fallback-reboot enable
         - reload
-      backup: yes     
+      backup: yes
       save: yes
+  when:  ansible_net_version['Product release']  != version
         #src

@@ -1,0 +1,115 @@
+---
+- hosts: MLAG
+  gather_facts: no
+- name: reset factory
+  ignore_errors: yes  
+#  connection: network_cli
+
+ # become: yes
+ # become_method: enable
+  vars:
+        reset: no
+ #       ansible_network_os: onyx      
+  roles:
+  - { role: reset_factory, tags: ['wipe']} 
+  
+- name: pause
+  tasks:        
+  - pause:
+        minutes: 7
+   
+    
+- name: install_software
+  hosts: MLAG
+  vars:
+    ansible_network_os: onyx
+    version: "3.6.6107"
+    path: "/tmp/"
+    cpu: "X86_64"   # X86_64 | PC_M460EX
+    user: root
+    password: 3tango
+    remote_ip: 10.143.34.16
+  roles:
+    - { role: image_fetch_install , tags: ['image-fetch-install'] }
+
+- name: MLAG_demo
+  hosts: leaf1,leaf2
+  gather_facts: no
+  connection: network_cli
+  become: yes
+  become_method: enable
+  vars:
+    ansible_network_os: onyx
+    devices:
+        leaf1:
+                mlag_ipl_ports:
+                        - port: 5
+                        - port: 6
+                mlag_system_mac: "00:00:5E:00:01:01"
+                mlag_vip: "169.254.1.1 /24" 
+                mlag_cluster_name: ansible-demo1
+                mlag_ipl_lag_name: Po1
+                mlag_ipl_vlan: vlan 4094
+                mlag_ipl_ip: "169.254.1.1 /30" 
+                VLANS: 
+                        - vlan: 10
+                          vlan_ip: 192.168.10.252/24
+                          vlan_magp_ip: 192.168.10.254
+                          vlan_magp_mac: "00:11:11:11:11:11"
+        leaf2:
+                mlag_ipl_ports:
+                        - port: 5
+                        - port: 6
+                mlag_ipl_lag_name: Po1
+                mlag_ipl_vlan: "vlan 4094"
+                mlag_ipl_ip: "169.254.1.2 /30"
+                mlag_system_mac: "00:00:5E:00:01:01"
+                mlag_vip: "169.254.1.1 /24"
+                mlag_cluster_name: ansible-demo1
+                VLANS:
+                        - vlan: 10
+                          vlan_ip: 192.168.10.253/24
+                          vlan_magp_ip: 192.168.10.254
+                          vlan_magp_mac: "00:11:11:11:11:11"
+        tasks:
+                - name: enable protocols
+                  onyx_protocol:    
+                        lacp: enabled    
+                        spanning_tree: disabled    
+                        ip_routing: enabled    
+                        mlag: enabled    
+                        dcb_pfc: enabled
+                        magp: enabled
+                  tags: 
+                       - protocols
+                - name: configure IPL vlan
+                  onyx_vlan:
+                        vlan_id: "{{ devices[ansible_hostname].mlag_ipl_vlan }}"
+                        name: ipl-vlan
+                  tags:
+                        - ipl_vlan
+                - name: ipl_lag
+                  onyx_linkagg:
+                        name: {{ devices[ansible_hostname].mlag_ipl_lag_name }}
+                        members: 
+                                - {{ devices[ansible_hostname].mlag_ipl_ports[0] }}      
+                                - {{ devices[ansible_hostname].mlag_ipl_ports[1] }}
+                - name: pfc on IPL
+                  onyx_pfc_interface:    
+                        name: {{ devices[ansible_hostname].mlag_ipl_lag_name }}    
+                        state: enabled
+
+               # - name: create MLAG_cluster
+                - name: run configure ipl  
+                  onyx_mlag_ipl:    
+                        name: {{ devices[ansible_hostname]. mlag_ipl_lag_name }}   
+                        vlan_interface: {{ devices[ansible_hostname]. mlag_ipl_vlan }}   
+                        state: present    
+                        peer_address: 192.168.7.1
+        
+
+        #        - name: configure vlans
+        #          onyx_vlan:
+        #                vlan_id: {{ item }}
+        #                name: {{ item }}
+        #          loop: "{{ devices[ansible_hostname].VLANS.vlan"

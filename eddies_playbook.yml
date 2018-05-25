@@ -9,20 +9,25 @@
     ansible_network_os: onyx
     version: ""
     path: "/mswg/release/sx_mlnx_os/"
-    
+
     cpu: "X86_64"   # X86_64 | PC_M460EX
     user: eddies
     password: eddies11
     remote_ip: 10.7.157.118
     reset: no
     command: "show clock"
+    local_user: "{{ lookup('env', 'USER') }}"
+    subset: version
   remote_user: admin
+
   roles:
-    - { role: image_fetch_install , tags: ['image-fetch-install'] }
-    - { role: basic_lab_mgmt_config , tags: ['basic_lab_mgmt_config'] }
-    - { role: boot_next_save_config_reload , tags: ['boot'] }
+    - { role: onyx_image_fetch_install , tags: ['image-fetch-install'] }
+    - { role: onyx_basic_lab_mgmt_config , tags: ['basic_lab_mgmt_config'] }
+    - { role: onyx_boot_next_save_config_reload , tags: ['boot_next'] }
     - { role: test , tags: ['test'] }
-    - { role: facts , tags: ['facts'] }
+    - { role: facts , tags: ['onyx_facts'] }
     - { role: bgp , tags: ['bgp'] }
     - { role: reset_factory, tags: ['wipe']}
     - { role: onyx_command, tags: ['onyx_command']}
+    - { role: push_my_key, tags: ['push_key']}
+    - { role: onyx_save_config, tags: ['save_config']}

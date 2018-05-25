@@ -15,11 +15,11 @@
 
 # l-csi-7800-0537 [standalone: master] > [eddies@l-csivm-010 lab]$
 
-- name: check that files/cancel_configuration_wizard.sh exists
+- name: check that {{ role_path }}/files/cancel_configuration_wizard.sh exists
   delegate_to: localhost
   run_once: yes
   stat:
-    path: cancel_configuration_wizard.sh
+    path: "{{ role_path }}/files/cancel_configuration_wizard.sh"
   register: p
 - debug:
     msg: "The cancel_configuration_wizard.sh doesn't exist under the files directory"
@@ -29,5 +29,6 @@
   delegate_to: localhost
   shell: "{{ role_path }}/files/cancel_configuration_wizard.sh {{ ansible_host }} {{ ansible_ssh_user }} {{ ansible_ssh_pass }}"
   register: answer
-#- debug:
+- debug:
 #    msg: "{{ role_path }}/files/cancel_configuration_wizard.sh {{ ansible_host }} {{ ansible_ssh_user }} {{ ansible_ssh_pass }}"
+    msg: "{{ answer.stdout }}"

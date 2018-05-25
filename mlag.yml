@@ -15,6 +15,8 @@
   - pause:
         minutes: 7
 
+#- import_playbook: known_hosts.yml group=mlag
+
 - name: fix_onyx_config_wizerd
   hosts: MLAG
   gather_facts: no
@@ -70,10 +72,14 @@
 
 - name: waiting for switches to boot with new version
   hosts: MLAG
+  gather_facts: no
+  vars:
+    version: 3.6.6107
   tasks:
     - name: waiting_6_minutes
       pause:
         minutes: 6
+      when:  ansible_net_version['Product release']  != version
       tags:
         - waiting_6_minutes
 
@@ -91,7 +97,7 @@
                         - port: 5
                         - port: 6
                 mlag_system_mac: "00:00:5E:00:01:01"
-                mlag_vip: "169.254.1.1 /24"
+                mlag_vip: "169.254.255.1 /24"
                 mlag_cluster_name: ansible-demo1
                 mlag_ipl_lag_name: Po1
                 mlag_ipl_vlan: 4094
@@ -107,7 +113,7 @@
                         - port: 5
                         - port: 6
                 mlag_system_mac: "00:00:5E:00:01:01"
-                mlag_vip: "169.254.1.1 /24"
+                mlag_vip: "169.254.255.1 /24"
                 mlag_cluster_name: ansible-demo1
                 mlag_ipl_lag_name: Po1
                 mlag_ipl_vlan: 4094
@@ -127,7 +133,7 @@
                   onyx_protocol:
                         lacp: enabled
                         lldp: enabled
-                        spanning_tree: disabled
+                        spanning_tree: enabled
                         ip_routing: enabled
                         mlag: enabled
                         dcb_pfc: enabled

@@ -4,18 +4,18 @@
 #    gather_subset: all
 - name: basic_mgmt_config
   onyx_config:
-      lines: 
+      lines:
         - ntp server 10.4.0.134
         - clock timezone Asia Middle_East Jerusalem
         - ntpdate 10.4.0.134
         - email mailhub exchange.mtl.com
-        - email notify recipient eddies@mellanox.com 
+        - email notify recipient eddies@mellanox.com
         - no email notify event health-module-status
         - cli default auto-logout 0
         - logging monitor events notice
-        - logging events interfaces enable
-        - logging events protocols enable
+      #  - logging events interfaces enable
+      #  - logging events protocols enable
         - configuration write
-      backup: yes     
+      backup: yes
       save: no
         #src

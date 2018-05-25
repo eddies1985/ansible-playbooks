@@ -1,0 +1,61 @@
+##
+## Running database "initial"
+## Generated at 2018/05/22 14:15:24 +0300
+## Hostname: l-csi-2410-t01
+##
+
+##
+## Running-config temporary prefix mode setting
+##
+no cli default prefix-modes enable
+
+##
+## Interface Ethernet configuration
+##
+   interface port-channel 1
+   interface ethernet 1/32 channel-group 1 mode active
+   
+##
+## Logging configuration
+##
+   logging monitor events notice
+   
+##
+## AAA remote server configuration
+##
+# ldap bind-password ********
+# radius-server key ********
+# tacacs-server key ********
+   
+##
+## Network management configuration
+##
+# web proxy auth basic password ********
+no cli default auto-logout
+   clock timezone Asia Middle_East Jerusalem
+   email mailhub exchange.mtl.com
+no email notify event health-module-status
+   email notify recipient eddies@mellanox.com class failure
+   email notify recipient eddies@mellanox.com class info
+   email notify recipient eddies@mellanox.com detail
+no ntp server 10.4.0.134 disable
+   ntp server 10.4.0.134 keyID 0
+no ntp server 10.4.0.134 trusted-enable
+   ntp server 10.4.0.134 version 4
+   
+##
+## SSH and Key configuration
+##
+   ssh client user admin authorized-key sshv2 "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAvUv8d3bhw3fKXpg0GJQOyaUHr798F2RJ5UB9em+mIrbJdJiyGVaPryf95pA8EXmCBb6wE+PjSiVlFQNM44ecqaygrcpD5vMjuaW9mEnaongEuomhig7fgYaSAS8pmjH30IYI+e+F0D6e+1shPPkIflpHoGBMN9uIpFQ/nYk7bGQndHfyQrLD3iWnZqYRppwP8oSc5OHcxtfw7nueQUUqqVL55gYc8MCrm+z9A7Tj8o9rB9Fuzck+V6on7lS1XZTlXpTxdCd4j5IlT3K6b0jePZlE651eQVgFquzF4Q42QWUOFUm2ctKhsTxgkhvXvcSUZZTG7yZkq+v+AyCVvjhB6w== eddies@vnc14.lab.mtl.com"
+   
+##
+## X.509 certificates configuration
+##
+#
+# Certificate name system-self-signed, ID 35a2f6f6bc9d7f5d920cbd1dde2518e4245695c1
+# (public-cert config omitted since private-key config is hidden)
+
+##
+## Persistent prefix mode setting
+##
+cli default prefix-modes enable

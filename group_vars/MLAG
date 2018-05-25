@@ -1,0 +1,36 @@
+default_ipl_vlan: 4094
+default_ipl_po: 1
+mlag_clusters:
+  mlag-cluster1:
+   system_mac: "00:00:5E:00:01:01"
+   vip: "169.254.255.1 /24"
+   ipl_lag_id: "{{ default_ipl_po }}"
+   ipl_ports:
+      - 15
+      - 16
+   ipl_vlan: "{{ default_ipl_vlan }}"
+   ipl_slave_ip: "169.254.1.1 /30"
+   ipl_master_ip: "169.254.1.2 /30"
+  mlag-cluster2:
+   system_mac: "00:00:5E:00:01:02"
+   vip: "169.254.255.2 /24"
+   ipl_lag_id: "{{ default_ipl_po }}"
+   ipl_ports:
+    -  15
+    -  16
+   ipl_vlan: "{{ default_ipl_vlan }}"
+   ipl_slave_ip: "169.254.1.5 /30"
+   ipl_master_ip: "169.254.1.6 /30"
+devices:
+  leaf1:
+   mlag_role: slave
+   mlag_cluster: mlag-cluster1
+  leaf2:
+   mlag_role: master
+   mlag_cluster: mlag-cluster1
+  spine1:
+   mlag_role: slave
+   mlag_cluster: mlag-cluster2
+  spine2:
+   mlag_role: master
+   mlag_cluster: mlag-cluster2

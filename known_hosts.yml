@@ -5,6 +5,7 @@
   vars:
     ssh_known_hosts_command: "ssh-keyscan -T 10"
     ssh_known_hosts_file: "{{ lookup('env','HOME') + '/.ssh/known_hosts' }}"
+    group_name: all
     ssh_known_hosts: "{{ groups['all'] }}"
 
   tasks:
@@ -21,4 +22,3 @@
       key: "{{ item.stdout }}"
       path: "{{ ssh_known_hosts_file }}"
     with_items: "{{ ssh_known_host_results.results }}"
-

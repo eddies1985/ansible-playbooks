@@ -40,13 +40,6 @@
     tags:
       -  ipl_lag_attach_ports
 
-  # - name: ipl_lag_attach_ports
-  #   onyx_config:
-  #     commands: "interface ethernet 1/{{ item }} channel-group {{ mlag_clusters[devices[inventory_hostname].mlag_cluster].ipl_lag_name }} mode active"
-  #   with_items: "{{ mlag_clusters[devices[inventory_hostname].mlag_cluster].ipl_ports }}"
-  #   tags:
-  #     - ipl_lag_attach_ports
-
   - name: IPL PFC
     onyx_pfc_interface:
       name: "Po{{ mlag_clusters[devices[inventory_hostname].mlag_cluster].ipl_lag_id }}"
@@ -54,25 +47,53 @@
     tags:
       - ipl_pfc
 
-  - name: ipl_L3_vlan_ip_address
+  - name: ipl_L3_vlan_ip_address_master
     onyx_l3_interface:
         name: "Vlan {{ mlag_clusters[devices[inventory_hostname].mlag_cluster].ipl_vlan}}"
-        ipv4: '{{ mlag_clusters[devices[inventory_hostname].mlag_cluster].ipl_"{{ devices[inventory_hostname].mlag_role }}"_ip }}'
+        ipv4: "{{ mlag_clusters[devices[inventory_hostname].mlag_cluster].ipl_master_ip  }}"
+    when: devices[inventory_hostname].mlag_role == "master"
     tags:
-      - ipl_l3_vlan_ip
-  - name: mlag_ipl
+      - ipl_l3_vlan_ip_master
+
+  - name: ipl_L3_vlan_ip_address_slave
+    onyx_l3_interface:
+        name: "Vlan {{ mlag_clusters[devices[inventory_hostname].mlag_cluster].ipl_vlan}}"
+        ipv4: "{{ mlag_clusters[devices[inventory_hostname].mlag_cluster].ipl_slave_ip  }}"
+    when: devices[inventory_hostname].mlag_role == "slave"
+    tags:
+      - ipl_l3_vlan_ip_master
+
+  - name: print
+    debug:
+      msg: "{{ mlag_clusters[devices[inventory_hostname].mlag_cluster].ipl_slave_ip  | ipaddr('address') }}"
+    tags:
+      - print
+
+  - name: mlag_ipl_master
     onyx_mlag_ipl:
-        name: "{{ devices[inventory_hostname].mlag_ipl_lag_name }}"
-        vlan_interface: "Vlan {{ devices[inventory_hostname].mlag_ipl_vlan }}"
+        name: "Po{{ mlag_clusters[devices[inventory_hostname].mlag_cluster].ipl_lag_id }}"
+        vlan_interface: "Vlan {{  mlag_clusters[devices[inventory_hostname].mlag_cluster].ipl_vlan }}"
         state: present
-        peer_address: "{{ devices[inventory_hostname].mlag_ipl_peer_ip }}"
+        peer_address: "{{ mlag_clusters[devices[inventory_hostname].mlag_cluster].ipl_slave_ip  | ipaddr('address') }}"
+    when: devices[inventory_hostname].mlag_role == "master"
     tags:
-      - mlag_ipl
+      - mlag_ipl_master
+
+  - name: mlag_ipl_slave
+    onyx_mlag_ipl:
+        name: "Po{{ mlag_clusters[devices[inventory_hostname].mlag_cluster].ipl_lag_id }}"
+        vlan_interface: "Vlan {{  mlag_clusters[devices[inventory_hostname].mlag_cluster].ipl_vlan }}"
+        state: present
+        peer_address: "{{ mlag_clusters[devices[inventory_hostname].mlag_cluster].ipl_master_ip  | ipaddr('address') }}"
+    when: devices[inventory_hostname].mlag_role == "slave"
+    tags:
+      - mlag_ipl_slave
+
 
   - name: mlag_vip
     onyx_mlag_vip:
-      ipaddress: "{{ devices[inventory_hostname].mlag_vip }}"
-      group_name:  "{{ devices[inventory_hostname].mlag_cluster_name }}"
-      mac_address: "{{ devices[inventory_hostname].mlag_system_mac }}"
+      ipaddress: "{{  mlag_clusters[devices[inventory_hostname].mlag_cluster].vip }}"
+      group_name:  "{{ devices[inventory_hostname].mlag_cluster }}"
+      mac_address: "{{ mlag_clusters[devices[inventory_hostname].mlag_cluster].system_mac }}"
     tags:
       - mlag_vip

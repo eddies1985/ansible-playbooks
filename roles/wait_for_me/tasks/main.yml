@@ -1,0 +1,10 @@
+---
+ - name: Waiting for an ssh capable device to listen on a specific port (passed as variable)
+   wait_for:
+     state=started
+     delay=60
+     host={{ ansible_host }}
+     port={{ wait_for_protocol_port }}
+ - name: pause_wait_for_device_to_finish_reset_factory
+   pause:
+     minutes: 1

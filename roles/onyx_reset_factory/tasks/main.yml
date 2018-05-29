@@ -9,18 +9,7 @@
         - reset factory
   register: output
   ignore_errors: yes
-# expected return value :
-    # "output": {
-    #     "changed": false,
-    #     "failed": true,
-    #     "msg": "Socket is closed"
-    # }
 
-
-
-#- debug:
-#    var: output
-#  ignore_errors: yes
-- name: pause_wait_for_device_to_finish_reset_factory
-  pause:
-    minutes: "{{pause_after_reset | default(0) }}"
+#- name: pause_wait_for_device_to_finish_reset_factory
+#  pause:
+#    minutes: "{{pause_after_reset | default(0) }}"

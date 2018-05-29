@@ -1,0 +1,4 @@
+---
+  - name: save_config
+    onyx_config:
+      commands: configuration write

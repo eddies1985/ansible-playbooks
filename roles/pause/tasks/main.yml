@@ -1,0 +1,4 @@
+---
+ - name: pause_wait_for_device_to_finish_reset_factory
+   pause:
+    minutes: "{{ pause_value | default(0) }}"

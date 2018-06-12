@@ -1,0 +1,4 @@
+---
+- name: config_mlag
+  onyx_config:
+    src: "{{role_path}}/config/{{inventory_hostname}}.config"

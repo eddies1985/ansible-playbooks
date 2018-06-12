@@ -12,4 +12,4 @@
       backup: yes
       save: yes
   when:  ansible_net_version['Product release']  != version
-        #src
+  ignore_errors: yes

@@ -1,0 +1,9 @@
+---
+- name: create_config
+  template:
+     src:  "{{role_path}}/templates/mlag.j2"
+     dest: "{{role_path}}/config/{{inventory_hostname}}.config"
+  delegate_to: localhost
+
+# - debug:
+#     msg: "{{ devices[inventory_hostname].mpos}}"

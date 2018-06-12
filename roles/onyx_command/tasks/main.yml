@@ -4,6 +4,8 @@
   onyx_command:
          commands: "{{ command }}"
   register: output
-- name: print output 
+- name: print output
   debug:
-    msg: "the output of the command:   {{ output.stdout }}"
+    msg:
+      - "the output of the command: {{command}}" 
+      - "{{ output.stdout }}"

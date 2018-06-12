@@ -36,7 +36,7 @@
 
   - name: ipl_lag_attach_ports
     onyx_config:
-      src: "{{role_path}}/files/templates.j2"
+      src: "{{role_path}}/templates/templates.j2"
     tags:
       -  ipl_lag_attach_ports
 
@@ -63,11 +63,11 @@
     tags:
       - ipl_l3_vlan_ip_master
 
-  - name: print
-    debug:
-      msg: "{{ mlag_clusters[devices[inventory_hostname].mlag_cluster].ipl_slave_ip  | ipaddr('address') }}"
-    tags:
-      - print
+  # - name: print
+  #   debug:
+  #     msg: "{{ mlag_clusters[devices[inventory_hostname].mlag_cluster].ipl_slave_ip  | ipaddr('address') }}"
+  #   tags:
+  #     - print
 
   - name: mlag_ipl_master
     onyx_mlag_ipl:

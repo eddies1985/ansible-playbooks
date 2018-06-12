@@ -1,0 +1,47 @@
+no cli session prefix-modes enable
+lacp
+lldp
+ip routing
+# no spanning-tree
+protocol mlag
+protocol magp
+dcb priority-flow-control enable force
+{% set mlag_cluster_name = devices[inventory_hostname]['mlag_cluster'] %}
+{% set mlag_cluster = mlag_clusters[devices[inventory_hostname].mlag_cluster] %}
+{% set device = devices[inventory_hostname] %}
+
+vlan {{mlag_cluster.ipl_vlan}}
+interface port-channel  {{mlag_cluster.ipl_lag_id}}
+{% for port in mlag_cluster.ipl_ports %}
+interface ethernet 1/{{port}} channel-group {{ mlag_cluster.ipl_lag_id }} mode active
+{% endfor %}
+interface port-channel {{mlag_cluster.ipl_lag_id}} dcb priority-flow-control mode on force
+{% if device.mlag_role == 'master'  %}
+interface vlan {{mlag_cluster.ipl_vlan}} ip address {{mlag_cluster.ipl_master_ip}}
+{% endif %}
+{% if device.mlag_role == 'slave' %}
+interface vlan {{mlag_cluster.ipl_vlan}} ip address {{mlag_cluster.ipl_slave_ip}}
+{% endif %}
+
+interface port-channel {{mlag_cluster.ipl_lag_id}} ipl 1
+
+{% if device.mlag_role == 'master'  %}
+interface vlan {{mlag_cluster.ipl_vlan}} ipl 1 peer-address {{mlag_cluster.ipl_slave_ip  | ipaddr('address') }}
+{% endif %}
+
+{% if device.mlag_role == 'slave' %}
+interface vlan {{mlag_cluster.ipl_vlan}} ipl 1 peer-address {{mlag_cluster.ipl_master_ip  | ipaddr('address') }}
+{% endif %}
+mlag-vip {{mlag_cluster_name}} ip {{mlag_cluster.vip | ipaddr('address') }} /{{mlag_cluster.vip | ipaddr('prefix')}} force
+mlag system-mac {{mlag_cluster.system_mac}}
+no mlag shutdown
+
+{% for mlag_port in device.mpos %}
+{% for key,value in mlag_port.iteritems() %}
+interface mlag-port-channel {{value.id}}
+interface mlag-port-channel {{value.id}} no shutdown
+{% for port in value.ports %}
+interface ethernet 1/{{port}} mlag-channel-group {{value.id}} mode {{value.mode}}
+{% endfor %}
+{% endfor %}
+{% endfor %}

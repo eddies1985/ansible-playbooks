@@ -1,0 +1,7 @@
+---
+ - name: Waiting for an onyx device to be reachble and can run a cli command
+   onyx_command:
+     commands: show version
+     interval: 10
+     retries: 150
+     wait_for: result[0] contains "Version summary:"

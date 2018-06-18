@@ -12,7 +12,7 @@
         - email notify recipient eddies@mellanox.com
         - no email notify event health-module-status
         - cli default auto-logout 0
-        - logging monitor events notice
+      #  - logging monitor events notice
       #  - logging events interfaces enable
       #  - logging events protocols enable
         - configuration write

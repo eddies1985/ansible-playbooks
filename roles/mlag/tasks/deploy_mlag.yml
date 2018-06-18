@@ -2,3 +2,6 @@
 - name: config_mlag
   onyx_config:
     src: "{{role_path}}/config/{{inventory_hostname}}.config"
+  tags:
+    - deploy_mlag
+  notify: save_config

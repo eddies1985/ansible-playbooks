@@ -19,12 +19,10 @@
     local_user: "{{ lookup('env', 'USER') }}"
     subset: version
   remote_user: admin
-
   roles:
     - { role: onyx_image_fetch_install , tags: ['image-fetch-install'] }
-    - { role: onyx_basic_lab_mgmt_config , tags: ['basic_lab_mgmt_config'] }
+    - { role: onyx_basic_lab_mgmt_config , tags: ['onyx_basic_lab_mgmt_config'] }
     - { role: onyx_boot_next_save_config_reload , tags: ['boot_next'] }
-    - { role: test , tags: ['test'] }
     - { role: facts , tags: ['onyx_facts'] }
     - { role: bgp , tags: ['bgp'] }
     - { role: reset_factory, tags: ['wipe']}

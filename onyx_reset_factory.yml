@@ -12,5 +12,6 @@
     pause_value: 4
     wait_for_protocol_port: 22
   roles:
-    - { role: onyx_basic_lab_mgmt_config, tags: ['mgmt_config']}
-    - { role: mlag, tags: ['role_mlag'] }
+    - { role: onyx_reset_factory, tags: ['reset_factory'] }
+    - { role: pause, pause_value: 4, tags: ['pause_1']}
+    - { role: onyx_fix_configuration_wizard, tags: ['fix_config_wizard']}

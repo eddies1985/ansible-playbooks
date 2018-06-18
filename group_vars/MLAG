@@ -1,36 +1,122 @@
-default_ipl_vlan: 4094
-default_ipl_po: 1
+ansible_network_os: onyx
+ansible_become: yes
+ansible_become_method: enable
+global:
+  default_ipl_vlan: 4094
+  default_ipl_po: 1
+  default_l2_mode: trunk
+  default_mtu: 1500
 mlag_clusters:
   mlag-cluster1:
    system_mac: "00:00:5E:00:01:01"
-   vip: "169.254.255.1 /24"
-   ipl_lag_id: "{{ default_ipl_po }}"
+   vip: "169.254.255.1/24"
+   ipl_lag_id: "{{ global.default_ipl_po }}"
    ipl_ports:
       - 15
       - 16
-   ipl_vlan: "{{ default_ipl_vlan }}"
-   ipl_slave_ip: "169.254.1.1 /30"
-   ipl_master_ip: "169.254.1.2 /30"
+   ipl_vlan: "{{ global.default_ipl_vlan }}"
+   ipl_slave_ip: "169.254.1.1/30"
+   ipl_master_ip: "169.254.1.2/30"
+   vlans:
+      - 1-10
+      - 30
+      - 100-300
+   default_l2_mode: trunk
   mlag-cluster2:
    system_mac: "00:00:5E:00:01:02"
-   vip: "169.254.255.2 /24"
-   ipl_lag_id: "{{ default_ipl_po }}"
+   vip: "169.254.255.2/24"
+   ipl_lag_id: "{{ global.default_ipl_po }}"
    ipl_ports:
     -  15
     -  16
-   ipl_vlan: "{{ default_ipl_vlan }}"
-   ipl_slave_ip: "169.254.1.5 /30"
-   ipl_master_ip: "169.254.1.6 /30"
+   ipl_vlan: "{{ global.default_ipl_vlan }}"
+   ipl_slave_ip: "169.254.1.5/30"
+   ipl_master_ip: "169.254.1.6/30"
+   vlans:
+      - 1-10
+      - 30
+      - 100-300
+   default_l2_mode: trunk
 devices:
   leaf1:
    mlag_role: slave
    mlag_cluster: mlag-cluster1
+   mpos:
+     - mpo:
+        id: 1
+        mtu: 9216
+        description:
+        mode: active
+        ports:
+          - 1
+          - 6
+        l2_mode: trunk
+     - mpo:
+           id: 2
+           mtu: 9216
+           description: mpo2
+           mode: active
+           ports:
+             - 2
+           l2_mode: "access vlan 5"
+     - mpo:
+          id: 3
+          description:
+          mode: active
+          ports:
+            - 5
+
   leaf2:
    mlag_role: master
    mlag_cluster: mlag-cluster1
+   mpos:
+      - mpo:
+          id: 1
+          mtu: 9216
+          description:
+          mode: active
+          ports:
+            - 1
+            - 6
+      - mpo:
+            id: 2
+            mtu: 9216
+            description:
+            mode: active
+            ports:
+              - 2
+            l2_mode: "access vlan 5"
+      - mpo:
+             id: 3
+             mtu: 9216
+             description:
+             mode: active
+             ports:
+               - 5
+             l2_mode: trunk
+
   spine1:
    mlag_role: slave
    mlag_cluster: mlag-cluster2
+   mpos:
+    - mpo:
+          id: 1
+          mtu: 9216
+          description:
+          mode: active
+          ports:
+            - 1
+            - 2
+
   spine2:
    mlag_role: master
    mlag_cluster: mlag-cluster2
+   mpos:
+     - mpo:
+          id: 1
+          mtu: 9216
+          description:
+          mode: active
+          ports:
+            - 1
+            - 2

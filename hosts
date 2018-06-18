@@ -1,46 +1,4 @@
-# This is the default ansible 'hosts' file.
-#
-# It should live in /etc/ansible/hosts
-#
-#   - Comments begin with the '#' character
-#   - Blank lines are ignored
-#   - Groups of hosts are delimited by [header] elements
-#   - You can enter hostnames or ip addresses
-#   - A hostname/ip can be a member of multiple groups
-
-# Ex 1: Ungrouped hosts, specify before any group headers.
-
-## green.example.com
-## blue.example.com
-## 192.168.100.1
-## 192.168.100.10
-
-# Ex 2: A collection of hosts belonging to the 'webservers' group
-
-## [webservers]
-## alpha.example.org
-## beta.example.org
-## 192.168.1.100
-## 192.168.1.110
-
-# If you have multiple hosts following a pattern you can specify
-# them like this:
-
-## www[001:006].example.com
-
-# Ex 3: A collection of database servers in the 'dbservers' group
-
-## [dbservers]
-## 
-## db01.intranet.mydomain.net
-## db02.intranet.mydomain.net
-## 10.25.1.56
-## 10.25.1.57
-
-# Here's another example of host ranges, this time there are no
-# leading 0s:
-
-## db-[99:101]-node.example.com
+#  ansible 'hosts' file.
 [ONYX]
 dummy ansible_host=dummy
 [ONYX:children]
@@ -48,10 +6,12 @@ Eth
 IB
 PPC
 MLAG
+demo_center
+onyx_vm
 [Eth]
-l-csi-sn2100-02 ansible_host=l-csi-sn2100-02 
+l-csi-sn2100-02 ansible_host=l-csi-sn2100-02
 l-csi-2700-l06 ansible_host=l-csi-2700-l06
-l-csi-2100-18 ansible_host=l-csi-2100-18 
+l-csi-2100-18 ansible_host=l-csi-2100-18
 l-csi-2100-19 ansible_host=l-csi-2100-19
 l-csi-2410-0519 ansible_host=l-csi-2410-0519
 l-csi-2410-0232 ansible_host=l-csi-2410-0232
@@ -62,17 +22,36 @@ l-csi-2100-tmp6 ansible_host=10.7.158.6
 l-csi-2700-tmp-04
 l-csi-2100-tmp-20
 l-csi-2100-tmp-22
+l-csi-2010-tmp02
 [IB]
 l-csi-7800-0537 ansible_host=l-csi-7800-0537
+l-csi-sb7780-630
+
 [PPC]
 l-csi-6012-03
 l-csi-sx6036-2 ansible_host=10.7.156.178
+l-csi-6036-0222
+l-csi-sx6036-02
+l-csi-6036-0216
+
+[demo_center]
+l-csi-demo-sn2700-57 ansible_host=l-csi-demo-sn2700-57
+l-csi-demo-sn2700-57 ansible_host=l-csi-demo-sn2700-58
+l-csi-demo-sn2700-57 ansible_host=l-csi-demo-sn2700-55
+l-csi-demo-sn2700-57 ansible_host=l-csi-demo-sn2700-56
 
 [MLAG]
-leaf1 ansible_host=l-csi-demo-sn2700-57
-leaf2 ansible_host=l-csi-demo-sn2700-58
-spine1 ansible_host=l-csi-demo-sn2700-55
-spine2 ansible_host=l-csi-demo-sn2700-56
+spine1 ansible_host=l-csi-2100-tmp-08
+spine2 ansible_host=l-csi-2100-16
+leaf1 ansible_host=l-csi-2100-tmp-11
+leaf2 ansible_host=l-csi-2100-tmp-24
+
+[onyx_vm]
+
+onyx_vm1 ansible_host=Onyx-VM-1
+onyx_vm2 ansible_host=Onyx-VM-2
+onyx_vm3 ansible_host=Onyx-VM-3
+onyx_vm4 ansible_host=Onyx-VM-4
 
 
 [ONYX:vars]
@@ -81,3 +60,13 @@ ansible_become=yes
 ansible_become_method=enable
 ansible_ssh_user=admin
 ansible_ssh_pass=admin
+
+
+[cumulus]
+ae-2100-4
+l-csi-2010-tmp02
+
+[cumulus:vars]
+ansible_user=cumulus
+ansible_ssh_pass=CumulusLinux!
+ansible_become_pass=CumulusLinux!

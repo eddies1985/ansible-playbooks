@@ -11,5 +11,5 @@
         patterns: 'debug*.txz'
       register: files_to_copy
 
-    - fetch: src={{ item.path }}  dest="cl-supports/" flat=yes
+    - fetch: src={{ item.path }}  dest="cl-supports/" flat=no
       with_items: "{{ files_to_copy.files }}"

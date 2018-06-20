@@ -1,0 +1,44 @@
+---
+#- name: gather facts
+#  onyx_facts:
+#    gather_subset: all
+
+
+- name: delete_clean_config_file
+  onyx_command:
+     commands:
+      - show configuration files | include " clean "
+  register: clean_exists
+
+- name: delete_clean_config_file
+  onyx_config:
+     lines:
+      - configuration delete clean
+  when: '"clean" in clean_exists.stdout'
+
+
+- name: clean_config
+  onyx_config:
+     lines:
+      - configuration new clean factory keep-connect
+      - configuration switch-to clean no-reboot
+      - configuration delete initial
+      - configuration copy clean initial
+      - configuration switch-to initial no-reboot
+      - configuration delete clean
+      - reload
+  register: output
+  ignore_errors: no
+
+
+# renew_dhcp
+
+# - name: dhcp_renew
+#   onyx_config:
+#       commands:
+#         - interface mgmt0 dhcp renew
+#         - interface mgmt1 dhcp renew
+#   ignore_errors: yes
+#- name: pause_wait_for_device_to_finish_reset_factory
+#  pause:
+#    minutes: "{{pause_after_reset | default(0) }}"

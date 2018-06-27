@@ -29,16 +29,3 @@
       - reload
   register: output
   ignore_errors: no
-
-
-# renew_dhcp
-
-# - name: dhcp_renew
-#   onyx_config:
-#       commands:
-#         - interface mgmt0 dhcp renew
-#         - interface mgmt1 dhcp renew
-#   ignore_errors: yes
-#- name: pause_wait_for_device_to_finish_reset_factory
-#  pause:
-#    minutes: "{{pause_after_reset | default(0) }}"

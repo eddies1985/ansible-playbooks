@@ -1,0 +1,124 @@
+##
+## Running database "initial"
+## Generated at 2018/06/27 10:10:00 +0300
+## Hostname: l-csi-2100-tmp-11
+##
+
+##
+## Running-config temporary prefix mode setting
+##
+no cli default prefix-modes enable
+
+##
+## License keys
+##
+   license install LK2-RESTRICTED_CMDS_GEN2-43A7-C1ND-9QMD-L423-H9A8-8A0L-1LUV-6BW6
+   
+##
+## MLAG protocol
+##
+   protocol mlag
+   
+##
+## Interface Ethernet configuration
+##
+   interface mlag-port-channel 1-3
+   interface port-channel 1
+   interface ethernet 1/1-1/2 mtu 9216 force
+   interface ethernet 1/6 mtu 9216 force
+   interface mlag-port-channel 1-2 mtu 9216 force
+   interface ethernet 1/1 mlag-channel-group 1 mode active
+   interface ethernet 1/2 mlag-channel-group 2 mode active
+   interface ethernet 1/5 mlag-channel-group 3 mode active
+   interface ethernet 1/6 mlag-channel-group 1 mode active
+   interface ethernet 1/15-1/16 channel-group 1 mode active
+   interface mlag-port-channel 1 switchport mode trunk
+   interface mlag-port-channel 3 switchport mode trunk
+   interface mlag-port-channel 2 description mpo2
+   interface mlag-port-channel 1-3 no shutdown
+   
+##
+## LAG configuration
+##
+   lacp
+   
+##
+## VLAN configuration
+##
+   vlan 2-10
+   vlan 30
+   vlan 100-300
+   vlan 4094
+   interface mlag-port-channel 2 switchport access vlan 5
+   
+##
+## L3 configuration
+##
+   ip routing vrf default
+   interface vlan 4094
+   interface vlan 4094 ip address 169.254.1.1 255.255.255.252
+   
+##
+## DCBX PFC configuration
+##
+   dcb priority-flow-control enable force
+   interface port-channel 1 dcb priority-flow-control mode on force
+   
+##
+## LLDP configuration
+##
+   lldp
+   
+##
+## MAGP configuration
+##
+   protocol magp
+   
+##
+## MLAG configurations
+##
+   mlag-vip mlag-cluster1 ip 169.254.255.1 /24 force
+no mlag shutdown
+   mlag system-mac 00:00:5E:00:01:01
+   interface port-channel 1 ipl 1
+   interface vlan 4094 ipl 1 peer-address 169.254.1.2
+   
+##
+## AAA remote server configuration
+##
+# ldap bind-password ********
+# radius-server key ********
+# tacacs-server key ********
+   
+##
+## Process Manager configuration
+##
+no pm process mlagd liveness enable
+   
+##
+## Network management configuration
+##
+# web proxy auth basic password ********
+no cli default auto-logout
+   clock timezone Asia Middle_East Jerusalem
+   email mailhub exchange.mtl.com
+no email notify event health-module-status
+   email notify recipient eddies@mellanox.com class failure
+   email notify recipient eddies@mellanox.com class info
+   email notify recipient eddies@mellanox.com detail
+no ntp server 10.4.0.134 disable
+   ntp server 10.4.0.134 keyID 0
+no ntp server 10.4.0.134 trusted-enable
+   ntp server 10.4.0.134 version 4
+   
+##
+## X.509 certificates configuration
+##
+#
+# Certificate name system-self-signed, ID bbcf13bff8de700b9afe8b3c0b77915066b6c6e7
+# (public-cert config omitted since private-key config is hidden)
+
+##
+## Persistent prefix mode setting
+##
+cli default prefix-modes enable

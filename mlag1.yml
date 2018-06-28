@@ -12,5 +12,6 @@
     pause_value: 4
     wait_for_protocol_port: 22
   roles:
+  #  - { role: onyx_clean_config, tags: ['clean_config']}
     - { role: onyx_basic_lab_mgmt_config, tags: ['mgmt_config']}
     - { role: mlag, tags: ['role_mlag'] }

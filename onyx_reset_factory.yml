@@ -1,5 +1,5 @@
 ---
-- name: mlag
+- name: onyx_reset_factory
   hosts: MLAG
   gather_facts: no
   connection: network_cli

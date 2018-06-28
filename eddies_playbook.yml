@@ -1,6 +1,6 @@
 ---
 - name: EddieS_Playbook
-  hosts: ONYX
+  hosts: all
   gather_facts: no
   connection: network_cli
   become: yes
@@ -27,5 +27,5 @@
     - { role: bgp , tags: ['bgp'] }
     - { role: reset_factory, tags: ['wipe']}
     - { role: onyx_command, tags: ['onyx_command']}
-    - { role: push_my_key, tags: ['push_key']}
+    - { role: onyx_push_my_key, tags: ['push_key']}
     - { role: onyx_save_config, tags: ['save_config']}

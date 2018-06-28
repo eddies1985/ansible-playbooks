@@ -4,7 +4,7 @@ ansible_become_method: enable
 global:
   default_ipl_vlan: 4094
   default_ipl_po: 1
-  default_l2_mode: trunk
+  default_l2_mode: access
   default_mtu: 1500
 mlag_clusters:
   mlag-cluster1:
@@ -15,13 +15,11 @@ mlag_clusters:
       - 15
       - 16
    ipl_vlan: "{{ global.default_ipl_vlan }}"
-   ipl_slave_ip: "169.254.1.1/30"
-   ipl_master_ip: "169.254.1.2/30"
+   ipl_slave_ip: "192.168.1.1/30"
+   ipl_master_ip: "192.168.1.2/30"
    vlans:
-      - 1-10
-      - 30
-      - 100-300
-   default_l2_mode: trunk
+      - 1
+   default_l2_mode: access
   mlag-cluster2:
    system_mac: "00:00:5E:00:01:02"
    vip: "169.254.255.2/24"
@@ -30,12 +28,10 @@ mlag_clusters:
     -  15
     -  16
    ipl_vlan: "{{ global.default_ipl_vlan }}"
-   ipl_slave_ip: "169.254.1.5/30"
-   ipl_master_ip: "169.254.1.6/30"
+   ipl_slave_ip: "192.168.1.5/30"
+   ipl_master_ip: "192.168.1.6/30"
    vlans:
-      - 1-10
-      - 30
-      - 100-300
+      - 1
    default_l2_mode: trunk
 devices:
   leaf1:
@@ -58,7 +54,7 @@ devices:
            mode: active
            ports:
              - 2
-           l2_mode: "access vlan 5"
+           l2_mode: "access vlan 1"
      - mpo:
           id: 3
           description:
@@ -85,7 +81,7 @@ devices:
             mode: active
             ports:
               - 2
-            l2_mode: "access vlan 5"
+            l2_mode: "access vlan 1"
       - mpo:
              id: 3
              mtu: 9216

@@ -23,6 +23,7 @@ l-csi-2700-tmp-04
 l-csi-2100-tmp-20
 l-csi-2100-tmp-22
 l-csi-2010-tmp02
+l-csi-2100-tmp-23
 [IB]
 l-csi-7800-0537 ansible_host=l-csi-7800-0537
 l-csi-sb7780-630
@@ -65,6 +66,7 @@ ansible_ssh_pass=admin
 [cumulus]
 ae-2100-4
 l-csi-2010-tmp02
+
 
 [cumulus:vars]
 ansible_user=cumulus

@@ -8,6 +8,7 @@ PPC
 MLAG
 demo_center
 onyx_vm
+2100
 [Eth]
 l-csi-sn2100-02 ansible_host=l-csi-sn2100-02
 l-csi-2700-l06 ansible_host=l-csi-2700-l06
@@ -25,9 +26,36 @@ l-csi-2100-tmp-22
 l-csi-2010-tmp02
 l-csi-2100-tmp-23
 l-csi-2100-tmp-16
+
+[2100]
+l-csi-2100-tmp9
+l-csi-2100-tmp10
+l-csi-2100-13252
+l-csi-2100-tmp-03
+l-csi-2100-tmp-16
+l-csi-2100-tmp-20
+l-csi-2100-tmp-21
+l-csi-2100-tmp-06
+l-csi-2100-tmp-07
+l-csi-2100-tmp-09
+l-csi-2100a1-tmp33
+l-csi-2100a1-tmp32
+l-csi-2100a1-tmp31
+l-csi-2100a1-tmp30
+l-csi-2100-14
+l-csi-2100-15
+l-csi-2100-18
+l-csi-2100-19
+l-csi-2100a1-tmp-12
+l-csi-2100a1-tmp-15
+l-csi-2100-1340
+l-csi-sn2100-02
+
 [IB]
 l-csi-7800-0537 ansible_host=l-csi-7800-0537
 l-csi-sb7780-630
+
+
 
 [PPC]
 l-csi-6012-03

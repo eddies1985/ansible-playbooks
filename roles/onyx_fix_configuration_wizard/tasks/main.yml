@@ -15,20 +15,33 @@
 
 # l-csi-7800-0537 [standalone: master] > [eddies@l-csivm-010 lab]$
 
-- name: check that {{ role_path }}/files/cancel_configuration_wizard.sh exists
-  delegate_to: localhost
-  run_once: yes
-  stat:
-    path: "{{ role_path }}/files/cancel_configuration_wizard.sh"
-  register: p
-- debug:
-    msg: "The cancel_configuration_wizard.sh doesn't exist under the files directory"
-  when: p.stat.exists == False
+# - name: check that {{ role_path }}/files/cancel_configuration_wizard.sh exists
+#   delegate_to: localhost
+#   run_once: yes
+#   stat:
+#     path: "{{ role_path }}/files/cancel_configuration_wizard.sh"
+#   register: p
+# - debug:
+#     msg: "The cancel_configuration_wizard.sh doesn't exist under the files directory"
+#   when: p.stat.exists == False
+
+# - name: run_the_onyx_config_wizard_script
+#   delegate_to: localhost
+#   shell: "{{ role_path }}/files/cancel_configuration_wizard.sh {{ ansible_host }} {{ ansible_ssh_user }} {{ ansible_ssh_pass }}"
+#   register: answer
+
 
 - name: run_the_onyx_config_wizard_script
   delegate_to: localhost
-  shell: "{{ role_path }}/files/cancel_configuration_wizard.sh {{ ansible_host }} {{ ansible_ssh_user }} {{ ansible_ssh_pass }}"
-  register: answer
-- debug:
-#    msg: "{{ role_path }}/files/cancel_configuration_wizard.sh {{ ansible_host }} {{ ansible_ssh_user }} {{ ansible_ssh_pass }}"
-    msg: "{{ answer.stdout }}"
+  shell:  |
+
+      spawn ssh -o StrictHostKeyChecking=no -o CheckHostIP=no {{ansible_ssh_user}}@{{inventory_hostname}}
+      expect "assword"
+      send "{{ ansible_ssh_pass }}\r"
+      expect "Do you want to use the wizard for initial configuration?"
+      send "no\r"
+      expect ">"
+      send "\x04"
+      exit 0
+  args:
+    executable: /usr/bin/expect

@@ -1,0 +1,9 @@
+---
+- name: send_mail
+  mail:
+     body: "{{mail_body}}"
+     host: "{{mail_server}}"
+     subject: "{{mail_subject}}"
+     from: "{{mail_from}}"
+     to: "{{mail_to_list}}"
+  delegate_to: localhost

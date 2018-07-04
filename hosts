@@ -50,6 +50,7 @@ l-csi-2100a1-tmp-12
 l-csi-2100a1-tmp-15
 l-csi-2100-1340
 l-csi-sn2100-02
+l-csi-2100-tmp-24
 
 [IB]
 l-csi-7800-0537 ansible_host=l-csi-7800-0537

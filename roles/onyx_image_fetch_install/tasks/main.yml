@@ -1,8 +1,8 @@
 ---
 - name: get_facts_from_device
-  onyx_facts:
-    gather_subset: version
-  when: cpu == "X86_64"
+  onyx_command:
+    commands: show version concise
+  register: switch_version
 
 - name: image fetch
   onyx_command:
@@ -11,4 +11,4 @@
 - name: image install
   onyx_command:
      commands: image install image-{{ cpu }}-{{ version }}.img
-  when:  (ansible_net_version['Product release'] is defined and ansible_net_version['Product release'] != version) or (cpu == "PPC_M460EX")
+  when:  '"{{version}}" not in "{{switch_version.stdout[0]}}"'

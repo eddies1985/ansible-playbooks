@@ -1,12 +1,11 @@
 ---
-#  onyx_facts:
-#    gather_subset: all
+- name: check_if_x86_64
+  onyx_command:
+    commands: show version concise
+  register: concise_version
+
 - name: get_facts
   onyx_facts:
      gather_subset: "{{ subset }}"
+  when:  '"X86_64" in concise_version.stdout'
   register: facts_received
-
-#- debug:
-    #msg: "version: {{ facts_received.ansible_net_version }}"
-    #msg: "{{ ansible_net_version.['product release'] }}"
-  #  msg: "{{ ansible_net_version['Product release'] }}"

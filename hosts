@@ -64,6 +64,7 @@ l-csi-sx6036-2 ansible_host=10.7.156.178
 l-csi-6036-0222
 l-csi-sx6036-02
 l-csi-6036-0216
+l-csi-6012-0332-1
 
 [demo_center]
 l-csi-demo-sn2700-57 ansible_host=l-csi-demo-sn2700-57

@@ -6,4 +6,5 @@
      subject: "{{mail_subject}}"
      from: "{{mail_from}}"
      to: "{{mail_to_list}}"
+     timeout: 60
   delegate_to: localhost

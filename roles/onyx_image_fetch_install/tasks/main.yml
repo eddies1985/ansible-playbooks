@@ -11,4 +11,4 @@
 - name: image install
   onyx_command:
      commands: image install image-{{ cpu }}-{{ version }}.img
-  when:  '"{{version}}" not in "{{switch_version.stdout[0]}}"'
+  when:  "version not in switch_version.stdout[0]"

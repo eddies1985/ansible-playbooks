@@ -1,13 +1,12 @@
 ##
 ## Running database "initial"
-## Generated at 2018/07/10 15:00:04 +0000
-## Hostname: l-csi-2100-18
+## Generated at 2018/07/09 07:52:19 +0000
+## Hostname: l-csi-7800-0537
 ##
 
 ##
 ## Running-config temporary prefix mode setting
 ##
-no cli default prefix-modes enable
 
 ##
 ## AAA remote server configuration
@@ -20,15 +19,21 @@ no cli default prefix-modes enable
 ## Network management configuration
 ##
 # web proxy auth basic password ********
-   web http redirect
    
 ##
 ## X.509 certificates configuration
 ##
 #
-# Certificate name system-self-signed, ID bf9893316bbe950b0199aeb90b7f21aa79719dbe
+# Certificate name system-self-signed, ID f978d29b834dd13ebedf1629ef7c54d7bf71fa7a
 # (public-cert config omitted since private-key config is hidden)
 
+   
+##
+## IB nodename to GUID mapping
+##
+   ib smnode l-csi-7800-0537 create
+   ib smnode l-csi-7800-0537 enable
+   ib smnode l-csi-7800-0537 sm-priority 0
 ##
 ## Persistent prefix mode setting
 ##

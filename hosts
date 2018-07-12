@@ -9,6 +9,15 @@ MLAG
 demo_center
 onyx_vm
 2100
+
+[ONYX:vars]
+ansible_network_os=onyx
+ansible_become=yes
+ansible_become_method=enable
+ansible_ssh_user=admin
+ansible_ssh_pass=admin
+
+
 [Eth]
 l-csi-sn2100-02 ansible_host=l-csi-sn2100-02
 l-csi-2700-l06 ansible_host=l-csi-2700-l06
@@ -65,6 +74,7 @@ l-csi-6036-0222
 l-csi-sx6036-02
 l-csi-6036-0216
 l-csi-6012-0332-1
+mtlae-sx-05
 
 [demo_center]
 l-csi-demo-sn2700-57 ansible_host=l-csi-demo-sn2700-57
@@ -85,13 +95,6 @@ onyx_vm2 ansible_host=Onyx-VM-2
 onyx_vm3 ansible_host=Onyx-VM-3
 onyx_vm4 ansible_host=Onyx-VM-4
 
-
-[ONYX:vars]
-ansible_network_os=onyx
-ansible_become=yes
-ansible_become_method=enable
-ansible_ssh_user=admin
-ansible_ssh_pass=admin
 
 
 [cumulus]

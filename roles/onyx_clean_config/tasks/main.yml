@@ -1,8 +1,4 @@
 ---
-#- name: gather facts
-#  onyx_facts:
-#    gather_subset: all
-
 
 - name: delete_clean_config_file
   onyx_command:

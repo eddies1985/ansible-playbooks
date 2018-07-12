@@ -1,7 +1,4 @@
 ---
-#- name: gather facts
-#  onyx_facts:
-#    gather_subset: all
 - name: reset factory
   onyx_config:
      lines:
@@ -9,6 +6,7 @@
         - reset factory
   register: output
   ignore_errors: yes
+  when: reset == "factory"
 
 
 #- name: pause_wait_for_device_to_finish_reset_factory

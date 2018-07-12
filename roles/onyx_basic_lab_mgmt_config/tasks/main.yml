@@ -5,9 +5,9 @@
 - name: basic_mgmt_config
   onyx_config:
       lines:
-        - ntp server 10.4.0.134
+        - ntp server "{{ntp_server}} | default('8.8.8.8')
         - clock timezone Asia Middle_East Jerusalem
-        - ntpdate 10.4.0.134
+        - ntpdate {{ntp_server}}
         - email mailhub exchange.mtl.com
         - email notify recipient eddies@mellanox.com
         - no email notify event health-module-status

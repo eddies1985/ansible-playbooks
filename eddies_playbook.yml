@@ -9,7 +9,6 @@
     ansible_network_os: onyx
     version: ""
     path: "/mswg/release/sx_mlnx_os/"
-
     cpu: "X86_64"   # X86_64 | PPC_M460EX
     user: eddies
     password: eddies11
@@ -18,6 +17,8 @@
     command: "show clock"
     local_user: "{{ lookup('env', 'USER') }}"
     subset: version
+    force_upgrade_downgrade: false
+    #ntp_server: 10.4.0.134
   remote_user: admin
   roles:
     - { role: onyx_image_fetch_install , tags: ['image-fetch-install'] }
@@ -25,7 +26,8 @@
     - { role: onyx_boot_next_save_config_reload , tags: ['boot_next'] }
     - { role: onyx_facts ,subset: "version" , tags: ['onyx_facts'] }
     - { role: onyx_bgp , tags: ['bgp'] }
-    - { role: reset_factory, tags: ['wipe']}
+    - { role: onyx_reset_factory, tags: ['wipe']}
+    - { role: onyx_clean_config, tags: ['onyx_clean_config']}
     - { role: onyx_fix_configuration_wizard, tags: ['fix_config_wizard']}
     - { role: onyx_command, tags: ['onyx_command']}
     - { role: onyx_push_my_key, tags: ['push_key']}

@@ -1,0 +1,100 @@
+---
+- name: cumulus_stress
+  hosts: 10.143.34.242 
+  gather_facts: no
+  become: yes
+  become_method: sudo 
+  #remote_user: admin
+  vars:
+    single: "false"
+  tasks:
+   - name: license
+     copy:
+       src: /etc/ansible/license.txt
+       dest: /tmp/
+       owner: root
+       group: root
+   - name: install license
+     shell: cl-license -i /tmp/license.txt; systemctl restart switchd
+
+   - name: snapper
+     shell: dd if=/dev/zero of=file.txt count=1024 bs=1048576 ; snapper create -d test{{ item }} ; rm -rf file.txt
+     with_sequence: start=1 end=50 stride=1
+   - name: adding_vlans_vrf_via_nclu
+     nclu: 
+       commands:
+         - add vlan {{ item }}
+         - add vrf Hbf
+         - add vlan {{ item }} mtu 1500
+         - add vlan {{ item }} vrf Hbf
+         - add vlan {{ item }} pre-up ip link set dev vlan{{ item }} addrgenmode none
+         - add vlan {{ item }} ipv6 address 2a02:6b8:b040:1{{ item }}::1/64
+         - add vlan {{ item }} ipv6 address fe80::1/64
+         - commit
+     with_sequence: start=100 end=400 stride=1
+   - name: apt_update
+     shell : apt-get -y --force-yes update 
+  #   apt:
+  #    update_cache: yes
+  #    force: yes
+  #    allow_unauthenticated: yes
+  #    force_apt_get: yes
+     tags: apt_update 	
+   - name: apt_upgrade
+     shell: apt-get -y --force-yes  upgrade 
+  #   apt:
+  #    upgrade: yes
+  #    force: yes
+  #    force_apt_get: yes
+  #    allow_unauthenticated: yes  
+     tags: apt_upgrade
+   - name: reboot
+     shell: sleep 2 && /sbin/shutdown -r now "cumulus upgrade"
+     ignore_errors: true
+     async: 1
+     poll: 0
+   - name: pause_due_to_reboot1
+     pause:
+       minutes: 5
+   - name: look_for_log_errors
+     lineinfile:
+       path: /var/log/syslog
+       state: absent
+       regexp: 'WRITE FPDMA QUEUED|BTRFS\: bdev \/dev\/sda4 errs'
+   - name: check_switchd
+     shell: systemctl status switchd | tr -d '[:cntrl:]'
+     register: switchd_status
+     failed_when: "'running' not in switchd_status.stdout"
+   - name: onie_k
+     tags: onie_k
+     shell: onie-select -k -f 
+     ignore_errors: true
+     when: ("'running'  in switchd_status.stdout") or (single == "true")
+   - name: reboot
+     tags: reboot
+     async: 1
+     poll: 0
+     shell: sleep 2 && /sbin/shutdown -r now "back to onie to uninstall"
+     when: ("'running'  in switchd_status.stdout") or (single == "true")
+     ignore_errors: true
+   - name: pause_due_to_reboot2
+     pause:
+       minutes: 18
+     when: ("'running' in switchd_status.stdout") or (single == "true")
+   - name: copy_install_to_onie
+     tags: copy_install_to_onie
+     delegate_to: localhost 
+     shell: scp /mswg2/support/CSI/Cumulus/cumulus-linux-3.3.2-mlx-amd64.bin root@{{inventory_hostname}}:/tmp/
+     when: ("'running' not in switchd_status.stdout") or (single == "true")
+   - name: install_cumulus_from_onie
+     tags: install_cumulus_from_onie
+     delegate_to: localhost
+     shell:  |
+        spawn ssh -o StrictHostKeyChecking=no -o CheckHostIP=no root@{{inventory_hostname}}
+        expect "#"
+        send "onie-nos-install /tmp/cumulus-linux-3.3.2-mlx-amd64.bin\r"
+        sleep 150
+        interact
+     args:
+       executable: /usr/bin/expect
+     when: ("'running'  in switchd_status.stdout") or (single == "true")

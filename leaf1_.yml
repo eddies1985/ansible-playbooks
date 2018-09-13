@@ -1,0 +1,106 @@
+# This task for coniguring leaf1 switch
+---
+- hosts: l-csi-2700-l05
+  gather_facts: no
+  connection: network_cli
+  become: yes
+  become_method: enable
+  vars:
+    ansible_network_os: onyx
+  tasks:
+   - name: configure protocols
+     onyx_protocol:
+        spanning_tree: disabled
+        ip_routing: enabled
+        lacp: enabled
+        mlag: enabled
+        dcb_pfc: enabled
+        magp: enabled
+   - name: Disable Lag members PFC
+     onyx_pfc_interface:
+       aggregate:
+        - name: Eth1/5
+        - name: Eth1/6
+       state: disabled
+   - name: Configure Lag interface
+     onyx_linkagg:
+      name: Po1
+      members:
+       - Eth1/5
+       - Eth1/6
+      mode: active
+   - name: Enable Lag interface PFC
+     onyx_pfc_interface:
+       name: Po1
+       state: enabled
+   - name: Configure vlan for IPL
+     onyx_vlan:
+      vlan_id: "{{ ipl_vlan }}"
+      name: IPL
+   - name: Create vlan interface for IPL
+     onyx_interface:
+      name: "Vlan {{ ipl_vlan }}"
+   - name: Configure vlan interface ip address
+     onyx_l3_interface:
+      name: "Vlan {{ ipl_vlan }}"
+      ipv4: 192.168.1.1/30
+   - name: configure IPL Lag interface
+     onyx_mlag_ipl:
+      name: Po1
+      vlan_interface: "Vlan {{ ipl_vlan }}"
+      peer_address: 192.168.1.2
+   - name: configure cluster mlag-vip
+     onyx_mlag_vip:
+      ipaddress: 10.143.33.151/24
+      group_name: ansible-test-group
+      mac_address: aa:99:80:80:80:80
+   - name: create vlan for MLAG with servers
+     onyx_vlan:
+      vlan_id: "{{ mlag_vlan }}"
+      name: SERVERS
+   - name: Create vlan interface for Servers
+     onyx_interface:
+      name: "Vlan {{ mlag_vlan }}"
+   - name: configure vlan for MLAG with servers
+     onyx_l3_interface:
+      name: "Vlan {{ mlag_vlan }}"
+      ipv4: 172.16.2.2/24
+   - name: configure vlan interface magp
+     onyx_magp:
+      magp_id: 1
+      interface: "Vlan {{ mlag_vlan }}"
+      router_ip: 172.16.2.254
+      router_mac: aa:99:80:80:80:81
+   - name: configure ethernet interfaces
+     onyx_interface:
+      aggregate:
+       - name: Eth1/1
+       - name: Eth1/2
+      speed: "{{ speed }}"
+   - name: configure ports vlan
+     onyx_l2_interface:
+       aggregate:
+        - name: Eth1/7
+        - name: Eth1/9
+       mode: access
+       access_vlan: 1
+   - name: configure MLag port channel with server 1
+     onyx_linkagg:
+      name: Mpo1
+      members:
+       - Eth1/1
+      mode: active
+   - name: configure MLag port channel with server 2
+     onyx_linkagg:
+      name: Mpo2
+      members:
+       - Eth1/2
+      mode: active
+   - name: configure MLag ports vlan
+     onyx_l2_interface:
+      aggregate:
+       - name: Mpo1
+       - name: Mpo2
+      mode: hybrid
+      trunk_allowed_vlans:
+       - "{{ mlag_vlan }}"

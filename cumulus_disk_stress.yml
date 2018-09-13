@@ -1,13 +1,37 @@
 ---
 - name: cumulus_stress
-  hosts: 10.143.34.242 
+  hosts: 10.143.34.242,10.143.34.245
   gather_facts: no
   become: yes
   become_method: sudo 
-  #remote_user: admin
   vars:
     single: "false"
   tasks:
+   - name: copy_ismart
+     copy:
+       src: /swgwork/eddies/scripts/iSMART_64
+       dest: /tmp/
+       owner: cumulus
+       group: cumulus
+       mode: 777
+     tags: copy_ismart
+   - name: run_ismart
+     become: yes
+     shell: /tmp/iSMART_64 -d /dev/sda > /tmp/ismart_output_{{inventory_hostname}}
+     tags: run_ismart
+   - name: fetch_ismart_output
+     tags: fetch_ismart_output 
+     fetch: 
+      dest: cumulus_stress/
+      src: /tmp/ismart_output_{{inventory_hostname}}
+      flat: no
+   # - name: sync_ismart_output_to_ansible_server
+     # synchronize:
+       # src: /tmp/
+       # dest: /root/cumulus_stress/
+       # mode: pull	   
+       # rsync_opts:
+         # - "--include=ismart_output*"
    - name: license
      copy:
        src: /etc/ansible/license.txt
@@ -60,7 +84,7 @@
      lineinfile:
        path: /var/log/syslog
        state: absent
-       regexp: 'WRITE FPDMA QUEUED|BTRFS\: bdev \/dev\/sda4 errs'
+       regexp: 'WRITE FPDMA QUEUED|BTRFS\: bdev \/dev\/sda4 errs|failed command'
    - name: check_switchd
      shell: systemctl status switchd | tr -d '[:cntrl:]'
      register: switchd_status

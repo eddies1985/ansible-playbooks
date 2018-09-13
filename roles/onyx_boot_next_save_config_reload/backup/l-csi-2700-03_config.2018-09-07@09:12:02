@@ -1,0 +1,323 @@
+##
+## Running database "initial"
+## Generated at 2018/08/23 22:11:15 +0000
+## Hostname: l-csi-2700-03
+##
+
+##
+## Running-config temporary prefix mode setting
+##
+no cli default prefix-modes enable
+
+##
+## MLAG protocol
+##
+   protocol mlag
+   
+##
+## Interface Ethernet configuration
+##
+   interface mlag-port-channel 1
+   interface port-channel 4094
+   interface ethernet 1/2 speed 1000 force
+   interface ethernet 1/7 speed 1000 force
+   interface ethernet 1/8 speed 10000 no-autoneg force
+   interface ethernet 1/9 speed 10000 force
+   interface ethernet 1/10-1/12 speed 1000 force
+   interface ethernet 1/14 speed 25000 force
+   interface ethernet 1/15-1/16 speed 1000 force
+   interface ethernet 1/20 speed 1000 force
+   interface ethernet 1/22 speed 1000 force
+   interface ethernet 1/23 speed 10000 force
+   interface ethernet 1/24 speed 1000 force
+   interface ethernet 1/26 speed 10000 force
+   interface ethernet 1/29 speed 10000 force
+   interface ethernet 1/30 speed 1000 force
+   interface ethernet 1/1-1/10 mtu 9216 force
+   interface ethernet 1/12-1/22 mtu 9216 force
+   interface ethernet 1/24-1/26 mtu 9216 force
+   interface ethernet 1/28-1/30 mtu 9216 force
+   interface mlag-port-channel 1 mtu 9216 force
+   interface ethernet 1/3-1/6 flowcontrol receive on force
+   interface ethernet 1/3-1/6 flowcontrol send on force
+   interface ethernet 1/9 switchport mode trunk
+   interface ethernet 1/17 switchport mode trunk
+   interface ethernet 1/25 switchport mode trunk
+   interface ethernet 1/26 mlag-channel-group 1 mode on
+   interface ethernet 1/30 switchport mode trunk
+   interface ethernet 1/31-1/32 channel-group 4094 mode active
+   interface ethernet 1/1 description to-torti-tstdc
+   interface ethernet 1/2 description HB-Forti-TSTDC
+   interface ethernet 1/3 description To-LF-TST-TLV-1-1
+   interface ethernet 1/4 description To-LF-TST-TLV-1-2
+   interface ethernet 1/5 description To-LF-TST-TLV-2-1
+   interface ethernet 1/6 description To-LF-TST-TLV-2-2
+   interface ethernet 1/7 description Fortinet_vlan_25_BO_Test-To-Forti-Po12
+   interface ethernet 1/8 description To-TSTWAN-Forti
+   interface ethernet 1/10 description Connect_To_ASR9K_TST
+   interface ethernet 1/11 description Client_colo1<MTSLNX>
+   interface ethernet 1/12 description Client_colo2<TSTLNX>
+   interface ethernet 1/13 description TstLnx7 <418008>
+   interface ethernet 1/14 description MTSLNX7 <418009>
+   interface ethernet 1/15 description PerfLnxTst <6600>
+   interface ethernet 1/16 description Temp-To-Forti.p14
+   interface ethernet 1/17 description spider7LNXTST1
+   interface ethernet 1/18 description Spider7LNXTST2 <0418003>
+   interface ethernet 1/19 description TstTux71 <418006>
+   interface ethernet 1/20 description TstTux72 <418007>
+   interface ethernet 1/21 description MtsTux71 <418004>
+   interface ethernet 1/22 description MtsTux72 <418005>
+   interface ethernet 1/24 description MTS7LNX-1G
+   interface ethernet 1/25 description Spider7TstLnx2 <0418003>
+   interface ethernet 1/26 description Spider7LNXTST1<0417025>
+   interface ethernet 1/28 description MTS7TUX1<417020>
+   interface ethernet 1/29 description Connect_to_Old_TSTDC_BB
+   interface ethernet 1/30 description To_NTN 12-649312
+   interface ethernet 1/31 description To-SP-TLV-TST-2
+   interface ethernet 1/32 description To-SP-TLV-TST-2
+   interface ethernet 1/9 shutdown
+   interface ethernet 1/24 shutdown
+   interface mlag-port-channel 1 no shutdown
+   
+##
+## LAG configuration
+##
+   lacp
+   
+##
+## VLAN configuration
+##
+   vlan 2
+   vlan 21
+   vlan 23-26
+   vlan 31
+   vlan 41
+   vlan 52
+   vlan 61-64
+   vlan 66-67
+   vlan 80
+   vlan 84-85
+   vlan 87
+   vlan 89
+   vlan 96
+   vlan 98-99
+   vlan 101
+   vlan 116
+   vlan 123
+   vlan 150
+   vlan 221-224
+   vlan 230
+   vlan 264
+   vlan 323
+   vlan 423-424
+   vlan 563
+   vlan 602
+   vlan 617
+   vlan 622
+   vlan 662
+   vlan 665
+   vlan 685
+   vlan 801
+   vlan 997
+   vlan 1444
+   vlan 4094
+   interface ethernet 1/9 switchport trunk allowed-vlan none
+   interface ethernet 1/17 switchport trunk allowed-vlan none
+   interface ethernet 1/25 switchport trunk allowed-vlan none
+   interface ethernet 1/2 switchport access vlan 801
+   interface ethernet 1/7 switchport access vlan 25
+   interface ethernet 1/11 switchport access vlan 23
+   interface ethernet 1/12 switchport access vlan 23
+   interface ethernet 1/13 switchport access vlan 23
+   interface ethernet 1/14 switchport access vlan 23
+   interface ethernet 1/15 switchport access vlan 23
+   interface ethernet 1/16 switchport access vlan 1444
+   interface ethernet 1/18 switchport access vlan 23
+   interface ethernet 1/19 switchport access vlan 23
+   interface ethernet 1/20 switchport access vlan 23
+   interface ethernet 1/21 switchport access vlan 23
+   interface ethernet 1/22 switchport access vlan 23
+   interface ethernet 1/23 switchport access vlan 423
+   interface ethernet 1/24 switchport access vlan 23
+   interface ethernet 1/28 switchport access vlan 23
+   interface mlag-port-channel 1 switchport access vlan 423
+   vlan 21 name "Dvl"
+   vlan 23 name "Test"
+   vlan 24 name "G1000"
+   vlan 25 name "BHUB"
+   vlan 26 name "OTPtest"
+   vlan 31 name "MF_RZF_Network"
+   vlan 41 name "MF_Internet_network"
+   vlan 61 name "TSTDC_BO"
+   vlan 62 name "TST-ESX"
+   vlan 63 name "TST-VC"
+   vlan 64 name "7600-Global"
+   vlan 66 name "HB-TSTDC"
+   vlan 67 name "HB-Blur"
+   vlan 80 name "7600-VRF-DATA"
+   vlan 84 name "Swift_TEST"
+   vlan 85 name "DVL_Proxy"
+   vlan 87 name "TSTBE"
+   vlan 89 name "F5QA"
+   vlan 96 name "NEW_ZAPPA_DF"
+   vlan 98 name "BackupTSTDC"
+   vlan 99 name "TST-VMotion"
+   vlan 101 name "RPL_DEAD"
+   vlan 116 name "INTERNET"
+   vlan 123 name "TRADE"
+   vlan 221 name "VdiQa"
+   vlan 222 name "VMOTION_ESX_TSTDC"
+   vlan 223 name "Trading_Support"
+   vlan 224 name "TSTOBE"
+   vlan 230 name "FW_NOKIA_SYNC"
+   vlan 264 name "PCOM"
+   vlan 323 name "dot1x"
+   vlan 423 name "COLO_Test_Wan"
+   vlan 424 name "COLO_Test"
+   vlan 563 name "MGMT_TO_MDC"
+   vlan 602 name "ZAPA_Joplin"
+   vlan 617 name "BE-FE"
+   vlan 622 name "CB_HA_DC"
+   vlan 662 name "CP_SYNC"
+   vlan 665 name "SYNC_CB-NOKIA_TMP"
+   vlan 685 name "SYNC_CB-7600_TMP"
+   vlan 801 name "HB-Forti-DC"
+   vlan 997 name "Unused_VLAN"
+   vlan 1444 name "Demo-vlan"
+   interface ethernet 1/9 switchport trunk allowed-vlan add 1
+   interface ethernet 1/9 switchport trunk allowed-vlan add 64
+   interface ethernet 1/9 switchport trunk allowed-vlan add 80
+   interface ethernet 1/17 switchport trunk allowed-vlan add 23
+   interface ethernet 1/17 switchport trunk allowed-vlan add 423-424
+   interface ethernet 1/17 switchport trunk allowed-vlan remove 1
+   interface ethernet 1/25 switchport trunk allowed-vlan add 23
+   interface ethernet 1/25 switchport trunk allowed-vlan add 423-424
+   interface ethernet 1/25 switchport trunk allowed-vlan remove 1
+   
+##
+## STP configuration
+##
+   spanning-tree mode rpvst
+   spanning-tree vlan 1-2 priority 4096
+   spanning-tree vlan 21 priority 4096
+   spanning-tree vlan 23-26 priority 4096
+   spanning-tree vlan 31 priority 4096
+   spanning-tree vlan 41 priority 4096
+   spanning-tree vlan 52 priority 4096
+   spanning-tree vlan 61-64 priority 4096
+   spanning-tree vlan 66-67 priority 4096
+   spanning-tree vlan 80 priority 4096
+   spanning-tree vlan 84-85 priority 4096
+   spanning-tree vlan 87 priority 4096
+   spanning-tree vlan 89 priority 4096
+   spanning-tree vlan 96 priority 4096
+   spanning-tree vlan 98-99 priority 4096
+   spanning-tree vlan 101 priority 4096
+   spanning-tree vlan 116 priority 4096
+   spanning-tree vlan 123 priority 4096
+   spanning-tree vlan 221-224 priority 4096
+   spanning-tree vlan 230 priority 4096
+   spanning-tree vlan 264 priority 4096
+   spanning-tree vlan 323 priority 4096
+   spanning-tree vlan 563 priority 4096
+   spanning-tree vlan 602 priority 4096
+   spanning-tree vlan 617 priority 4096
+   spanning-tree vlan 622 priority 4096
+   spanning-tree vlan 662 priority 4096
+   spanning-tree vlan 665 priority 4096
+   spanning-tree vlan 685 priority 4096
+   spanning-tree vlan 801 priority 4096
+   spanning-tree vlan 997 priority 4096
+   spanning-tree vlan 1444 priority 4096
+   
+##
+## L3 configuration
+##
+   interface vlan 1
+   interface vlan 23
+   interface vlan 4094
+   interface vlan 1 counters
+   interface vlan 1 ip address 10.1.1.221/24 primary
+   interface vlan 1 shutdown
+   interface vlan 23 ip address 172.23.178.179/16 primary
+   interface vlan 4094 ip address 1.1.1.2/30 primary
+   
+##
+## LLDP configuration
+##
+   lldp
+   
+##
+## IGMP Snooping configuration
+##
+   ip igmp snooping mrouter-timeout 120
+   ip igmp snooping
+   vlan 1 ip igmp snooping
+   vlan 21 ip igmp snooping
+   vlan 23 ip igmp snooping
+   vlan 423-424 ip igmp snooping
+   vlan 662 ip igmp snooping
+   vlan 665 ip igmp snooping
+   vlan 23 ip igmp snooping querier 
+   vlan 423-424 ip igmp snooping querier 
+   vlan 23 ip igmp snooping querier query-interval 60
+   vlan 423-424 ip igmp snooping querier query-interval 60
+   
+##
+## Sflow configuration
+##
+   protocol sflow
+   sflow enable
+   sflow agent-ip 10.7.157.198
+   sflow collector-ip 10.7.159.14 udp-port 6343
+   interface mlag-port-channel 1 sflow enable
+   
+##
+## Telemetry configuration
+##
+   protocol telemetry
+   interface ethernet 1/27-1/28 telemetry sampling tc 0 ucast
+   
+##
+## MLAG configurations
+##
+no mlag shutdown
+   
+##
+## Logging configuration
+##
+   logging monitor events notice
+   
+##
+## Local user account configuration
+##
+   username eddies capability admin
+no username eddies disable
+   username eddies full-name ""
+   username eddies password 7 $6$0pVl0aUp$2snON4CJ.rBCVt2o3P7W2WCv.ESkip33ZQir5ai2l8985KC7X6S.tey8OdNz8qn2iOCQLzLHSpNkUgKOqujQ41
+   
+##
+## AAA remote server configuration
+##
+# ldap bind-password ********
+# radius-server key ********
+# tacacs-server key ********
+   
+##
+## Network management configuration
+##
+    stats sample telemetry enable
+# web proxy auth basic password ********
+   stats chd telemetry enable
+   
+##
+## X.509 certificates configuration
+##
+#
+# Certificate name system-self-signed, ID 64edd50a398d0484cf5b707a9333cc3a4ddb99ef
+# (public-cert config omitted since private-key config is hidden)
+
+##
+## Persistent prefix mode setting
+##
+cli default prefix-modes enable

@@ -18,7 +18,7 @@
     local_user: "{{ lookup('env', 'USER') }}"
     subset: version
     force_upgrade_downgrade: false
-    #ntp_server: 10.4.0.134
+    ntp_server: 10.4.0.134
   remote_user: admin
   roles:
     - { role: onyx_image_fetch_install , tags: ['image-fetch-install'] }

@@ -1,4 +1,5 @@
 #  ansible 'hosts' file.
+localhost ansible_ssh_user=eddies ansible_ssh_pass=eddies11 ansible_become=yes ansible_become_method=sudo
 [ONYX]
 dummy ansible_host=dummy
 [ONYX:children]
@@ -20,6 +21,7 @@ ansible_ssh_pass=admin
 
 [Eth]
 l-csi-sn2100-02 ansible_host=l-csi-sn2100-02
+l-csi-2700-l05
 l-csi-2700-l06 ansible_host=l-csi-2700-l06
 l-csi-2100-18 ansible_host=l-csi-2100-18
 l-csi-2100-19 ansible_host=l-csi-2100-19
@@ -35,6 +37,11 @@ l-csi-2100-tmp-22
 l-csi-2010-tmp02
 l-csi-2100-tmp-23
 l-csi-2100-tmp-16
+l-csi-2700-03
+l-csi-2010-tmp01.mtl.labs.mlnx
+l-csi-2010a1-01.mtl.labs.mlnx
+10.7.31.174
+10.7.159.132 
 
 [2100]
 l-csi-2100-tmp9
@@ -64,7 +71,7 @@ l-csi-2100-tmp-24
 [IB]
 l-csi-7800-0537 ansible_host=l-csi-7800-0537
 l-csi-sb7780-630
-
+l-csi-7700-0633
 
 
 [PPC]
@@ -75,6 +82,9 @@ l-csi-sx6036-02
 l-csi-6036-0216
 l-csi-6012-0332-1
 mtlae-sx-05
+l-csi-1024-0321
+l-csi-1024-loan
+l-csi-1024-01
 
 [demo_center]
 l-csi-demo-sn2700-57 ansible_host=l-csi-demo-sn2700-57
@@ -100,8 +110,8 @@ onyx_vm4 ansible_host=Onyx-VM-4
 [cumulus]
 ae-2100-4
 l-csi-2010-tmp02
-
-
+l-csi-2100-tmp-34 ansible_ssh_user=cumulus ansible_ssh_pass=CumulusLinux!
+ 
 [cumulus:vars]
 ansible_user=cumulus
 ansible_ssh_pass=CumulusLinux!

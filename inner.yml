@@ -1,6 +1,0 @@
-- debug:
-    msg: "outer item= {{ outer_item }} inner item={{ item }}"
-  loop:
-      - 'a'
-      - 'b'
-      - 'c'

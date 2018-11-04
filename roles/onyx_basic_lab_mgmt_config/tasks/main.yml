@@ -5,7 +5,8 @@
 - name: basic_mgmt_config
   onyx_config:
       lines:
-        - ntp server "{{ntp_server}} | default('8.8.8.8')
+        - ntp server "{{ntp_server}}"
+# - ntp server "{{ntp_server | default('8.8.8.8')}}"
         - clock timezone Asia Middle_East Jerusalem
         - ntpdate {{ntp_server}}
         - email mailhub exchange.mtl.com

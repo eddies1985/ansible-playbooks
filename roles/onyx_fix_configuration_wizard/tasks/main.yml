@@ -29,19 +29,18 @@
 #   delegate_to: localhost
 #   shell: "{{ role_path }}/files/cancel_configuration_wizard.sh {{ ansible_host }} {{ ansible_ssh_user }} {{ ansible_ssh_pass }}"
 #   register: answer
-
-
+---
 - name: run_the_onyx_config_wizard_script
   delegate_to: localhost
+#  shell: date
   shell:  |
-
-      spawn ssh -o StrictHostKeyChecking=no -o CheckHostIP=no {{ansible_ssh_user}}@{{inventory_hostname}}
-      expect "assword"
-      send "{{ ansible_ssh_pass }}\r"
-      expect "Do you want to use the wizard for initial configuration?"
-      send "no\r"
-      expect ">"
-      send "\x04"
-      exit 0
+       spawn ssh -o StrictHostKeyChecking=no -o CheckHostIP=no {{ansible_ssh_user}}@{{inventory_hostname}}
+       expect "assword"
+       send "{{ ansible_ssh_pass }}\r"
+       expect "Do you want to use the wizard for initial configuration?"
+       send "no\r"
+       expect ">"
+       send "\x04"
+       exit 0
   args:
     executable: /usr/bin/expect

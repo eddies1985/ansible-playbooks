@@ -1,0 +1,3 @@
+#!/bin/ash
+
+ssh onyx@10.7.157.198 cli \"enable\" \"configure terminal\" \"interface ethernet 1\/1 description port_1\"

@@ -1,0 +1,10 @@
+---
+- name: sleep
+  pause:
+    minutes: 4
+   
+- name: Checking SSH connectivity
+  wait_for: 
+    host: "{{ inventory_hostname }}" 
+    port: 22
+    timeout: 300

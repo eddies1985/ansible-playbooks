@@ -1,12 +1,12 @@
 ---
-- name: get_facts_from_device
-  onyx_facts:
-    gather_subset: version
+#- name: get_facts_from_device
+#  onyx_facts:
+#    gather_subset: version
 
 - name: image fetch
   onyx_command:
      commands: image fetch scp://{{ user }}:{{ password }}@{{remote_ip }}:{{ path }}/image-{{ cpu }}-{{ version }}.img
-  when:  ansible_net_version['Product release']  != version
+#  when:  ansible_net_version['Product release']  != version
   tags:
       - fetch
 - name: image install
@@ -14,4 +14,4 @@
      commands: image install image-{{ cpu }}-{{ version }}.img
   tags:
     - install
-  when:  ansible_net_version['Product release']  != version
+#  when:  ansible_net_version['Product release']  != version

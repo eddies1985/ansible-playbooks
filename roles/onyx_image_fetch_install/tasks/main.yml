@@ -7,8 +7,14 @@
 - name: image fetch
   onyx_command:
      commands: image fetch scp://{{ user }}:{{ password }}@{{remote_ip }}:{{ path }}/sx_mlnx_os-{{ version }}/{{ cpu  }}/image-{{ cpu }}-{{ version }}.img
+  when: internal_network == "yes"
 
+- name: image fetch
+  onyx_command:
+     commands: image fetch scp://{{ user }}:{{ password }}@{{remote_ip }}:{{ path }}/image-{{ cpu }}-{{ version }}.img
+  when: internal_network == "no"  
+  
 - name: image install
   onyx_command:
      commands: image install image-{{ cpu }}-{{ version }}.img
-  when:  "version not in switch_version.stdout[0]"
+# when:  "version not in switch_version.stdout[0]"

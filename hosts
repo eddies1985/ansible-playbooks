@@ -10,6 +10,7 @@ MLAG
 demo_center
 onyx_vm
 2100
+HDR
 
 [ONYX:vars]
 ansible_network_os=onyx
@@ -87,10 +88,11 @@ l-csi-1024-loan
 l-csi-1024-01
 
 [demo_center]
-l-csi-demo-sn2700-57 ansible_host=l-csi-demo-sn2700-57
-l-csi-demo-sn2700-57 ansible_host=l-csi-demo-sn2700-58
-l-csi-demo-sn2700-57 ansible_host=l-csi-demo-sn2700-55
-l-csi-demo-sn2700-57 ansible_host=l-csi-demo-sn2700-56
+l-csi-demo-sn2700-57
+l-csi-demo-sn2700-58
+l-csi-demo-sn2700-55
+l-csi-demo-sn2700-56
+l-csi-demo-sn2100-71
 
 [MLAG]
 spine1 ansible_host=l-csi-2100-tmp-08
@@ -111,6 +113,11 @@ onyx_vm4 ansible_host=Onyx-VM-4
 ae-2100-4
 l-csi-2010-tmp02
 l-csi-2100-tmp-34 ansible_ssh_user=cumulus ansible_ssh_pass=CumulusLinux!
+
+[HDR]
+l-csi-8700-01
+l-csi-8700-02
+
  
 [cumulus:vars]
 ansible_user=cumulus

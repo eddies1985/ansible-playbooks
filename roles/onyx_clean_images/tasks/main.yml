@@ -1,0 +1,21 @@
+---
+
+- name: get_image_files_list
+  onyx_command:
+      commands:
+        - show images | include "Image" | exclude ^Image 
+  register: show_images 
+
+- name: print_images
+  debug: 
+      msg: "{{show_images.stdout_lines}}"
+
+- name: delete_images
+  onyx_command:
+      commands:
+         - image delete {{item}}
+        # - configuration write
+        # - reload
+      # backup: yes
+      # save: yes
+  loop: "{{show_images.stdout_lines}}"

@@ -12,7 +12,6 @@
       - configuration delete clean
   when: '"clean" in clean_exists.stdout'
 
-
 - name: clean_config
   onyx_config:
      lines:
@@ -22,6 +21,7 @@
       - configuration copy clean initial
       - configuration switch-to initial no-reboot
       - configuration delete clean
-      - reload
+      - configuration write
+      - reload force
   register: output
-  ignore_errors: no
+  ignore_errors: yes

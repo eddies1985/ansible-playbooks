@@ -8,6 +8,7 @@ IB
 PPC
 MLAG
 demo_center
+demo_center_cumulus
 onyx_vm
 2100
 HDR
@@ -49,18 +50,22 @@ l-csi-2100-tmp9
 l-csi-2100-tmp10
 l-csi-2100-13252
 l-csi-2100-tmp-03
+l-csi-2100-tmp-06
+l-csi-2100-tmp-07
+l-csi-2100-tmp-08
+l-csi-2100-tmp-09
+l-csi-2100-tmp-11
 l-csi-2100-tmp-16
 l-csi-2100-tmp-20
 l-csi-2100-tmp-21
-l-csi-2100-tmp-06
-l-csi-2100-tmp-07
-l-csi-2100-tmp-09
+l-csi-2100-tmp-24
 l-csi-2100a1-tmp33
 l-csi-2100a1-tmp32
 l-csi-2100a1-tmp31
 l-csi-2100a1-tmp30
 l-csi-2100-14
 l-csi-2100-15
+l-csi-2100-16
 l-csi-2100-18
 l-csi-2100-19
 l-csi-2100a1-tmp-12
@@ -94,11 +99,18 @@ l-csi-demo-sn2700-55
 l-csi-demo-sn2700-56
 l-csi-demo-sn2100-71
 
+[demo_center_cumulus]
+
+l-csi-demo-sn2700c-51
+l-csi-demo-sn2700c-52
+l-csi-demo-sn2700c-53
+l-csi-demo-sn2700c-54
+
 [MLAG]
-spine1 ansible_host=l-csi-2100-tmp-08
-spine2 ansible_host=l-csi-2100-16
-leaf1 ansible_host=l-csi-2100-tmp-11
-leaf2 ansible_host=l-csi-2100-tmp-24
+l-csi-demo-sn2700-55
+l-csi-demo-sn2700-56
+l-csi-demo-sn2700-57
+l-csi-demo-sn2700-58
 
 [onyx_vm]
 
@@ -106,7 +118,6 @@ onyx_vm1 ansible_host=Onyx-VM-1
 onyx_vm2 ansible_host=Onyx-VM-2
 onyx_vm3 ansible_host=Onyx-VM-3
 onyx_vm4 ansible_host=Onyx-VM-4
-
 
 
 [cumulus]

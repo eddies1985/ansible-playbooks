@@ -1,0 +1,34 @@
+##
+## Running database "initial"
+## Generated at 2018/11/12 07:47:25 +0000
+## Hostname: l-csi-demo-sn2700-58
+##
+
+##
+## Running-config temporary prefix mode setting
+##
+no cli default prefix-modes enable
+
+##
+## AAA remote server configuration
+##
+# ldap bind-password ********
+# radius-server key ********
+# tacacs-server key ********
+   
+##
+## Network management configuration
+##
+# web proxy auth basic password ********
+   
+##
+## X.509 certificates configuration
+##
+#
+# Certificate name system-self-signed, ID 7dfa50140a2705e2edf168016736f78838aa63cd
+# (public-cert config omitted since private-key config is hidden)
+
+##
+## Persistent prefix mode setting
+##
+cli default prefix-modes enable

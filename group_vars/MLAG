@@ -6,27 +6,28 @@ global:
   default_ipl_po: 1
   default_l2_mode: access
   default_mtu: 1500
+  stp_mode: rpvst
 mlag_clusters:
-  mlag-cluster1:
+  leaf:
    system_mac: "00:00:5E:00:01:01"
-   vip: "169.254.255.1/24"
+   vip: "192.168.255.1/24"
    ipl_lag_id: "{{ global.default_ipl_po }}"
    ipl_ports:
-      - 15
-      - 16
+      - 5
+      - 6
    ipl_vlan: "{{ global.default_ipl_vlan }}"
    ipl_slave_ip: "192.168.1.1/30"
    ipl_master_ip: "192.168.1.2/30"
    vlans:
       - 1
    default_l2_mode: access
-  mlag-cluster2:
+  spine:
    system_mac: "00:00:5E:00:01:02"
-   vip: "169.254.255.2/24"
+   vip: "192.168.255.2/24"
    ipl_lag_id: "{{ global.default_ipl_po }}"
    ipl_ports:
-    -  15
-    -  16
+    -  3
+    -  4
    ipl_vlan: "{{ global.default_ipl_vlan }}"
    ipl_slave_ip: "192.168.1.5/30"
    ipl_master_ip: "192.168.1.6/30"
@@ -34,84 +35,86 @@ mlag_clusters:
       - 1
    default_l2_mode: trunk
 devices:
-  leaf1:
+  l-csi-demo-sn2700-57:
    mlag_role: slave
-   mlag_cluster: mlag-cluster1
+   mlag_cluster: leaf
    mpos:
      - mpo:
         id: 1
         mtu: 9216
-        description:
+        description: uplink
         mode: active
         ports:
           - 1
-          - 6
-        l2_mode: trunk
+          - 2
+        l2_mode: "access vlan 1"
      - mpo:
-           id: 2
+           id: 7
            mtu: 9216
-           description: mpo2
+           description: mpo7
            mode: active
            ports:
-             - 2
+             - 7
            l2_mode: "access vlan 1"
      - mpo:
-          id: 3
-          description:
+          id: 8
+          description: mpo8
           mode: active
           ports:
-            - 5
+            - 8
+          l2_mode: "access vlan 1"
 
-  leaf2:
+  l-csi-demo-sn2700-58:
    mlag_role: master
-   mlag_cluster: mlag-cluster1
+   mlag_cluster: leaf
    mpos:
       - mpo:
           id: 1
           mtu: 9216
-          description:
+          description: uplink
           mode: active
           ports:
             - 1
-            - 6
+            - 2
+          l2_mode: "access vlan 1"
       - mpo:
-            id: 2
+            id: 7
             mtu: 9216
-            description:
+            description: mpo7
             mode: active
             ports:
-              - 2
+              - 7
             l2_mode: "access vlan 1"
       - mpo:
-             id: 3
+             id: 8
              mtu: 9216
-             description:
+             description: mpo8
              mode: active
              ports:
-               - 5
-             l2_mode: trunk
+               - 8
+             l2_mode: "access vlan 1"
 
-  spine1:
+  l-csi-demo-sn2700-55:
    mlag_role: slave
-   mlag_cluster: mlag-cluster2
+   mlag_cluster: spine
    mpos:
     - mpo:
           id: 1
           mtu: 9216
-          description:
+          description: leaf
           mode: active
           ports:
             - 1
             - 2
 
-  spine2:
+  l-csi-demo-sn2700-56:
    mlag_role: master
-   mlag_cluster: mlag-cluster2
+   mlag_cluster: spine
    mpos:
      - mpo:
           id: 1
           mtu: 9216
-          description:
+          description: leaf
           mode: active
           ports:
             - 1

@@ -1,3 +1,0 @@
-{% for port in mlag_clusters[devices[inventory_hostname].mlag_cluster].ipl_ports %}
-        interface ethernet 1/{{port}} channel-group {{ mlag_clusters[devices[inventory_hostname].mlag_cluster].ipl_lag_id }} mode active
-{% endfor %}

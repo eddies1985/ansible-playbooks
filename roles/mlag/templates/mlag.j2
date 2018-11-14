@@ -10,8 +10,15 @@ lacp
 lldp
 ip l3
 ip routing
+ {% if global.stp_mode != 'none'  -%}
 spanning-tree
-spanning-tree mode rpvst
+spanning-tree mode {{global.stp_mode}}
+{% endif %}
+
+ {% if global.stp_mode == 'none'  -%}
+no spanning-tree
+{% endif %}
+
 protocol mlag
 protocol magp
 dcb priority-flow-control enable force

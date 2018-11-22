@@ -7,6 +7,7 @@ global:
   default_l2_mode: access
   default_mtu: 1500
   stp_mode: rpvst
+  
 mlag_clusters:
   leaf:
    system_mac: "00:00:5E:00:01:01"

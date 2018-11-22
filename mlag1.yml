@@ -14,8 +14,8 @@
     path: "/tmp/"
     cpu: "X86_64"   # X86_64 | PPC_M460EX
     user: root
-    password: 3tango
-    remote_ip: l-csi-demo-05
+    password: password
+    remote_ip: remote_server
     internal_network: "no"
     ntp_server: "216.239.35.0"
     version: 3.6.8134
@@ -26,30 +26,30 @@
         name: onyx_clean_config
       tags: clean_config
       when: clean_config == "true"
- 
+
     - import_role:
         name: onyx_wait
       when: clean_config == "true"
       tags: wait1
     - onyx_config:
        commands: ssh client user admin known-host "{{remote_ip}}" remove
-    
+
     - import_role:
         name: onyx_image_fetch_install
-      tags: image_install	
+      tags: image_install
 
     - import_role:
         name: onyx_boot_next_save_config_reload
       tags: boot_next
-    
+
     - import_role:
         name: onyx_wait
       tags: wait2
-  
+
     - import_role:
         name: onyx_basic_lab_mgmt_config
       tags: basic_config
-    
+
     - import_role:
         name: mlag
       tags: mlag

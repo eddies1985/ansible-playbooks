@@ -7,6 +7,9 @@ global:
   default_l2_mode: trunk
   default_mtu: 1500
   stp_mode: rpvst
+  vlans:
+     - 1-100
+     - 101-127
 
 mlag_clusters:
   leaf:

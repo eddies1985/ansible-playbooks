@@ -24,6 +24,14 @@ protocol magp
 dcb priority-flow-control enable force
 
 
+# create L2 vlans
+
+{% for vlan in global.vlans -%}
+
+vlan {{vlan}}
+
+{% endfor %}
+
 # ipl vlan
 
 vlan {{mlag_cluster.ipl_vlan}}

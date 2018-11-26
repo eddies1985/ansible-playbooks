@@ -4,10 +4,10 @@ ansible_become_method: enable
 global:
   default_ipl_vlan: 4094
   default_ipl_po: 1
-  default_l2_mode: access
+  default_l2_mode: trunk
   default_mtu: 1500
   stp_mode: rpvst
-  
+
 mlag_clusters:
   leaf:
    system_mac: "00:00:5E:00:01:01"
@@ -48,7 +48,7 @@ devices:
         ports:
           - 1
           - 2
-        l2_mode: "access vlan 1"
+        #l2_mode: "access vlan 1"
      - mpo:
            id: 7
            mtu: 9216
@@ -63,7 +63,7 @@ devices:
           mode: active
           ports:
             - 8
-          l2_mode: "access vlan 1"
+          #l2_mode: "access vlan 1"
 
   l-csi-demo-sn2700-58:
    mlag_role: master
@@ -77,7 +77,7 @@ devices:
           ports:
             - 1
             - 2
-          l2_mode: "access vlan 1"
+          #l2_mode: "access vlan 1"
       - mpo:
             id: 7
             mtu: 9216

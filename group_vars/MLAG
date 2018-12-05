@@ -59,7 +59,7 @@ devices:
            mode: active
            ports:
              - 7
-           l2_mode: "access vlan 1"
+           #l2_mode: "access vlan 1"
      - mpo:
           id: 8
           description: mpo8

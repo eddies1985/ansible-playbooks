@@ -2,7 +2,7 @@
 #- name: get_facts_from_device
 #  onyx_facts:
 #    gather_subset: version
-- name: image boot next and reload with upgrade_downgrade_force 
+- name: image boot next and reload with upgrade_downgrade_force
   onyx_config:
       lines:
         - image boot next
@@ -10,8 +10,7 @@
         - no boot next fallback-reboot enable
         - reload
       backup: yes
-      save: yes
-  when:  
+  when:
 #   - ansible_net_version['Product release']  != version
    - force_upgrade_downgrade == "true"
   ignore_errors: yes
@@ -23,8 +22,7 @@
         - configuration write
         - reload
       backup: yes
-      save: yes
-  when:  
+  when:
 #    - ansible_net_version['Product release']  != version
     - force_upgrade_downgrade == "false"
   ignore_errors: yes

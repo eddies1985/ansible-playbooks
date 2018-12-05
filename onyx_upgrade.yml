@@ -1,0 +1,74 @@
+- name: onyx_upgrade
+  hosts: ONYX
+  gather_facts: no
+  connection: network_cli
+  become: yes
+  become_method: enable
+  vars:
+    ansible_network_os: onyx
+    version: ""
+    path: "/mswg/release/sx_mlnx_os/"
+    cpu: "X86_64"   # X86_64 | PPC_M460EX
+    user: eddies
+    password: eddies11
+    remote_ip: 10.128.128.107
+    force_upgrade_downgrade: "false"
+    internal_network: "yes"
+    image_file: ""
+  remote_user: admin
+  tasks:
+    - name: get_facts_from_device
+      onyx_command:
+        commands: show version concise
+      register: switch_version
+
+    - name: image fetch
+      onyx_command:
+         commands: image fetch scp://{{ user }}:{{ password }}@{{remote_ip }}:{{ path }}/sx_mlnx_os-{{ version }}/{{ cpu  }}/image-{{ cpu }}-{{ version }}.img
+      when: internal_network == "yes"
+
+    - name: image fetch
+      onyx_command:
+         commands: image fetch scp://{{ user }}:{{ password }}@{{remote_ip }}:{{ path }}/{{image_name}}
+      when: internal_network == "no"
+
+    - name: image install
+      onyx_command:
+         commands: image install image-{{ cpu }}-{{ version }}.img
+      when: internal_network == "yes"
+    # when:  "version not in switch_version.stdout[0]"
+    - name: image install
+      onyx_command:
+         commands: image install {{image_name}}
+      when: internal_network == "no"
+    - name: image boot next and reload with upgrade_downgrade_force
+      onyx_config:
+          lines:
+            - image boot next
+            - configuration write
+            - no boot next fallback-reboot enable
+            - reload
+          backup: yes
+      when:
+       - force_upgrade_downgrade == "true"
+      ignore_errors: yes
+
+    - name: image boot next and reload without upgrade_downgrade_force
+      onyx_config:
+          lines:
+            - image boot next
+            - configuration write
+            - reload
+          backup: yes
+      when:
+        - force_upgrade_downgrade == "false"
+      ignore_errors: yes
+    - name: wait for switch to reboot
+      delegate_to: localhost
+      wait_for:
+       host: "{{ inventory_hostname }}"
+       port: 22
+       delay: 160
+       timeout: 600
+      become: false
+    - name: check_version_is_correct

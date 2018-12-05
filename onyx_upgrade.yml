@@ -17,10 +17,10 @@
     image_file: ""
   remote_user: admin
   tasks:
-    - name: get_facts_from_device
-      onyx_command:
-        commands: show version concise
-      register: switch_version
+#    - name: get_facts_from_device
+#      onyx_command:
+#        commands: show version concise
+#      register: switch_version
 
     - name: image fetch
       onyx_command:
@@ -29,7 +29,7 @@
 
     - name: image fetch
       onyx_command:
-         commands: image fetch scp://{{ user }}:{{ password }}@{{remote_ip }}:{{ path }}/{{image_name}}
+         commands: image fetch scp://{{ user }}:{{ password }}@{{remote_ip }}:{{ path }}/{{image_file}}
       when: internal_network == "no"
 
     - name: image install
@@ -39,7 +39,7 @@
     # when:  "version not in switch_version.stdout[0]"
     - name: image install
       onyx_command:
-         commands: image install {{image_name}}
+         commands: image install {{image_file}}
       when: internal_network == "no"
     - name: image boot next and reload with upgrade_downgrade_force
       onyx_config:
@@ -71,4 +71,3 @@
        delay: 160
        timeout: 600
       become: false
-    - name: check_version_is_correct

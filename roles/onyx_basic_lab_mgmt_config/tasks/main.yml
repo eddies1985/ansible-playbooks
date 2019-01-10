@@ -4,20 +4,21 @@
 #    gather_subset: all
 - name: basic_mgmt_config
   onyx_config:
-      lines:
-        - ntp server "{{ntp_server}}"
+      src: basic_config.j2
+    #  lines:
+    #    - ntp server "{{ntp_server}}"
 # - ntp server "{{ntp_server | default('8.8.8.8')}}"
-        - clock timezone Asia Middle_East Jerusalem
-        - ntpdate {{ntp_server}}
-        - email mailhub exchange.mtl.com
-        - email notify recipient eddies@mellanox.com
-        - no email notify event health-module-status
-        - cli default auto-logout 0
+    #    - clock timezone Asia Middle_East Jerusalem
+    #    - ntpdate {{ntp_server}}
+    #    - email mailhub exchange.mtl.com
+    #    - email notify recipient eddies@mellanox.com
+    #    - no email notify event health-module-status
+    #    - cli default auto-logout 0
       #  - logging monitor events notice
       #  - logging events interfaces enable
       #  - logging events protocols enable
-        - configuration write
-      backup: no
-      save: no
+    #    - configuration write
+    #  backup: no
+    #  save: no
       # backup: "{{ backup | default ('no') }}"
       # save: "{{ save | default('no') }}"

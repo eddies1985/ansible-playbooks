@@ -1,0 +1,136 @@
+##
+## Running database "initial"
+## Generated at 2001/03/25 05:54:32 +0000
+## Hostname: l-csi-2010a1-03
+##
+
+##
+## Running-config temporary prefix mode setting
+##
+no cli default prefix-modes enable
+
+##
+## MLAG protocol
+##
+   protocol mlag
+   
+##
+## Interface Ethernet configuration
+##
+   interface mlag-port-channel 1
+   interface mlag-port-channel 200-201
+   interface mlag-port-channel 300
+   interface port-channel 1
+   interface ethernet 1/1-1/18 speed 10000 force
+   interface ethernet 1/20 speed 10000 force
+   interface ethernet 1/1 mtu 9216 force
+   interface ethernet 1/17-1/20 mtu 9216 force
+   interface mlag-port-channel 200-201 mtu 9216 force
+   interface mlag-port-channel 300 mtu 9216 force
+   interface ethernet 1/1 switchport mode hybrid
+   interface ethernet 1/17 mlag-channel-group 201 mode active
+   interface ethernet 1/18 mlag-channel-group 200 mode active
+   interface ethernet 1/20 mlag-channel-group 300 mode active
+   interface ethernet 1/21-1/22 channel-group 1 mode active
+   interface mlag-port-channel 1 switchport mode trunk
+   interface mlag-port-channel 200 switchport mode hybrid
+   interface mlag-port-channel 201 switchport mode hybrid
+   interface mlag-port-channel 300 switchport mode trunk
+   interface mlag-port-channel 1 no shutdown
+   interface mlag-port-channel 200-201 no shutdown
+   interface mlag-port-channel 300 no shutdown
+   
+##
+## LAG configuration
+##
+   lacp
+   
+##
+## VLAN configuration
+##
+   vlan 3-4
+   vlan 6
+   vlan 16-32
+   vlan 64
+   vlan 101-103
+   vlan 126
+   vlan 4000
+   interface mlag-port-channel 300 switchport trunk allowed-vlan none
+   interface ethernet 1/1 switchport access vlan 4
+   interface ethernet 1/1 switchport hybrid allowed-vlan add 3
+   interface ethernet 1/1 switchport hybrid allowed-vlan add 6
+   interface ethernet 1/1 switchport hybrid allowed-vlan add 16-32
+   interface ethernet 1/1 switchport hybrid allowed-vlan add 64
+   interface ethernet 1/1 switchport hybrid allowed-vlan add 101-103
+   interface ethernet 1/1 switchport hybrid allowed-vlan add 126
+   interface mlag-port-channel 200 switchport hybrid allowed-vlan add 3-4
+   interface mlag-port-channel 200 switchport hybrid allowed-vlan add 6
+   interface mlag-port-channel 200 switchport hybrid allowed-vlan add 16-32
+   interface mlag-port-channel 200 switchport hybrid allowed-vlan add 64
+   interface mlag-port-channel 200 switchport hybrid allowed-vlan add 101-103
+   interface mlag-port-channel 200 switchport hybrid allowed-vlan add 126
+   interface mlag-port-channel 201 switchport hybrid allowed-vlan add 3-4
+   interface mlag-port-channel 201 switchport hybrid allowed-vlan add 6
+   interface mlag-port-channel 201 switchport hybrid allowed-vlan add 16-32
+   interface mlag-port-channel 201 switchport hybrid allowed-vlan add 64
+   interface mlag-port-channel 201 switchport hybrid allowed-vlan add 101-103
+   interface mlag-port-channel 201 switchport hybrid allowed-vlan add 126
+   interface mlag-port-channel 300 switchport trunk allowed-vlan add 3-4
+   interface mlag-port-channel 300 switchport trunk allowed-vlan add 6
+   interface mlag-port-channel 300 switchport trunk allowed-vlan add 16-32
+   interface mlag-port-channel 300 switchport trunk allowed-vlan add 64
+   interface mlag-port-channel 300 switchport trunk allowed-vlan add 101-103
+   interface mlag-port-channel 300 switchport trunk allowed-vlan add 126
+   interface mlag-port-channel 300 switchport trunk allowed-vlan remove 1
+   
+##
+## STP configuration
+##
+   spanning-tree mode rpvst
+   
+##
+## L3 configuration
+##
+   ip routing vrf default
+   interface vlan 4000
+   interface vlan 4000 ip address 10.51.127.4/24 primary
+   interface vlan 4000 mtu 9216 
+   
+##
+## DCBX PFC configuration
+##
+   dcb priority-flow-control enable force
+   interface port-channel 1 dcb priority-flow-control mode on force
+   
+##
+## LLDP configuration
+##
+   lldp
+   
+##
+## MLAG configurations
+##
+   mlag-vip MAG-BREW-MLXpair-01 ip 10.51.2.136 /24 force
+no mlag shutdown
+   mlag system-mac 00:00:5E:A0:60:40
+   interface port-channel 1 ipl 1
+   interface vlan 4000 ipl 1 peer-address 10.51.127.3
+   
+##
+## AAA remote server configuration
+##
+# ldap bind-password ********
+# radius-server key ********
+# tacacs-server key ********
+   
+##
+## Network management configuration
+##
+# web proxy auth basic password ********
+   
+##
+## X.509 certificates configuration
+##
+#
+# Certificate name system-self-signed, ID c4dac131b94891e5237939053ddbb572d629a81a
+# (public-cert config omitted since private-key config is hidden)

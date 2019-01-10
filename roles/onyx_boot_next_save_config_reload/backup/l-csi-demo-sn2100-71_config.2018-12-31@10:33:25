@@ -1,0 +1,204 @@
+##
+## Running database "initial"
+## Generated at 2018/12/31 13:32:28 +0300
+## Hostname: l-csi-demo-sn2100-71
+##
+
+##
+## Running-config temporary prefix mode setting
+##
+no cli default prefix-modes enable
+
+##
+## Interface Split configuration
+##
+   interface ethernet 1/1 module-type qsfp-split-4 force
+   interface ethernet 1/2 module-type qsfp-split-4 force
+   interface ethernet 1/3 module-type qsfp-split-4 force
+   interface ethernet 1/4 module-type qsfp-split-4 force
+   interface ethernet 1/5 module-type qsfp-split-4 force
+   interface ethernet 1/6 module-type qsfp-split-4 force
+   interface ethernet 1/14 module-type qsfp-split-4 force
+   
+##
+## Interface Ethernet configuration
+##
+   interface port-channel 1
+   interface ethernet 1/1/1-1/1/4 speed 10000 force
+   interface ethernet 1/2/1-1/2/4 speed 10000 force
+   interface ethernet 1/3/1-1/3/4 speed 10000 force
+   interface ethernet 1/4/1-1/4/4 speed 10000 force
+   interface ethernet 1/5/1-1/5/4 speed 10000 force
+   interface ethernet 1/6/1-1/6/4 speed 10000 force
+   interface ethernet 1/7-1/13 speed 56000 force
+   interface ethernet 1/14/1-1/14/4 speed 10000 force
+   interface ethernet 1/15-1/16 speed 56000 force
+   interface ethernet 1/1/1-1/1/4 mtu 9216 force
+   interface ethernet 1/2/1-1/2/4 mtu 9216 force
+   interface ethernet 1/3/1-1/3/4 mtu 9216 force
+   interface ethernet 1/4/1-1/4/4 mtu 9216 force
+   interface ethernet 1/5/1-1/5/4 mtu 9216 force
+   interface ethernet 1/6/1-1/6/4 mtu 9216 force
+   interface ethernet 1/7-1/13 mtu 9216 force
+   interface ethernet 1/14/1-1/14/4 mtu 9216 force
+   interface port-channel 1 mtu 9216 force
+   interface ethernet 1/1/1-1/1/4 flowcontrol receive on force
+   interface ethernet 1/1/1-1/1/4 flowcontrol send on force
+   interface ethernet 1/2/1-1/2/4 flowcontrol receive on force
+   interface ethernet 1/2/1-1/2/4 flowcontrol send on force
+   interface ethernet 1/3/1-1/3/4 flowcontrol receive on force
+   interface ethernet 1/3/1-1/3/4 flowcontrol send on force
+   interface ethernet 1/4/1-1/4/4 flowcontrol receive on force
+   interface ethernet 1/4/1-1/4/4 flowcontrol send on force
+   interface ethernet 1/5/1-1/5/4 flowcontrol receive on force
+   interface ethernet 1/5/1-1/5/4 flowcontrol send on force
+   interface ethernet 1/6/1-1/6/4 flowcontrol receive on force
+   interface ethernet 1/6/1-1/6/4 flowcontrol send on force
+   interface ethernet 1/14/1-1/14/4 flowcontrol receive on force
+   interface ethernet 1/14/1-1/14/4 flowcontrol send on force
+   interface ethernet 1/9-1/12 channel-group 1 mode active
+   interface port-channel 1 switchport mode trunk
+   interface ethernet 1/1/1 description SRV06-01/03
+   interface ethernet 1/1/2 description SRV06-03/03
+   interface ethernet 1/1/3 description SRV06-05/03
+   interface ethernet 1/1/4 description SRV06-07/03
+   interface ethernet 1/2/1 description SRV06-02/03
+   interface ethernet 1/2/2 description SRV06-04/03
+   interface ethernet 1/2/3 description SRV06-06/03
+   interface ethernet 1/2/4 description SRV06-08/03
+   interface ethernet 1/3/1 description SRV06-09/03
+   interface ethernet 1/3/2 description SRV06-11/03
+   interface ethernet 1/3/3 description SRV06-13/03
+   interface ethernet 1/3/4 description SRV06-15/03
+   interface ethernet 1/4/1 description SRV06-10/03
+   interface ethernet 1/4/2 description SRV06-12/03
+   interface ethernet 1/4/3 description SRV06-14/03
+   interface ethernet 1/4/4 description SRV06-16/03
+   interface ethernet 1/5/1 description SRV06-17/03
+   interface ethernet 1/5/2 description SRV06-19/03
+   interface ethernet 1/5/3 description SRV06-21/03
+   interface ethernet 1/5/4 description SRV06-23/03
+   interface ethernet 1/6/1 description SRV06-18/03
+   interface ethernet 1/6/2 description SRV06-20/03
+   interface ethernet 1/6/3 description SRV06-22/03
+   interface ethernet 1/6/4 description SRV06-24/03
+   interface ethernet 1/9 description SW05-sancore-m1-0/1
+   interface ethernet 1/10 description SW05-sancore-m1-0/2
+   interface ethernet 1/11 description SW05-sancore-m1-1/1
+   interface ethernet 1/12 description SW05-sancore-m1-1/2
+   interface ethernet 1/14/1 description ST06-1-HA/03
+   interface ethernet 1/14/2 description ST06-1-HA/04
+   interface ethernet 1/14/3 description ST06-1-HB/03
+   interface ethernet 1/14/4 description ST06-1-HB/04
+   interface ethernet 1/7-1/8 shutdown
+   interface ethernet 1/13 shutdown
+   interface ethernet 1/15-1/16 shutdown
+   
+##
+## LAG configuration
+##
+   lacp
+   
+##
+## VLAN configuration
+##
+   vlan 981
+   vlan 981 name "iSCSI-2"
+   interface port-channel 1 switchport trunk allowed-vlan none
+   interface ethernet 1/1/1 switchport access vlan 981
+   interface ethernet 1/1/2 switchport access vlan 981
+   interface ethernet 1/1/3 switchport access vlan 981
+   interface ethernet 1/1/4 switchport access vlan 981
+   interface ethernet 1/2/1 switchport access vlan 981
+   interface ethernet 1/2/2 switchport access vlan 981
+   interface ethernet 1/2/3 switchport access vlan 981
+   interface ethernet 1/2/4 switchport access vlan 981
+   interface ethernet 1/3/1 switchport access vlan 981
+   interface ethernet 1/3/2 switchport access vlan 981
+   interface ethernet 1/3/3 switchport access vlan 981
+   interface ethernet 1/3/4 switchport access vlan 981
+   interface ethernet 1/4/1 switchport access vlan 981
+   interface ethernet 1/4/2 switchport access vlan 981
+   interface ethernet 1/4/3 switchport access vlan 981
+   interface ethernet 1/4/4 switchport access vlan 981
+   interface ethernet 1/5/1 switchport access vlan 981
+   interface ethernet 1/5/2 switchport access vlan 981
+   interface ethernet 1/5/3 switchport access vlan 981
+   interface ethernet 1/5/4 switchport access vlan 981
+   interface ethernet 1/6/1 switchport access vlan 981
+   interface ethernet 1/6/2 switchport access vlan 981
+   interface ethernet 1/6/3 switchport access vlan 981
+   interface ethernet 1/6/4 switchport access vlan 981
+   interface ethernet 1/14/1 switchport access vlan 981
+   interface ethernet 1/14/2 switchport access vlan 981
+   interface ethernet 1/14/3 switchport access vlan 981
+   interface ethernet 1/14/4 switchport access vlan 981
+   interface port-channel 1 switchport trunk allowed-vlan add 981
+   interface port-channel 1 switchport trunk allowed-vlan remove 1
+   
+##
+## STP configuration
+##
+no spanning-tree
+   
+##
+## LLDP configuration
+##
+   lldp
+   
+##
+## Network interface IPv6 configuration
+##
+no interface mgmt0 ipv6 address autoconfig default
+no interface mgmt0 ipv6 dhcp client enable
+no interface mgmt0 ipv6 enable
+   
+##
+## Other IPv6 configuration
+##
+no ipv6 enable
+   
+##
+## Local user account configuration
+##
+   username neo capability admin
+no username neo disable
+   username neo disable password
+   username neo full-name ""
+   
+##
+## AAA remote server configuration
+##
+   radius-server host 10.200.80.87 auth-port 1645 retransmit 3
+# radius-server host 10.200.80.87 auth-port 1645 key ********
+# ldap bind-password ********
+# radius-server key ********
+# tacacs-server key ********
+   
+##
+## AAA configuration
+##
+   aaa authentication login default radius local
+   
+##
+## SNMP configuration
+##
+   snmp-server community dozor ro
+   snmp-server community kghx1yzp_net ro
+   
+##
+## Network management configuration
+##
+# web proxy auth basic password ********
+   clock timezone UTC-offset UTC+3
+no ntp server 10.200.80.9 disable
+   ntp server 10.200.80.9 keyID 0
+no ntp server 10.200.80.9 trusted-enable
+   ntp server 10.200.80.9 version 4
+   
+##
+## X.509 certificates configuration
+##
+#
+# Certificate name system-self-signed, ID 4c932060516d226f5ee24be0a20fbb8a1e482d6c
+# (public-cert config omitted since private-key config is hidden)

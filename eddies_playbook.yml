@@ -19,20 +19,21 @@
     subset: version
     force_upgrade_downgrade: "false"
     internal_network: "yes"
-    ntp_server: "10.4.0.134"
+#    ntp_server: "10.4.0.134"
   remote_user: admin
   roles:
+    - { role: onyx_clean_config, tags: ['onyx_clean_config']}
+    - { role: onyx_wait, tags: ['wait1_after_reboot_for_ssh']}
     - { role: onyx_image_fetch_install , tags: ['image_fetch_install'] }
     - { role: onyx_basic_lab_mgmt_config , tags: ['onyx_basic_lab_mgmt_config'] }
     - { role: onyx_boot_next_save_config_reload , tags: ['boot_next'] }
+    - { role: onyx_wait, tags: ['wait2_after_reboot_for_ssh']}
     - { role: onyx_facts ,subset: "version" , tags: ['onyx_facts'] }
     - { role: onyx_reset_factory, tags: ['wipe']}
-    - { role: onyx_clean_config, tags: ['onyx_clean_config']}
     - { role: onyx_command, tags: ['onyx_command']}
     - { role: onyx_push_my_key, tags: ['push_key']}
     - { role: onyx_save_config, tags: ['save_config']}
-    - { role: send_mail,mail_body: "Playbook finished", mail_server: "10.0.8.70", mail_subject: "do-not-reply: {{ inventory_hostname }} has been successfully provisioned", mail_from: "eddies@mellanox.com", mail_to_list: [ 'eddies@mellanox.com', 'oria@mellanox.com' , 'marlon@mellanox.com' ], tags: ['send_mail']}
+    - { role: send_mail,mail_body: "Playbook finished", mail_server: "10.0.8.70", mail_subject: "do-not-reply: {{ inventory_hostname }} has been successfully provisioned", mail_from: "eddies@mellanox.com", mail_to_list: [ 'eddies@mellanox.com' ], tags: ['send_mail']}
     - { role: onyx_fix_configuration_wizard, tags: ['fix_config_wizard']}
-    - { role: wait_for_onyx_after_reboot, tags: ['wait_after_reboot_for_ssh']}
 #   - { role: onyx_clean_images, tags: ['onyx_clean_images']}
     - { role: onyx_wait , tags: ['onyx_wait']}

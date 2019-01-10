@@ -1,7 +1,7 @@
 ##
 ## Running database "initial"
-## Generated at 2018/12/02 12:21:37 +0000
-## Hostname: l-csi-demo-sn2700-58
+## Generated at 2018/12/27 07:41:52 +0000
+## Hostname: l-csi-2100a1-tmp33
 ##
 
 ##
@@ -10,9 +10,9 @@
 no cli default prefix-modes enable
 
 ##
-## Network interface configuration
+## VLAN configuration
 ##
-   interface mgmt0 ip address 10.143.34.58 /24
+   vlan 2-100
    
 ##
 ## AAA remote server configuration
@@ -30,7 +30,7 @@ no cli default prefix-modes enable
 ## X.509 certificates configuration
 ##
 #
-# Certificate name system-self-signed, ID 23e126620666527dc2cbc2183ccc8108b6ee1def
+# Certificate name system-self-signed, ID ba5d6cc526217a8b30f058845b318153d620953d
 # (public-cert config omitted since private-key config is hidden)
 
 ##

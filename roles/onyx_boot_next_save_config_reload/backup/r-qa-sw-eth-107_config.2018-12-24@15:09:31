@@ -1,0 +1,291 @@
+##
+## Running database "initial"
+## Generated at 2018/12/24 13:09:26 +0000
+## Hostname: r-qa-sw-eth-107
+##
+
+##
+## Running-config temporary prefix mode setting
+##
+no cli default prefix-modes enable
+
+##
+## MLAG protocol
+##
+   protocol mlag
+   
+##
+## Interface Ethernet configuration
+##
+   interface mlag-port-channel 1-6
+   interface mlag-port-channel 10
+   interface mlag-port-channel 100
+   interface port-channel 4094
+   interface ethernet 1/1 speed 10000 force
+   interface ethernet 1/2-1/8 speed 1000 force
+   interface ethernet 1/16-1/17 speed 10000 force
+   interface ethernet 1/1-1/22 mtu 9216 force
+   interface mlag-port-channel 1-6 mtu 9216 force
+   interface mlag-port-channel 10 mtu 9216 force
+   interface mlag-port-channel 100 mtu 9216 force
+   interface mlag-port-channel 10 flowcontrol receive on force
+   interface mlag-port-channel 10 flowcontrol send on force
+   interface ethernet 1/1 mlag-channel-group 1 mode active
+   interface ethernet 1/5 mlag-channel-group 2 mode active
+   interface ethernet 1/6 mlag-channel-group 3 mode active
+   interface ethernet 1/7 mlag-channel-group 4 mode active
+   interface ethernet 1/8 mlag-channel-group 5 mode active
+   interface ethernet 1/18-1/19 mlag-channel-group 6 mode active
+   interface mlag-port-channel 1 switchport mode trunk
+   interface mlag-port-channel 6 switchport mode trunk
+   interface mlag-port-channel 10 switchport mode trunk
+   interface mlag-port-channel 100 switchport mode trunk
+   interface ethernet 1/1 description to_Cisco6500_VSS
+   interface ethernet 1/2 description MediaLnxIskta<3129>
+   interface ethernet 1/3 description HiCommand<3076>
+   interface ethernet 1/4 description VspRepPrd<1117>
+   interface ethernet 1/5 description APSSQLPRD1-DATA <3240>
+   interface ethernet 1/6 description APSSQLPRD1-HB <3240>
+   interface ethernet 1/7 description ApsSqlPrd2 <3241>
+   interface ethernet 1/8 description ApsSqlPrd2-HB <3241>
+   interface ethernet 1/9 description G200-TST
+   interface ethernet 1/10 description G800
+   interface ethernet 1/11 description Q200
+   interface ethernet 1/12 description G200-MGMT-B2D
+   interface ethernet 1/13 description G-1500-MGT
+   interface ethernet 1/14 description MDS1
+   interface ethernet 1/15 description MDS2
+   interface mlag-port-channel 1 description to-6500-TDC
+   interface mlag-port-channel 2 description APSSQLPRD1-DATA <3240>
+   interface mlag-port-channel 3 description APSSQLPRD1-HB <3240>
+   interface mlag-port-channel 4 description ApsSqlPrd2 <3241>
+   interface mlag-port-channel 5 description ApsSqlPrd2-HB <3241>
+   interface mlag-port-channel 6 description Blade3-4436
+   interface mlag-port-channel 10 description To-SYN-TDC-TLV-1
+   interface mlag-port-channel 100 description SP-TDC-TLV
+   interface port-channel 4094 description IPL
+   interface mlag-port-channel 1-6 no shutdown
+   interface mlag-port-channel 10 no shutdown
+   interface mlag-port-channel 100 no shutdown
+   
+##
+## LAG configuration
+##
+   lacp
+   interface ethernet 1/1-1/22 lacp rate fast
+   
+##
+## VLAN configuration
+##
+   vlan 2-5
+   vlan 7
+   vlan 12-19
+   vlan 28-29
+   vlan 32-34
+   vlan 40
+   vlan 43
+   vlan 46
+   vlan 49-50
+   vlan 91
+   vlan 93
+   vlan 95
+   vlan 101
+   vlan 103
+   vlan 112
+   vlan 116-118
+   vlan 120
+   vlan 122-123
+   vlan 130-131
+   vlan 133
+   vlan 140-144
+   vlan 148
+   vlan 150
+   vlan 160
+   vlan 166-169
+   vlan 208-211
+   vlan 216
+   vlan 246
+   vlan 260-262
+   vlan 264-265
+   vlan 276
+   vlan 316
+   vlan 328
+   vlan 550
+   vlan 565
+   vlan 616
+   vlan 619
+   vlan 621
+   vlan 624
+   vlan 639
+   vlan 661
+   vlan 664
+   vlan 667-668
+   vlan 671
+   vlan 679
+   vlan 991-992
+   vlan 997-1000
+   vlan 4094
+   interface ethernet 1/2 switchport access vlan 49
+   interface ethernet 1/3 switchport access vlan 50
+   interface ethernet 1/4 switchport access vlan 50
+   interface ethernet 1/9 switchport access vlan 50
+   interface ethernet 1/10 switchport access vlan 50
+   interface ethernet 1/11 switchport access vlan 50
+   interface ethernet 1/12 switchport access vlan 50
+   interface ethernet 1/13 switchport access vlan 50
+   interface ethernet 1/14 switchport access vlan 50
+   interface ethernet 1/15 switchport access vlan 50
+   interface mlag-port-channel 2 switchport access vlan 16
+   interface mlag-port-channel 3 switchport access vlan 40
+   interface mlag-port-channel 4 switchport access vlan 16
+   interface mlag-port-channel 5 switchport access vlan 40
+   vlan 2 name "B2BTDC_SYNC_Internal"
+   vlan 3 name "VMS_Retzef"
+   vlan 4 name "SpiderDV"
+   vlan 5 name "SpiderDV-DRP"
+   vlan 7 name "VMS_Nigzarim"
+   vlan 13 name "Rashut_Inspectors"
+   vlan 14 name "PreProd"
+   vlan 15 name "Galeria-VDI-thin-Client"
+   vlan 16 name "TDC"
+   vlan 17 name "MWorksPrd"
+   vlan 18 name "ShobRZF"
+   vlan 19 name "VC-TDC"
+   vlan 29 name "CA"
+   vlan 32 name "ConnBroker"
+   vlan 33 name "ESX-VKernel"
+   vlan 40 name "Heartbit-TDC"
+   vlan 46 name "BackupTDC"
+   vlan 50 name "HDS_Mgmt"
+   vlan 91 name "Moon"
+   vlan 93 name "Soc"
+   vlan 95 name "Shob_Users"
+   vlan 103 name "Swift_BCK_Network"
+   vlan 112 name "BODC-VMOTION"
+   vlan 116 name "Internet_Prod"
+   vlan 117 name "HB_BODC"
+   vlan 118 name "HB_BODC_DAKAR"
+   vlan 120 name "Sibir_RNN"
+   vlan 122 name "VMOTION"
+   vlan 123 name "FallTolerance"
+   vlan 130 name "BBE_Relay"
+   vlan 131 name "Mislaka"
+   vlan 133 name "ShobBBE"
+   vlan 140 name "ESXBO-MGMT"
+   vlan 141 name "BO-COnnection-Broker"
+   vlan 142 name "ESX-Vkernel"
+   vlan 143 name "VDI_WS"
+   vlan 144 name "TPSimulate"
+   vlan 148 name "ESXBO-SYNC"
+   vlan 150 name "HDS_MGMT_DRP"
+   vlan 166 name "SwiftDR"
+   vlan 167 name "SwiftPRD"
+   vlan 168 name "Public"
+   vlan 169 name "BBE-VCMGMT"
+   vlan 208 name "BO_Prod"
+   vlan 209 name "CA_Servers"
+   vlan 210 name "B2B-Lan"
+   vlan 211 name "BhubSQL"
+   vlan 246 name "BFE_1"
+   vlan 260 name "PKI-Root"
+   vlan 261 name "MF_Prod_Rezef"
+   vlan 262 name "MF_Prod_Internet"
+   vlan 264 name "Pcom"
+   vlan 265 name "Yavne_Users"
+   vlan 316 name "Trading_support"
+   vlan 328 name "OTP"
+   vlan 550 name "New_Lan_Mgmt"
+   vlan 565 name "MDC_BODC"
+   vlan 619 name "BE-FE_Connection"
+   vlan 624 name "SYNC_CB"
+   vlan 639 name "SYNC_CB_FE1"
+   vlan 661 name "SYNC_FW"
+   vlan 664 name "SYNC_FW_BODC"
+   vlan 667 name "SYNC_FW_BBE"
+   vlan 668 name "SYNC_FW_B2B"
+   vlan 671 name "TDCWAN_SYNC1_6500"
+   vlan 679 name "SYNC_FW_BFE"
+   vlan 991 name "TEST_TDC"
+   vlan 992 name "BBE-TEST"
+   vlan 997 name "Unused_VLAN"
+   vlan 998 name "Vlan-To-Rspan"
+   vlan 999 name "Trunk_Native_VLAN"
+   vlan 1000 name "mgt_vlan"
+   
+##
+## STP configuration
+##
+   spanning-tree mode rpvst
+   
+##
+## L3 configuration
+##
+   ip routing vrf default
+   interface vlan 4094
+   interface vlan 4094 ip address 1.1.1.2 255.255.255.252
+   
+##
+## DCBX PFC configuration
+##
+   dcb priority-flow-control enable force
+   interface port-channel 4094 dcb priority-flow-control mode on force
+   
+##
+## LLDP configuration
+##
+   lldp
+   
+##
+## MLAG configurations
+##
+   mlag-vip LF-TDC-TLV-1-domain ip 10.0.19.151 /24 force
+no mlag shutdown
+   interface port-channel 4094 ipl 1
+   interface vlan 4094 ipl 1 peer-address 1.1.1.1
+   
+##
+## Other IPv6 configuration
+##
+no ipv6 enable
+   
+##
+## Logging configuration
+##
+   logging monitor events notice
+   
+##
+## AAA remote server configuration
+##
+# ldap bind-password ********
+# radius-server key ********
+# tacacs-server key ********
+   
+##
+## SNMP configuration
+##
+no snmp-server enable communities
+no snmp-server host 10.0.10.4 disable
+   snmp-server host 10.0.10.4 traps version 1 public
+   snmp-server location --
+   snmp-server user mellanox v3 capability admin
+   snmp-server user mellanox v3 enable
+   snmp-server user mellanox v3 enable sets
+   snmp-server user mellanox v3 encrypted auth md5 0x07a8a146e8cfdc3a1ff6b375aa675ed5 priv aes-128 0x07a8a146e8cfdc3a1ff6b375aa675ed5
+no snmp-server user mellanox v3 require-privacy
+   
+##
+## Network management configuration
+##
+# web proxy auth basic password ********
+   
+##
+## X.509 certificates configuration
+##
+#
+# Certificate name system-self-signed, ID a6ba7ae090a30264bccde6f64a3d6b9df276e773
+# (public-cert config omitted since private-key config is hidden)
+
+##
+## Persistent prefix mode setting
+##
+cli default prefix-modes enable

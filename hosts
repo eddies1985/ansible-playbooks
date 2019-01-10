@@ -2,6 +2,7 @@
 localhost ansible_ssh_user=eddies ansible_ssh_pass=eddies11 ansible_become=yes ansible_become_method=sudo
 [ONYX]
 dummy ansible_host=dummy
+l-csi-sx1410-01
 [ONYX:children]
 Eth
 IB
@@ -12,6 +13,7 @@ demo_center_cumulus
 onyx_vm
 2100
 HDR
+QA
 
 [ONYX:vars]
 ansible_network_os=onyx
@@ -22,6 +24,7 @@ ansible_ssh_pass=admin
 
 
 [Eth]
+l-csi-2010a1-03
 l-csi-sn2100-02 ansible_host=l-csi-sn2100-02
 l-csi-2700-l05
 l-csi-2700-l06 ansible_host=l-csi-2700-l06
@@ -119,6 +122,9 @@ onyx_vm2 ansible_host=Onyx-VM-2
 onyx_vm3 ansible_host=Onyx-VM-3
 onyx_vm4 ansible_host=Onyx-VM-4
 
+[QA]
+
+r-qa-sw-eth-107 ansible_host=10.209.22.202
 
 [cumulus]
 ae-2100-4

@@ -21,7 +21,6 @@
 #      onyx_command:
 #        commands: show version concise
 #      register: switch_version
-
     - name: image fetch
       onyx_command:
          commands: image fetch scp://{{ user }}:{{ password }}@{{remote_ip }}:{{ path }}/sx_mlnx_os-{{ version }}/{{ cpu  }}/image-{{ cpu }}-{{ version }}.img
@@ -36,11 +35,12 @@
       onyx_command:
          commands: image install image-{{ cpu }}-{{ version }}.img
       when: internal_network == "yes"
-    # when:  "version not in switch_version.stdout[0]"
+
     - name: image install
       onyx_command:
          commands: image install {{image_file}}
       when: internal_network == "no"
+
     - name: image boot next and reload with upgrade_downgrade_force
       onyx_config:
           lines:
@@ -63,6 +63,7 @@
       when:
         - force_upgrade_downgrade == "false"
       ignore_errors: yes
+
     - name: wait for switch to reboot
       delegate_to: localhost
       wait_for:

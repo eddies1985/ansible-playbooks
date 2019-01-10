@@ -1,0 +1,71 @@
+##
+## Running database "initial"
+## Generated at 2018/12/10 12:07:20 +0000
+## Hostname: l-csi-demo-sn2100-71
+##
+
+##
+## Running-config temporary prefix mode setting
+##
+no cli default prefix-modes enable
+
+##
+## Interface Ethernet configuration
+##
+   interface ethernet 1/1-1/2 speed 25000 force
+   
+##
+## STP configuration
+##
+   spanning-tree mode mst
+   
+##
+## L3 configuration
+##
+   ip routing vrf default
+   interface vlan 1
+   interface vlan 1 ip address 192.168.1.254/24 primary
+   
+##
+## OPENFLOW configuration
+##
+   protocol openflow
+   interface ethernet 1/1-1/2 openflow mode hybrid
+   openflow add-flows 10 priority=20,udp,tp_dst=319,actions=DROP
+   openflow add-flows 11 priority=20,udp,tp_dst=320,actions=DROP
+   
+##
+## AAA remote server configuration
+##
+# ldap bind-password ********
+# radius-server key ********
+# tacacs-server key ********
+   
+##
+## Network management configuration
+##
+# web proxy auth basic password ********
+   ntp disable
+   
+##
+## PTP protocol
+##
+   protocol ptp
+   ptp domain 0
+   interface ethernet 1/1 ptp enable
+   interface ethernet 1/2 ptp enable
+   interface vlan 1 ptp enable
+   interface vlan 1 ptp announce interval 1
+   interface vlan 1 ptp sync interval -1
+   
+##
+## X.509 certificates configuration
+##
+#
+# Certificate name system-self-signed, ID 5a5c7ab602243bb80d96a96ca8aaf43e9eb24f7f
+# (public-cert config omitted since private-key config is hidden)
+
+##
+## Persistent prefix mode setting
+##
+cli default prefix-modes enable

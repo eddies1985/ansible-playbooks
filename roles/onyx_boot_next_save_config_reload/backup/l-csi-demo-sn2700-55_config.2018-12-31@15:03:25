@@ -1,6 +1,6 @@
 ##
 ## Running database "initial"
-## Generated at 2018/12/02 12:21:37 +0000
+## Generated at 2018/12/31 13:03:20 +0000
 ## Hostname: l-csi-demo-sn2700-55
 ##
 
@@ -25,7 +25,7 @@ no cli default prefix-modes enable
 ## X.509 certificates configuration
 ##
 #
-# Certificate name system-self-signed, ID 784b32a3cc1a035176a291cc9e17c9703d10fa6e
+# Certificate name system-self-signed, ID 5c3dcf07a8d5f73f986e4c93d1f0b82966615988
 # (public-cert config omitted since private-key config is hidden)
 
 ##

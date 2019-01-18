@@ -1,0 +1,5 @@
+---
+- name: run_the_onyx_config_wizard_script
+  delegate_to: localhost
+#  shell: date
+  shell:  sftp -b {{role_path}}/files/onyx_dirs.txt {{ansible_ssh_user}}@{{inventory_hostname}}

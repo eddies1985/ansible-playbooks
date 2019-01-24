@@ -1,0 +1,19 @@
+---
+- hosts: leaf,spine,tor
+  become: yes
+  tasks:
+    - name: Restore ports.conf
+      copy: src=save/{{inventory_hostname}}/ports.conf dest=/etc/cumulus/
+    - name: Restore Interface Configuration
+      copy: src=save/{{inventory_hostname}}/interfaces dest=/etc/network/
+    - name: Restore FRR daemons file
+      copy: src=save/{{inventory_hostname}}/daemons dest=/etc/frr/daemons
+    - name: Restore frr.conf
+      copy: src=save/{{inventory_hostname}}/frr.conf dest=/etc/frr/frr.conf
+
+    - name: reload switchd
+      service: name=switchd state=restarted
+    - name: reload networking
+      command: /sbin/ifreload -a
+    - name: restart frr
+      service: name=frr state=restart

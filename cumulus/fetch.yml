@@ -1,0 +1,20 @@
+---
+- name: backup_config
+  hosts: leaf,spine,tor
+  gather_facts: no
+  user: cumulus
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: Fetch ports.conf
+      fetch: dest=save/{{inventory_hostname}}/ports.conf src=/etc/cumulus/ports.conf flat=yes
+    - name: Fetch interfaces Configuration
+      fetch: dest=save/{{inventory_hostname}}/interfaces src=/etc/network/interfaces flat=yes
+    - name: Fetch FRR daemons file
+      fetch: dest=save/{{inventory_hostname}}/daemons src=/etc/frr/daemons flat=yes
+    - name: Fetch frr.conf
+      fetch: dest=save/{{inventory_hostname}}/frr.conf src=/etc/frr/frr.conf flat=yes
+    - name: nclu configuration commands to file
+      shell: net show configuration commands > /tmp/nclu.conf
+    - name: fetch nclu configuration commands
+      fetch: dest=save/{{inventory_hostname}}/nclu.conf src=/tmp/nclu.conf flat=yes 

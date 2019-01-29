@@ -3,3 +3,14 @@
   delegate_to: localhost
 #  shell: date
   shell:  sftp -b {{role_path}}/files/onyx_dirs.txt {{ansible_ssh_user}}@{{inventory_hostname}}
+  shell:  |
+       spawn sftp -b {{role_path}}/files/onyx_dirs.txt {{ansible_ssh_user}}@{{inventory_hostname}}
+       expect "assword"
+       send "{{ ansible_ssh_pass }}\r"
+       expect "Do you want to use the wizard for initial configuration?"
+       send "no\r"
+       expect ">"
+       send "\x04"
+       exit 0
+  args:
+    executable: /usr/bin/expect

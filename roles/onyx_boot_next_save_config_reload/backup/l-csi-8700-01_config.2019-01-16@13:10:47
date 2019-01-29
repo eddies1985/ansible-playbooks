@@ -1,0 +1,60 @@
+##
+## Running database "initial"
+## Generated at 2019/01/16 11:10:52 +0000
+## Hostname: l-csi-8700-01
+##
+
+##
+## Running-config temporary prefix mode setting
+##
+no cli default prefix-modes enable
+
+##
+## License keys
+##
+   license install LK2-RESTRICTED_CMDS_GEN2-423H-FN43-A4Q0-EDNM-YR88-8A3W-9UGK-L85L
+   
+##
+## IB Partition configuration
+##
+   ib partition partition8 pkey 0x0008 force
+   ib partition partition8 member 11:22:33:44:55:66:77:88 force
+no ib partition partition8 member 11:22:33:44:55:66:77:88 type force
+   ib partition partition8 member 98:03:9B:03:00:6B:95:44 force
+no ib partition partition8 member 98:03:9B:03:00:6B:95:44 type force
+   
+##
+## Network interface configuration
+##
+   interface ib 1/1 module-type qsfp-split-2 force
+   
+##
+## AAA remote server configuration
+##
+# ldap bind-password ********
+# radius-server key ********
+# tacacs-server key ********
+   
+##
+## Network management configuration
+##
+# web proxy auth basic password ********
+   
+##
+## X.509 certificates configuration
+##
+#
+# Certificate name system-self-signed, ID ef8afee4987839b07dca685234c5710fcd0033cf
+# (public-cert config omitted since private-key config is hidden)
+
+   
+##
+## IB nodename to GUID mapping
+##
+   ib smnode l-csi-8700-01 create
+   ib smnode l-csi-8700-01 enable
+   ib smnode l-csi-8700-01 sm-priority 0
+##
+## Persistent prefix mode setting
+##
+cli default prefix-modes enable

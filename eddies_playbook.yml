@@ -19,6 +19,10 @@
     subset: version
     force_upgrade_downgrade: "false"
     internal_network: "yes"
+    destination_folder: /var/opt/tms/images/
+    transfer_protocol: scp
+    source_file: /tmp/image-X86_64-3.7.1102.img
+
 #    ntp_server: "10.4.0.134"
   remote_user: admin
   roles:
@@ -37,3 +41,5 @@
     - { role: onyx_fix_configuration_wizard, tags: ['fix_config_wizard']}
 #   - { role: onyx_clean_images, tags: ['onyx_clean_images']}
     - { role: onyx_wait , tags: ['onyx_wait']}
+    - { role: onyx_copy_scp, tags: ['onyx_copy']}
+    - { role: onyx_clean_files, tags: ['onyx_clean_files']}

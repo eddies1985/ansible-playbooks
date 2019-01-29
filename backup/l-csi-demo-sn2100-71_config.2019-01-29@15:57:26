@@ -1,0 +1,86 @@
+##
+## Running database "clean_conf.bin"
+## Generated at 2019/01/29 15:56:10 +0000
+## Hostname: l-csi-demo-sn2100-71
+##
+
+##
+## Running-config temporary prefix mode setting
+##
+no cli default prefix-modes enable
+
+##
+## License keys
+##
+   license install LK2-RESTRICTED_CMDS_GEN2-423H-G543-A14H-83QY-B8L8-8A0F-BQ54-8CHN
+   
+##
+## Chassis configuration
+##
+   fae trap-group TRAP_GROUP_UC_ROUTER_EXC_HIGH policer set 3 12 1900
+   
+##
+## Interface Ethernet configuration
+##
+   interface ethernet 1/1-1/2 speed 25G force
+   interface ethernet 1/1-1/2 mtu 9216 force
+   
+##
+## VLAN configuration
+##
+   vlan 2
+   interface ethernet 1/2 switchport access vlan 2
+   
+##
+## BFD configuration
+##
+   protocol bfd
+   
+##
+## L3 configuration
+##
+   ip routing vrf default
+   interface vlan 1
+   interface vlan 2
+   interface vlan 1 ip address 192.168.1.254/24 primary
+   interface vlan 2 ip address 192.168.2.254/24 primary
+   interface vlan 2 counters
+   ip route vrf default 5.5.5.5/32 192.168.1.15 bfd
+   
+##
+## DHCP relay configuration
+##
+   ip dhcp relay instance 1 vrf default
+   ip dhcp relay instance 1 vrf-auto-helper
+   ip dhcp relay instance 1 address 192.168.1.15
+   ip dhcp relay instance 1 always-on
+   
+##
+## AAA remote server configuration
+##
+# ldap bind-password ********
+# radius-server key ********
+# tacacs-server key ********
+   
+##
+## SNMP configuration
+##
+   snmp-server user admin v3 enable
+   snmp-server user admin v3 encrypted auth md5 0xf8fa3351fa33cdd42157647e53dd5ebc priv aes-128 0xf8fa3351fa33cdd42157647e53dd5ebc
+   
+##
+## Network management configuration
+##
+# web proxy auth basic password ********
+   
+##
+## X.509 certificates configuration
+##
+#
+# Certificate name system-self-signed, ID ef5160f166422b3836de4cb2389184fc881018d0
+# (public-cert config omitted since private-key config is hidden)
+
+##
+## Persistent prefix mode setting
+##
+cli default prefix-modes enable

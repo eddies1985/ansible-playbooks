@@ -18,7 +18,7 @@
     remote_ip: remote_server
     internal_network: "no"
     ntp_server: "216.239.35.0"
-    version: 3.6.8134
+    version: 3.6.8198
     log_path: ./ansible.log
     debug: True
   tasks:

@@ -1,0 +1,15 @@
+---
+- hosts: all
+  become: true
+  gather_facts: no
+  tasks:
+    - name: Generate cl-support
+      command: cl-support -p debug
+
+    - find:
+        paths: /var/support/
+        patterns: 'debug*.txz'
+      register: files_to_copy
+
+    - fetch: src={{ item.path }}  dest="cl-supports/" flat=no
+      with_items: "{{ files_to_copy.files }}"

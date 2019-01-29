@@ -17,10 +17,6 @@
     image_file: ""
   remote_user: admin
   tasks:
-#    - name: get_facts_from_device
-#      onyx_command:
-#        commands: show version concise
-#      register: switch_version
     - name: image fetch
       onyx_command:
          commands: image fetch scp://{{ user }}:{{ password }}@{{remote_ip }}:{{ path }}/sx_mlnx_os-{{ version }}/{{ cpu  }}/image-{{ cpu }}-{{ version }}.img

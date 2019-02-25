@@ -1,0 +1,89 @@
+---
+- name: cumulus_stress
+  hosts: 10.7.158.117
+  gather_facts: no
+  become: yes
+  become_method: sudo
+  vars:
+    single: "false"
+  tasks:
+   - name: onie_k
+     tags: onie_k
+     shell: onie-select -rf
+     ignore_errors: true
+
+   - name: reboot
+     tags: reboot
+     async: 1
+     poll: 0
+     shell: sleep 2 && /sbin/shutdown -r now "back to onie to fix smbios"
+
+   - name: pause_due_to_reboot1
+     pause:
+       minutes: 3
+
+   - name: copy_amidelnx_64_to_onie
+     shell: scp ./amidelnx_64 root@{{inventory_hostname}}:/usr/bin/
+     tags: install_cumulus_from_onie
+     delegate_to: localhost
+
+   - name: run_smbios_fix
+     shell: ssh root@10.7.158.117  <<EOF
+              cd /usr/bin/
+              chmod 777 ./amidelnx_64
+              export DEV=`onie-syseeprom --get 0x22`
+              ./amidelnx_64 /SP $DEV /SK $DEV /CSK $DEV
+            EOF
+
+     args:
+      chdir:  /usr/bin/
+     delegate_to: localhost
+
+   - name: reboot_back_to_cumulus
+     shell: ssh root@{{inventory_hostname}} /sbin/reboot
+     ignore_errors: true
+     delegate_to: localhost
+
+   - name: pause_due_to_reboot2
+     pause:
+        minutes: 3
+
+   - name: copy_ssd_fw_file_to_switch
+     copy:
+        src=/etc/ansible/S16425M.bin
+        dest=/tmp/S16425M.bin
+
+   - name: copy_hdparms_deb
+     copy:
+         src=/etc/ansible/hdparm_9.51+ds-1+deb9u1_amd64.deb
+         dest=/tmp/hdparm_9.51+ds-1+deb9u1_amd64.deb
+
+   - name: install_hdparms
+     shell: dpkg -i ./hdparm_9.51+ds-1+deb9u1_amd64.deb
+     args:
+      chdir: /tmp/
+
+   - name: check_current_fw_version
+     shell: hdparm -i /dev/sda | grep FwRev | cut -d "," -f 2 | cut -d "=" -f 2
+     register: current_fw_version
+     tags: check_current_fw
+
+   - name: upgrade_ssd_fw
+     shell: hdparm --yes-i-know-what-i-am-doing --please-destroymy-drive --fwdownload S16425M.bin /dev/sda
+     args:
+      chdir: /tmp/
+     when: current_fw_version.stdout  != 'S16425M'
+     register: upgrade_result
+     tags: upgrade_ssd
+
+   - name: print_done1
+     debug:
+        msg: "Upgrade result before power cycle {{upgrade_result.stdout}}"
+     when: upgrade_result.stdout is defined
+     tags: print_done1
+
+   - name: print_done2
+     debug:
+       msg: "SSD FW is already at needed level = {{current_fw_version.stdout}}, no need to POWER CYCLE"
+     when: upgrade_result.stdout is not defined
+     tags: print_done2

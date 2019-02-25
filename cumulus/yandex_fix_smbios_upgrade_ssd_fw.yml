@@ -68,6 +68,11 @@
      register: current_fw_version
      tags: check_current_fw
 
+   - name: print_current_fw_version
+     debug:
+       msg: "SSD FW version: {{current_fw_version.stdout}}"
+     tags: print_fw
+
    - name: upgrade_ssd_fw
      shell: hdparm --yes-i-know-what-i-am-doing --please-destroymy-drive --fwdownload S16425M.bin /dev/sda
      args:

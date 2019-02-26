@@ -1,0 +1,35 @@
+---
+- name: smbios_change_ssd_fw_upgrade
+  hosts: 10.7.158.189
+  gather_facts: no
+  become: yes
+  become_method: sudo
+  vars:
+    single: "false"
+  tasks:
+
+   - name: copy_hdparms_deb
+     copy:
+         src=/etc/ansible/hdparm_9.51+ds-1+deb9u1_amd64.deb
+         dest=/tmp/hdparm_9.51+ds-1+deb9u1_amd64.deb
+
+   - name: install_hdparms
+     shell: dpkg -i ./hdparm_9.51+ds-1+deb9u1_amd64.deb
+     args:
+      chdir: /tmp/
+
+   - name: check_current_fw_version
+     shell: hdparm -i /dev/sda | grep FwRev | cut -d "," -f 2 | cut -d "=" -f 2
+     register: current_fw_version
+     tags: check_current_fw
+
+   - name: print_current_fw_version
+     debug:
+       msg: "SSD FW version: {{current_fw_version.stdout}}"
+     tags: print_fw
+
+  - name: add_to_file
+    shell: echo {{inventory_hostname}} > list_to_upgrade.txt
+    delegate_to: localhost
+    tags: add_to_file
+    when: current_fw_version.stdout != 'S16425M'

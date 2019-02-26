@@ -1,5 +1,5 @@
 ---
-- name: cumulus_stress
+- name: smbios_change_ssd_fw_upgrade
   hosts: 10.7.158.117
   gather_facts: no
   become: yes
@@ -7,8 +7,8 @@
   vars:
     single: "false"
   tasks:
-   - name: onie_k
-     tags: onie_k
+   - name:  next_boot_onie_rescue_mode
+     tags: onie_rescue
      shell: onie-select -rf
      ignore_errors: true
 
@@ -16,7 +16,7 @@
      tags: reboot
      async: 1
      poll: 0
-     shell: sleep 2 && /sbin/shutdown -r now "back to onie to fix smbios"
+     shell: sleep 2 && /sbin/shutdown -r now "To onie resuce to fix smbios"
 
    - name: pause_due_to_reboot1
      pause:
@@ -28,16 +28,18 @@
      delegate_to: localhost
 
    - name: run_smbios_fix
-     shell: ssh root@10.7.158.117  <<EOF
+     shell: ssh root@{{inventory_hostname}}  <<EOF
               cd /usr/bin/
               chmod 777 ./amidelnx_64
               export DEV=`onie-syseeprom --get 0x22`
               ./amidelnx_64 /SP $DEV /SK $DEV /CSK $DEV
             EOF
-
-     args:
-      chdir:  /usr/bin/
      delegate_to: localhost
+
+   - name: delete_amidelnx
+     shell: ssh root@{{inventory_hostname}} 'rm -f /usr/bin/amidelnx_64'
+     delegate_to: localhost
+
 
    - name: reboot_back_to_cumulus
      shell: ssh root@{{inventory_hostname}} /sbin/reboot

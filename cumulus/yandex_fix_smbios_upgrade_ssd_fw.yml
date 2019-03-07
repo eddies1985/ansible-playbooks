@@ -102,7 +102,7 @@
      shell: hdparm --yes-i-know-what-i-am-doing --please-destroy-my-drive --fwdownload S16425M.bin /dev/sda
      args:
       chdir: /tmp/
-     when: current_fw_version.stdout  = 'S15A19'
+     when: current_fw_version.stdout == "S15A19"
      register: upgrade_result
      tags: upgrade_ssd
 

@@ -18,9 +18,14 @@
      poll: 0
      shell: sleep 2 && /sbin/shutdown -r now "To onie resuce to fix smbios"
 
-   - name: pause_due_to_reboot1
-     pause:
-       minutes: 3
+   - name: wait for switch to reboot1
+     delegate_to: localhost
+     wait_for:
+       host: "{{ inventory_hostname }}"
+       port: 22
+       delay: 60
+       timeout: 150
+     become: false
 
    - name: copy_amidelnx_64_to_onie
      shell: scp ./amidelnx_64 root@{{inventory_hostname}}:/usr/bin/
@@ -46,9 +51,14 @@
      ignore_errors: true
      delegate_to: localhost
 
-   - name: pause_due_to_reboot2
-     pause:
-        minutes: 3
+   - name: wait for switch to reboot2
+     delegate_to: localhost
+     wait_for:
+          host: "{{ inventory_hostname }}"
+          port: 22
+          delay: 60
+          timeout: 150
+     become: false
 
    - name: copy_ssd_fw_file_to_switch
      copy:
@@ -92,7 +102,7 @@
      shell: hdparm --yes-i-know-what-i-am-doing --please-destroy-my-drive --fwdownload S16425M.bin /dev/sda
      args:
       chdir: /tmp/
-     when: current_fw_version.stdout  != 'S16425M'
+     when: current_fw_version.stdout  = 'S15A19'
      register: upgrade_result
      tags: upgrade_ssd
 

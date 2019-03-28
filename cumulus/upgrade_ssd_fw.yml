@@ -1,6 +1,6 @@
 ---
-- name: innodisc_ssd_fw_upgrade
-  hosts:
+- name: innodisk_ssd_fw_upgrade
+  hosts: l-csi-2100-tmp-08
   gather_facts: no
   become: yes
   become_method: sudo
@@ -9,34 +9,36 @@
   tasks:
    - name: copy_ssd_fw_file_to_switch
      copy:
-        src=/etc/ansible/S16425M.bin
+        src=./S16425M.bin
         dest=/tmp/S16425M.bin
 
    - name: copy_hdparms_deb
      copy:
-         src=/etc/ansible/hdparm_9.51+ds-1+deb9u1_amd64.deb
+         src=./hdparm_9.51+ds-1+deb9u1_amd64.deb
          dest=/tmp/hdparm_9.51+ds-1+deb9u1_amd64.deb
 
-   - name: copy_cumulus-trim
-     copy:
-         src=/etc/ansible/cumulus-trim_1.0.0-PartnerTesting-cl3u1_all.deb
-         dest=/tmp/cumulus-trim_1.0.0-PartnerTesting-cl3u1_all.deb
+#   - name: copy_cumulus-trim
+#     copy:
+#         src=/etc/ansible/cumulus-trim_1.0.0-PartnerTesting-cl3u1_all.deb
+#         dest=/tmp/cumulus-trim_1.0.0-PartnerTesting-cl3u1_all.deb
 
    - name: install_hdparms
-     shell: dpkg -i ./hdparm_9.51+ds-1+deb9u1_amd64.deb
+     shell: sudo dpkg -i ./hdparm_9.51+ds-1+deb9u1_amd64.deb
      args:
       chdir: /tmp/
+     become: true
+     become_method: sudo
      tags: install_hdparms
 
-   - name: install_cumulus_trim
-     shell: dpkg -i cumulus-trim_1.0.0-PartnerTesting-cl3u1_all.deb
-     args:
-      chdir: /tmp/
-     tags: install_cumulus_trim
+#   - name: install_cumulus_trim
+#     shell: dpkg -i cumulus-trim_1.0.0-PartnerTesting-cl3u1_all.deb
+#     args:
+#      chdir: /tmp/
+#     tags: install_cumulus_trim
 
 
    - name: check_current_fw_version
-     shell: hdparm -i /dev/sda | grep FwRev | cut -d "," -f 2 | cut -d "=" -f 2
+     shell: sudo hdparm -i /dev/sda | grep FwRev | cut -d "," -f 2 | cut -d "=" -f 2
      register: current_fw_version
      tags: check_current_fw
 
@@ -46,7 +48,7 @@
      tags: print_fw
 
    - name: upgrade_ssd_fw
-     shell: hdparm --yes-i-know-what-i-am-doing --please-destroy-my-drive --fwdownload S16425M.bin /dev/sda
+     shell: sudo hdparm --yes-i-know-what-i-am-doing --please-destroy-my-drive --fwdownload S16425M.bin /dev/sda
      args:
       chdir: /tmp/
      when: current_fw_version.stdout == "S15A19"
@@ -55,7 +57,7 @@
 
    - name: print_done1
      debug:
-        msg: "Upgrade result before power cycle {{upgrade_result.stdout}}"
+        msg: "Upgrade result before power cycle:  {{upgrade_result.stdout_lines}} {{upgrade_result.stderr_lines}}"
      when: upgrade_result.stdout is defined
      tags: print_done1
 

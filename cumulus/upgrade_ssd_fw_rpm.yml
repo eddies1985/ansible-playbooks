@@ -1,0 +1,55 @@
+---
+- name: innodisk_ssd_fw_upgrade_rpm_based
+  hosts: l-csi-2100-tmp-07
+  gather_facts: no
+  become: yes
+  become_method: sudo
+  vars:
+    hdparm_rpm:
+  tasks:
+   - name: copy_ssd_fw_file_to_switch
+     copy:
+        src=S16425M.bin
+        dest=/tmp/S16425M.bin
+   - name: copy_hdparms_deb
+     copy:
+         src={{hdparm_rpm}}
+         dest=/tmp/{{ hdparm_rpm }}
+
+   - name: install_hdparms
+     shell: rpm -ivh {{ hdparm_rpm | basename }}
+     args:
+      chdir: /tmp/
+     become: true
+     become_method: sudo
+     tags: install_hdparms
+
+   - name: check_current_fw_version
+     shell: sudo hdparm -i /dev/sda | grep FwRev | cut -d "," -f 2 | cut -d "=" -f 2
+     register: current_fw_version
+     tags: check_current_fw
+
+   - name: print_current_fw_version
+     debug:
+       msg: "SSD FW version: {{current_fw_version.stdout}}"
+     tags: print_fw
+
+   - name: upgrade_ssd_fw
+     shell: sudo hdparm --yes-i-know-what-i-am-doing --please-destroy-my-drive --fwdownload S16425M.bin /dev/sda
+     args:
+      chdir: /tmp/
+     when: current_fw_version.stdout == "S15A19"
+     register: upgrade_result
+     tags: upgrade_ssd
+
+   - name: print_done1
+     debug:
+        msg: "Upgrade result before power cycle:  {{upgrade_result.stdout_lines}} {{upgrade_result.stderr_lines}}"
+     when: upgrade_result.stdout is defined
+     tags: print_done1
+
+   - name: print_done2
+     debug:
+       msg: "SSD FW is already at needed level = {{current_fw_version.stdout}}, no need to POWER CYCLE"
+     when: upgrade_result.stdout is not defined
+     tags: print_done2

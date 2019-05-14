@@ -1,0 +1,37 @@
+---
+- name: copy_file_to_device
+  net_put:
+      dest: "{{ destination_folder }}"
+      mode: binary
+      protocol: "{{ transfer_protocol }}"
+      src: "{{ source_file }}"
+
+- name: image install
+  onyx_command:
+     commands: image install image-{{ cpu }}-{{ version }}.img
+- name: image boot next and reload with upgrade_downgrade_force
+  onyx_config:
+      lines:
+        - image boot next
+        - configuration write
+        - no boot next fallback-reboot enable
+      backup: yes
+  when:
+   - force_upgrade_downgrade == "true"
+  ignore_errors: yes
+
+- name: image boot next and reload without upgrade_downgrade_force
+  onyx_config:
+      lines:
+        - image boot next
+        - configuration write
+      backup: yes
+  when:
+    - force_upgrade_downgrade == "false"
+  ignore_errors: yes
+
+- name: reload
+  onyx_config:
+      commands:
+          - reload
+  when: reload == "true"

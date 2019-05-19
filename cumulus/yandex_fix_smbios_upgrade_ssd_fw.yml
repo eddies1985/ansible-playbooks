@@ -1,6 +1,6 @@
 ---
 - name: smbios_change_ssd_fw_upgrade
-  hosts: 10.7.157.77
+  hosts: 10.7.159.118
   gather_facts: no
   become: yes
   become_method: sudo

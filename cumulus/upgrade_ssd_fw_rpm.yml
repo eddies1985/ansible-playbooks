@@ -1,11 +1,11 @@
 ---
 - name: innodisk_ssd_fw_upgrade_rpm_based
-  hosts: l-csi-2100-tmp-07
+  hosts: switch_names| groups
   gather_facts: no
   become: yes
   become_method: sudo
   vars:
-    hdparm_rpm:
+    hdparm_rpm: 
   tasks:
    - name: copy_ssd_fw_file_to_switch
      copy:

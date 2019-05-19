@@ -15,6 +15,7 @@
     transfer_protocol: scp
     source_file: "{{local_path}}/sx_mlnx_os-{{ version }}/{{ cpu  }}/image-{{ cpu }}-{{ version }}.img"
     destination_folder: /var/opt/tms/images/
+    reload: "yes"
   remote_user: admin
   tasks:
     - import_role:
@@ -30,7 +31,6 @@
             - image boot next
             - configuration write
             - no boot next fallback-reboot enable
-            - reload
           backup: yes
       when:
        - force_upgrade_downgrade == "true"
@@ -41,11 +41,18 @@
           lines:
             - image boot next
             - configuration write
-            - reload
           backup: yes
       when:
         - force_upgrade_downgrade == "false"
       ignore_errors: yes
+
+    - name: reload
+      onyx_config:
+          commands:
+              - reload
+      when: reload == "yes"
+
+
 
     - name: wait for switch to reboot
       delegate_to: localhost
@@ -53,5 +60,5 @@
        host: "{{ inventory_hostname }}"
        port: 22
        delay: 160
-       timeout: 600
+       timeout: 800
       become: false

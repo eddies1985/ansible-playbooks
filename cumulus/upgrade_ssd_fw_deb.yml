@@ -1,6 +1,6 @@
 ---
 - name: innodisk_ssd_fw_upgrade_deb_based
-  hosts: l-csi-2100a1-tmp31
+  hosts: switch_names| groups
   gather_facts: no
   become: yes
   become_method: sudo

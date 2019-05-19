@@ -28,7 +28,7 @@
     - name: create_text_config
       onyx_config:
         commands: configuration text generate active running save {{inventory_hostname}}.{{time.stdout}}
-      backup: no
+        backup: no
 
     - name: copy_text_file_from_switch
       net_get:

@@ -53,19 +53,19 @@ devices:
           - 2
         #l2_mode: "access vlan 1"
      - mpo:
-           id: 7
+           id: 9
            mtu: 9216
-           description: mpo7
+           description: mpo9
            mode: active
            ports:
-             - 7
+             - 9
            #l2_mode: "access vlan 1"
      - mpo:
-          id: 8
-          description: mpo8
+          id: 10
+          description: mpo10
           mode: active
           ports:
-            - 8
+            - 10
           #l2_mode: "access vlan 1"
 
   l-csi-demo-2100-47:
@@ -82,20 +82,20 @@ devices:
             - 2
           #l2_mode: "access vlan 1"
       - mpo:
-            id: 7
+            id: 9
             mtu: 9216
-            description: mpo7
+            description: mpo9
             mode: active
             ports:
-              - 7
+              - 9
             l2_mode: "access vlan 1"
       - mpo:
-             id: 8
+             id: 10
              mtu: 9216
-             description: mpo8
+             description: mpo10
              mode: active
              ports:
-               - 8
+               - 10
              l2_mode: "access vlan 1"
 
   l-csi-demo-2100-44:

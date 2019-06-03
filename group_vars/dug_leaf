@@ -1,0 +1,19 @@
+global:
+  l3_vlan_id: 1
+leaf:
+  01.2KNL:
+    loopback: 10.253.1.2
+    router_id: 10.253.1.2
+    asn: 4259840102
+    l3_vlan_ip: 10.1.2.1/23
+    network_to_advertise: 10.1.2.0/23
+    bgp_ports:
+      - 15:
+         ip: 10.254.0.1
+         nip: 10.250.0.2
+         neighbor_as: 4259852318
+
+      - 16:
+          ip: 10.254.0.5
+          nip: 10.254.0.6
+          neighbor_as: 4259852318

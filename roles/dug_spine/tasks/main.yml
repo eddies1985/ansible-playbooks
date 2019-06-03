@@ -1,0 +1,14 @@
+---
+
+- name: create directory if they don't exist
+  delegate_to: localhost
+  file:
+    path: ./dug_conf/spine/
+    state: directory
+  run_once: true
+
+
+- name: Generate leaf configuration file
+  delegate_to: localhost
+  template: src=dug_spine.j2 dest=./dug_conf/spine/{{inventory_hostname}}.txt
+  when: "'dug_spine' in group_names"

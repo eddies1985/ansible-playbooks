@@ -1,8 +1,22 @@
 #  ansible 'hosts' file.
 localhost ansible_ssh_user=eddies ansible_ssh_pass=eddies11 ansible_become=yes ansible_become_method=sudo
+
+[dug_leaf]
+01.2KNL
+[dug_spine]
+hsit255-2-18
+
+[dug_super_spine]
+
+[dug]
+
+[dug:children]
+dug_leaf
+dug_spine
+dug_super_spine
+
+
 [ONYX]
-dummy ansible_host=dummy
-l-csi-sx1410-01
 [ONYX:children]
 Eth
 IB
@@ -88,6 +102,7 @@ l-csi-7800-0537 ansible_host=l-csi-7800-0537
 l-csi-sb7780-630
 l-csi-7700-0633
 l-csi-8700-05
+l-csi-8700-06
 l-csi-barracuda-01
 l-csi-barracuda-02
 l-csi-7800-04 ansible_host=10.7.127.213

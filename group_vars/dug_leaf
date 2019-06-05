@@ -1,19 +1,632 @@
 global:
-  l3_vlan_id: 1
+  l3_vlan_id: 1 
 leaf:
-  01.2KNL:
-    loopback: 10.253.1.2
-    router_id: 10.253.1.2
-    asn: 4259840102
-    l3_vlan_ip: 10.1.2.1/23
-    network_to_advertise: 10.1.2.0/23
-    bgp_ports:
-      - 15:
-         ip: 10.254.0.1
-         nip: 10.250.0.2
-         neighbor_as: 4259852318
+ 01.10KNL:
+  loopback: 10.253.1.10
+  router_id: 10.253.1.10
+  asn: 4259840110
+  l3_vlan_ip: 10.1.10.1/23
+  network_to_advertise: 10.1.10.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.33
+      nip: 10.254.0.34
+      neighbor_as: 4259852318
 
-      - 16:
-          ip: 10.254.0.5
-          nip: 10.254.0.6
-          neighbor_as: 4259852318
+   - 16: 
+      ip: 10.254.0.37
+      nip: 10.254.0.38
+      neighbor_as: 4259852318
+
+ 01.12KNL:
+  loopback: 10.253.1.12
+  router_id: 10.253.1.12
+  asn: 4259840112
+  l3_vlan_ip: 10.1.12.1/23
+  network_to_advertise: 10.1.12.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.41
+      nip: 10.254.0.42
+      neighbor_as: 4259852318
+
+   - 16: 
+      ip: 10.254.0.45
+      nip: 10.254.0.46
+      neighbor_as: 4259852318
+
+ 01.14KNL:
+  loopback: 10.253.1.14
+  router_id: 10.253.1.14
+  asn: 4259840114
+  l3_vlan_ip: 10.1.14.1/23
+  network_to_advertise: 10.1.14.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.49
+      nip: 10.254.0.50
+      neighbor_as: 4259852318
+
+   - 16: 
+      ip: 10.254.0.53
+      nip: 10.254.0.54
+      neighbor_as: 4259852318
+
+ 01.16KNL:
+  loopback: 10.253.1.16
+  router_id: 10.253.1.16
+  asn: 4259840116
+  l3_vlan_ip: 10.1.16.1/23
+  network_to_advertise: 10.1.16.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.57
+      nip: 10.254.0.58
+      neighbor_as: 4259852318
+
+   - 16: 
+      ip: 10.254.0.61
+      nip: 10.254.0.62
+      neighbor_as: 4259852318
+
+ 01.18KNL:
+  loopback: 10.253.1.18
+  router_id: 10.253.1.18
+  asn: 4259840118
+  l3_vlan_ip: 10.1.18.1/23
+  network_to_advertise: 10.1.18.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.65
+      nip: 10.254.0.66
+      neighbor_as: 4259852318
+
+   - 16: 
+      ip: 10.254.0.69
+      nip: 10.254.0.70
+      neighbor_as: 4259852318
+
+ 01.20KNL:
+  loopback: 10.253.1.20
+  router_id: 10.253.1.20
+  asn: 4259840120
+  l3_vlan_ip: 10.1.20.1/23
+  network_to_advertise: 10.1.20.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.73
+      nip: 10.254.0.74
+      neighbor_as: 4259852331
+
+   - 16: 
+      ip: 10.254.0.77
+      nip: 10.254.0.78
+      neighbor_as: 4259852331
+
+ 01.22KNL:
+  loopback: 10.253.1.22
+  router_id: 10.253.1.22
+  asn: 4259840122
+  l3_vlan_ip: 10.1.22.1/23
+  network_to_advertise: 10.1.22.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.81
+      nip: 10.254.0.82
+      neighbor_as: 4259852331
+
+   - 16: 
+      ip: 10.254.0.85
+      nip: 10.254.0.86
+      neighbor_as: 4259852331
+
+ 01.24KNL:
+  loopback: 10.253.1.24
+  router_id: 10.253.1.24
+  asn: 4259840124
+  l3_vlan_ip: 10.1.24.1/23
+  network_to_advertise: 10.1.24.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.89
+      nip: 10.254.0.90
+      neighbor_as: 4259852331
+
+   - 16: 
+      ip: 10.254.0.93
+      nip: 10.254.0.94
+      neighbor_as: 4259852331
+
+ 01.2KNL:
+  loopback: 10.253.1.2
+  router_id: 10.253.1.2
+  asn: 4259840102
+  l3_vlan_ip: 10.1.2.1/23
+  network_to_advertise: 10.1.2.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.1
+      nip: 10.254.0.2
+      neighbor_as: 4259852318
+
+   - 16: 
+      ip: 10.254.0.5
+      nip: 10.254.0.6
+      neighbor_as: 4259852318
+
+ 01.4KNL:
+  loopback: 10.253.1.4
+  router_id: 10.253.1.4
+  asn: 4259840104
+  l3_vlan_ip: 10.1.4.1/23
+  network_to_advertise: 10.1.4.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.9
+      nip: 10.254.0.10
+      neighbor_as: 4259852318
+
+   - 16: 
+      ip: 10.254.0.13
+      nip: 10.254.0.14
+      neighbor_as: 4259852318
+
+ 01.6KNL:
+  loopback: 10.253.1.6
+  router_id: 10.253.1.6
+  asn: 4259840106
+  l3_vlan_ip: 10.1.6.1/23
+  network_to_advertise: 10.1.6.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.17
+      nip: 10.254.0.18
+      neighbor_as: 4259852318
+
+   - 16: 
+      ip: 10.254.0.21
+      nip: 10.254.0.22
+      neighbor_as: 4259852318
+
+ 01.8KNL:
+  loopback: 10.253.1.8
+  router_id: 10.253.1.8
+  asn: 4259840108
+  l3_vlan_ip: 10.1.8.1/23
+  network_to_advertise: 10.1.8.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.25
+      nip: 10.254.0.26
+      neighbor_as: 4259852318
+
+   - 16: 
+      ip: 10.254.0.29
+      nip: 10.254.0.30
+      neighbor_as: 4259852318
+
+ 02.11KNL:
+  loopback: 10.253.2.11
+  router_id: 10.253.2.11
+  asn: 4259840211
+  l3_vlan_ip: 10.2.11.1/23
+  network_to_advertise: 10.2.11.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.137
+      nip: 10.254.0.138
+      neighbor_as: 4259852331
+
+   - 16: 
+      ip: 10.254.0.141
+      nip: 10.254.0.142
+      neighbor_as: 4259852331
+
+ 02.13KNL:
+  loopback: 10.253.2.13
+  router_id: 10.253.2.13
+  asn: 4259840213
+  l3_vlan_ip: 10.2.13.1/23
+  network_to_advertise: 10.2.13.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.145
+      nip: 10.254.0.146
+      neighbor_as: 4259852331
+
+   - 16: 
+      ip: 10.254.0.149
+      nip: 10.254.0.150
+      neighbor_as: 4259852331
+
+ 02.1KNL:
+  loopback: 10.253.2.1
+  router_id: 10.253.2.1
+  asn: 4259840201
+  l3_vlan_ip: 10.2.1.1/23
+  network_to_advertise: 10.2.1.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.97
+      nip: 10.254.0.98
+      neighbor_as: 4259852331
+
+   - 16: 
+      ip: 10.254.0.101
+      nip: 10.254.0.102
+      neighbor_as: 4259852331
+
+ 02.3KNL:
+  loopback: 10.253.2.3
+  router_id: 10.253.2.3
+  asn: 4259840203
+  l3_vlan_ip: 10.2.3.1/23
+  network_to_advertise: 10.2.3.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.105
+      nip: 10.254.0.106
+      neighbor_as: 4259852331
+
+   - 16: 
+      ip: 10.254.0.109
+      nip: 10.254.0.110
+      neighbor_as: 4259852331
+
+ 02.5KNL:
+  loopback: 10.253.2.5
+  router_id: 10.253.2.5
+  asn: 4259840205
+  l3_vlan_ip: 10.2.5.1/23
+  network_to_advertise: 10.2.5.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.113
+      nip: 10.254.0.114
+      neighbor_as: 4259852331
+
+   - 16: 
+      ip: 10.254.0.117
+      nip: 10.254.0.118
+      neighbor_as: 4259852331
+
+ 02.7KNL:
+  loopback: 10.253.2.7
+  router_id: 10.253.2.7
+  asn: 4259840207
+  l3_vlan_ip: 10.2.7.1/23
+  network_to_advertise: 10.2.7.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.121
+      nip: 10.254.0.122
+      neighbor_as: 4259852331
+
+   - 16: 
+      ip: 10.254.0.125
+      nip: 10.254.0.126
+      neighbor_as: 4259852331
+
+ 02.9KNL:
+  loopback: 10.253.2.9
+  router_id: 10.253.2.9
+  asn: 4259840209
+  l3_vlan_ip: 10.2.9.1/23
+  network_to_advertise: 10.2.9.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.129
+      nip: 10.254.0.130
+      neighbor_as: 4259852331
+
+   - 16: 
+      ip: 10.254.0.133
+      nip: 10.254.0.134
+      neighbor_as: 4259852331
+
+ 03.10KNC:
+  loopback: 10.253.3.10
+  router_id: 10.253.3.10
+  asn: 4259840310
+  l3_vlan_ip: 10.3.10.1/23
+  network_to_advertise: 10.3.10.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.185
+      nip: 10.254.0.186
+      neighbor_as: 4259852318
+
+   - 16: 
+      ip: 10.254.0.189
+      nip: 10.254.0.190
+      neighbor_as: 4259852318
+
+ 03.12KNC:
+  loopback: 10.253.3.12
+  router_id: 10.253.3.12
+  asn: 4259840312
+  l3_vlan_ip: 10.3.12.1/23
+  network_to_advertise: 10.3.12.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.193
+      nip: 10.254.0.194
+      neighbor_as: 4259852318
+
+   - 16: 
+      ip: 10.254.0.197
+      nip: 10.254.0.198
+      neighbor_as: 4259852318
+
+ 03.2KNC:
+  loopback: 10.253.3.2
+  router_id: 10.253.3.2
+  asn: 4259840302
+  l3_vlan_ip: 10.3.2.1/23
+  network_to_advertise: 10.3.2.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.153
+      nip: 10.254.0.154
+      neighbor_as: 4259852318
+
+   - 16: 
+      ip: 10.254.0.157
+      nip: 10.254.0.158
+      neighbor_as: 4259852318
+
+ 03.4KNC:
+  loopback: 10.253.3.4
+  router_id: 10.253.3.4
+  asn: 4259840304
+  l3_vlan_ip: 10.3.4.1/23
+  network_to_advertise: 10.3.4.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.161
+      nip: 10.254.0.162
+      neighbor_as: 4259852318
+
+   - 16: 
+      ip: 10.254.0.165
+      nip: 10.254.0.166
+      neighbor_as: 4259852318
+
+ 03.6KNC:
+  loopback: 10.253.3.6
+  router_id: 10.253.3.6
+  asn: 4259840306
+  l3_vlan_ip: 10.3.6.1/23
+  network_to_advertise: 10.3.6.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.169
+      nip: 10.254.0.170
+      neighbor_as: 4259852318
+
+   - 16: 
+      ip: 10.254.0.173
+      nip: 10.254.0.174
+      neighbor_as: 4259852318
+
+ 03.8KNC:
+  loopback: 10.253.3.8
+  router_id: 10.253.3.8
+  asn: 4259840308
+  l3_vlan_ip: 10.3.8.1/23
+  network_to_advertise: 10.3.8.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.177
+      nip: 10.254.0.178
+      neighbor_as: 4259852318
+
+   - 16: 
+      ip: 10.254.0.181
+      nip: 10.254.0.182
+      neighbor_as: 4259852318
+
+ 04.11KNC:
+  loopback: 10.253.4.11
+  router_id: 10.253.4.11
+  asn: 4259840411
+  l3_vlan_ip: 10.4.11.1/23
+  network_to_advertise: 10.4.11.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.241
+      nip: 10.254.0.242
+      neighbor_as: 4259852331
+
+   - 16: 
+      ip: 10.254.0.245
+      nip: 10.254.0.246
+      neighbor_as: 4259852331
+
+ 04.13KNC:
+  loopback: 10.253.4.13
+  router_id: 10.253.4.13
+  asn: 4259840413
+  l3_vlan_ip: 10.4.13.1/23
+  network_to_advertise: 10.4.13.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.249
+      nip: 10.254.0.250
+      neighbor_as: 4259852331
+
+   - 16: 
+      ip: 10.254.0.253
+      nip: 10.254.0.254
+      neighbor_as: 4259852331
+
+ 04.15KNC:
+  loopback: 10.253.4.15
+  router_id: 10.253.4.15
+  asn: 4259840415
+  l3_vlan_ip: 10.4.15.1/23
+  network_to_advertise: 10.4.15.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.1.1
+      nip: 10.254.1.2
+      neighbor_as: 4259852331
+
+   - 16: 
+      ip: 10.254.1.5
+      nip: 10.254.1.6
+      neighbor_as: 4259852331
+
+ 04.17KNC:
+  loopback: 10.253.4.17
+  router_id: 10.253.4.17
+  asn: 4259840417
+  l3_vlan_ip: 10.4.17.1/23
+  network_to_advertise: 10.4.17.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.1.9
+      nip: 10.254.1.10
+      neighbor_as: 4259852331
+
+   - 16: 
+      ip: 10.254.1.13
+      nip: 10.254.1.14
+      neighbor_as: 4259852331
+
+ 04.19KNC:
+  loopback: 10.253.4.19
+  router_id: 10.253.4.19
+  asn: 4259840419
+  l3_vlan_ip: 10.4.19.1/23
+  network_to_advertise: 10.4.19.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.1.17
+      nip: 10.254.1.18
+      neighbor_as: 4259852331
+
+   - 16: 
+      ip: 10.254.1.21
+      nip: 10.254.1.22
+      neighbor_as: 4259852331
+
+ 04.1KNC:
+  loopback: 10.253.4.1
+  router_id: 10.253.4.1
+  asn: 4259840401
+  l3_vlan_ip: 10.4.1.1/23
+  network_to_advertise: 10.4.1.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.201
+      nip: 10.254.0.202
+      neighbor_as: 4259852318
+
+   - 16: 
+      ip: 10.254.0.205
+      nip: 10.254.0.206
+      neighbor_as: 4259852318
+
+ 04.21KNC:
+  loopback: 10.253.4.21
+  router_id: 10.253.4.21
+  asn: 4259840421
+  l3_vlan_ip: 10.4.21.1/23
+  network_to_advertise: 10.4.21.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.1.25
+      nip: 10.254.1.26
+      neighbor_as: 4259852331
+
+   - 16: 
+      ip: 10.254.1.29
+      nip: 10.254.1.30
+      neighbor_as: 4259852331
+
+ 04.23KNC:
+  loopback: 10.253.4.23
+  router_id: 10.253.4.23
+  asn: 4259840423
+  l3_vlan_ip: 10.4.23.1/23
+  network_to_advertise: 10.4.23.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.1.33
+      nip: 10.254.1.34
+      neighbor_as: 4259852331
+
+   - 16: 
+      ip: 10.254.1.37
+      nip: 10.254.1.38
+      neighbor_as: 4259852331
+
+ 04.3KNC:
+  loopback: 10.253.4.3
+  router_id: 10.253.4.3
+  asn: 4259840403
+  l3_vlan_ip: 10.4.3.1/23
+  network_to_advertise: 10.4.3.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.209
+      nip: 10.254.0.210
+      neighbor_as: 4259852318
+
+   - 16: 
+      ip: 10.254.0.213
+      nip: 10.254.0.214
+      neighbor_as: 4259852318
+
+ 04.5KNC:
+  loopback: 10.253.4.5
+  router_id: 10.253.4.5
+  asn: 4259840405
+  l3_vlan_ip: 10.4.5.1/23
+  network_to_advertise: 10.4.5.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.217
+      nip: 10.254.0.218
+      neighbor_as: 4259852318
+
+   - 16: 
+      ip: 10.254.0.221
+      nip: 10.254.0.222
+      neighbor_as: 4259852318
+
+ 04.7KNC:
+  loopback: 10.253.4.7
+  router_id: 10.253.4.7
+  asn: 4259840407
+  l3_vlan_ip: 10.4.7.1/23
+  network_to_advertise: 10.4.7.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.225
+      nip: 10.254.0.226
+      neighbor_as: 4259852318
+
+   - 16: 
+      ip: 10.254.0.229
+      nip: 10.254.0.230
+      neighbor_as: 4259852318
+
+ 04.9KNC:
+  loopback: 10.253.4.9
+  router_id: 10.253.4.9
+  asn: 4259840409
+  l3_vlan_ip: 10.4.9.1/23
+  network_to_advertise: 10.4.9.0/23
+  bgp_ports: 
+   - 15: 
+      ip: 10.254.0.233
+      nip: 10.254.0.234
+      neighbor_as: 4259852331
+
+   - 16: 
+      ip: 10.254.0.237
+      nip: 10.254.0.238
+      neighbor_as: 4259852331
+

@@ -1,0 +1,361 @@
+super_spine:
+ hsit255-2-19:
+  loopback: 10.253.255.19
+  router_id: 10.253.255.19
+  asn: 
+  bgp_ports: 
+   - 1: 
+      ip: 10.254.1.42
+      nip: 10.254.1.41
+      neighbor_as: 4259852318
+
+   - 2: 
+      ip: 10.254.1.90
+      nip: 10.254.1.89
+      neighbor_as: 4259852331
+
+ hsit255-2-20:
+  loopback: 10.253.255.20
+  router_id: 10.253.255.20
+  asn: 
+  bgp_ports: 
+   - 1: 
+      ip: 10.254.1.46
+      nip: 10.254.1.45
+      neighbor_as: 4259852318
+
+   - 2: 
+      ip: 10.254.1.94
+      nip: 10.254.1.93
+      neighbor_as: 4259852331
+
+ hsit255-2-21:
+  loopback: 10.253.255.21
+  router_id: 10.253.255.21
+  asn: 
+  bgp_ports: 
+   - 1: 
+      ip: 10.254.1.50
+      nip: 10.254.1.49
+      neighbor_as: 4259852318
+
+   - 2: 
+      ip: 10.254.1.98
+      nip: 10.254.1.97
+      neighbor_as: 4259852331
+
+ hsit255-2-22:
+  loopback: 10.253.255.22
+  router_id: 10.253.255.22
+  asn: 
+  bgp_ports: 
+   - 1: 
+      ip: 10.254.1.54
+      nip: 10.254.1.53
+      neighbor_as: 4259852318
+
+   - 2: 
+      ip: 10.254.1.102
+      nip: 10.254.1.101
+      neighbor_as: 4259852331
+
+ hsit255-2-23:
+  loopback: 10.253.255.23
+  router_id: 10.253.255.23
+  asn: 
+  bgp_ports: 
+   - 1: 
+      ip: 10.254.1.58
+      nip: 10.254.1.57
+      neighbor_as: 4259852318
+
+   - 2: 
+      ip: 10.254.1.106
+      nip: 10.254.1.105
+      neighbor_as: 4259852331
+
+ hsit255-2-24:
+  loopback: 10.253.255.24
+  router_id: 10.253.255.24
+  asn: 
+  bgp_ports: 
+   - 1: 
+      ip: 10.254.1.62
+      nip: 10.254.1.61
+      neighbor_as: 4259852318
+
+   - 2: 
+      ip: 10.254.1.110
+      nip: 10.254.1.109
+      neighbor_as: 4259852331
+
+ hsit255-2-25:
+  loopback: 10.253.255.25
+  router_id: 10.253.255.25
+  asn: 
+  bgp_ports: 
+   - 1: 
+      ip: 10.254.1.66
+      nip: 10.254.1.65
+      neighbor_as: 4259852318
+
+   - 2: 
+      ip: 10.254.1.114
+      nip: 10.254.1.113
+      neighbor_as: 4259852331
+
+ hsit255-2-26:
+  loopback: 10.253.255.26
+  router_id: 10.253.255.26
+  asn: 
+  bgp_ports: 
+   - 1: 
+      ip: 10.254.1.70
+      nip: 10.254.1.69
+      neighbor_as: 4259852318
+
+   - 2: 
+      ip: 10.254.1.118
+      nip: 10.254.1.117
+      neighbor_as: 4259852331
+
+ hsit255-2-27:
+  loopback: 10.253.255.27
+  router_id: 10.253.255.27
+  asn: 
+  bgp_ports: 
+   - 1: 
+      ip: 10.254.1.74
+      nip: 10.254.1.73
+      neighbor_as: 4259852318
+
+   - 2: 
+      ip: 10.254.1.122
+      nip: 10.254.1.121
+      neighbor_as: 4259852331
+
+ hsit255-2-28:
+  loopback: 10.253.255.28
+  router_id: 10.253.255.28
+  asn: 
+  bgp_ports: 
+   - 1: 
+      ip: 10.254.1.78
+      nip: 10.254.1.77
+      neighbor_as: 4259852318
+
+   - 2: 
+      ip: 10.254.1.126
+      nip: 10.254.1.125
+      neighbor_as: 4259852331
+
+ hsit255-2-29:
+  loopback: 10.253.255.29
+  router_id: 10.253.255.29
+  asn: 
+  bgp_ports: 
+   - 1: 
+      ip: 10.254.1.82
+      nip: 10.254.1.81
+      neighbor_as: 4259852318
+
+   - 2: 
+      ip: 10.254.1.130
+      nip: 10.254.1.129
+      neighbor_as: 4259852331
+
+ hsit255-2-30:
+  loopback: 10.253.255.30
+  router_id: 10.253.255.30
+  asn: 
+  bgp_ports: 
+   - 1: 
+      ip: 10.254.1.86
+      nip: 10.254.1.85
+      neighbor_as: 4259852318
+
+   - 2: 
+      ip: 10.254.1.134
+      nip: 10.254.1.133
+      neighbor_as: 4259852331
+
+ hsit255-3-19:
+  loopback: 10.253.255.119
+  router_id: 10.253.255.119
+  asn: 
+  bgp_ports: 
+   - 1: 
+      ip: 10.254.1.138
+      nip: 10.254.1.137
+      neighbor_as: 4259852318
+
+   - 2: 
+      ip: 10.254.1.186
+      nip: 10.254.1.185
+      neighbor_as: 4259852331
+
+ hsit255-3-20:
+  loopback: 10.253.255.120
+  router_id: 10.253.255.120
+  asn: 
+  bgp_ports: 
+   - 1: 
+      ip: 10.254.1.142
+      nip: 10.254.1.141
+      neighbor_as: 4259852318
+
+   - 2: 
+      ip: 10.254.1.190
+      nip: 10.254.1.189
+      neighbor_as: 4259852331
+
+ hsit255-3-21:
+  loopback: 10.253.255.121
+  router_id: 10.253.255.121
+  asn: 
+  bgp_ports: 
+   - 1: 
+      ip: 10.254.1.146
+      nip: 10.254.1.145
+      neighbor_as: 4259852318
+
+   - 2: 
+      ip: 10.254.1.194
+      nip: 10.254.1.193
+      neighbor_as: 4259852331
+
+ hsit255-3-22:
+  loopback: 10.253.255.122
+  router_id: 10.253.255.122
+  asn: 
+  bgp_ports: 
+   - 1: 
+      ip: 10.254.1.150
+      nip: 10.254.1.149
+      neighbor_as: 4259852318
+
+   - 2: 
+      ip: 10.254.1.198
+      nip: 10.254.1.197
+      neighbor_as: 4259852331
+
+ hsit255-3-23:
+  loopback: 10.253.255.123
+  router_id: 10.253.255.123
+  asn: 
+  bgp_ports: 
+   - 1: 
+      ip: 10.254.1.154
+      nip: 10.254.1.153
+      neighbor_as: 4259852318
+
+   - 2: 
+      ip: 10.254.1.202
+      nip: 10.254.1.201
+      neighbor_as: 4259852331
+
+ hsit255-3-24:
+  loopback: 10.253.255.124
+  router_id: 10.253.255.124
+  asn: 
+  bgp_ports: 
+   - 1: 
+      ip: 10.254.1.158
+      nip: 10.254.1.157
+      neighbor_as: 4259852318
+
+   - 2: 
+      ip: 10.254.1.206
+      nip: 10.254.1.205
+      neighbor_as: 4259852331
+
+ hsit255-3-25:
+  loopback: 10.253.255.125
+  router_id: 10.253.255.125
+  asn: 
+  bgp_ports: 
+   - 1: 
+      ip: 10.254.1.162
+      nip: 10.254.1.161
+      neighbor_as: 4259852318
+
+   - 2: 
+      ip: 10.254.1.210
+      nip: 10.254.1.209
+      neighbor_as: 4259852331
+
+ hsit255-3-26:
+  loopback: 10.253.255.126
+  router_id: 10.253.255.126
+  asn: 
+  bgp_ports: 
+   - 1: 
+      ip: 10.254.1.166
+      nip: 10.254.1.165
+      neighbor_as: 4259852318
+
+   - 2: 
+      ip: 10.254.1.214
+      nip: 10.254.1.213
+      neighbor_as: 4259852331
+
+ hsit255-3-27:
+  loopback: 10.253.255.127
+  router_id: 10.253.255.127
+  asn: 
+  bgp_ports: 
+   - 1: 
+      ip: 10.254.1.170
+      nip: 10.254.1.169
+      neighbor_as: 4259852318
+
+   - 2: 
+      ip: 10.254.1.218
+      nip: 10.254.1.217
+      neighbor_as: 4259852331
+
+ hsit255-3-28:
+  loopback: 10.253.255.128
+  router_id: 10.253.255.128
+  asn: 
+  bgp_ports: 
+   - 1: 
+      ip: 10.254.1.174
+      nip: 10.254.1.173
+      neighbor_as: 4259852318
+
+   - 2: 
+      ip: 10.254.1.222
+      nip: 10.254.1.221
+      neighbor_as: 4259852331
+
+ hsit255-3-29:
+  loopback: 10.253.255.129
+  router_id: 10.253.255.129
+  asn: 
+  bgp_ports: 
+   - 1: 
+      ip: 10.254.1.178
+      nip: 10.254.1.177
+      neighbor_as: 4259852318
+
+   - 2: 
+      ip: 10.254.1.226
+      nip: 10.254.1.225
+      neighbor_as: 4259852331
+
+ hsit255-3-30:
+  loopback: 10.253.255.130
+  router_id: 10.253.255.130
+  asn: 
+  bgp_ports: 
+   - 1: 
+      ip: 10.254.1.182
+      nip: 10.254.1.181
+      neighbor_as: 4259852318
+
+   - 2: 
+      ip: 10.254.1.230
+      nip: 10.254.1.229
+      neighbor_as: 4259852331
+

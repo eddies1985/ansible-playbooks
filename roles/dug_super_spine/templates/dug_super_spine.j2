@@ -1,7 +1,7 @@
 #jinja2: lstrip_blocks: "True"
 
-{% set bgp_ports = spine[inventory_hostname].bgp_ports %}
-{% set device = spine[inventory_hostname] %}
+{% set bgp_ports = super_spine[inventory_hostname].bgp_ports %}
+{% set device = super_spine[inventory_hostname] %}
 
 no logging monitor events
 no cli session prefix-modes enable

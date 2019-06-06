@@ -1,6 +1,6 @@
 ---
 - name: onyx_clean_config
-  hosts: MLAG_DEMO_2100
+  hosts: your_switches
   gather_facts: no
   connection: network_cli
   become: yes

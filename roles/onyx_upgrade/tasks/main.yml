@@ -18,7 +18,6 @@
       backup: yes
   when:
    - force_upgrade_downgrade == "true"
-  ignore_errors: yes
 
 - name: image boot next and reload without upgrade_downgrade_force
   onyx_config:
@@ -35,3 +34,4 @@
       commands:
           - reload
   when: reload == "true"
+  ignore_errors: yes

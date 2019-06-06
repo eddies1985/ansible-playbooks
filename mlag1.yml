@@ -21,7 +21,7 @@
     remote_ip: remote_server
     internal_network: "no"
     ntp_server: "216.239.35.0"
-    version: 3.6.1134
+    version: 3.7.1200
     source_file: "{{local_path}}/sx_mlnx_os-{{ version }}/{{ cpu  }}/image-{{ cpu }}-{{ version }}.img"
     software_upgrade: "false"
     log_path: ./ansible.log
@@ -57,9 +57,9 @@
       when: clean_config == "true"
       tags: wait1
 
-    - name: remove_known_host_entries
-      onyx_config:
-       commands: ssh client user admin known-host "{{remote_ip}}" remove
+    #- name: remove_known_host_entries
+    #  onyx_config:
+    #   commands: ssh client user admin known-host "{{remote_ip}}" remove
 
     - import_role:
         name: onyx_upgrade
@@ -78,8 +78,3 @@
     - import_role:
         name: mlag
       tags: mlag
-
-#  roles:
-  # - { role: onyx_clean_config, tags: ['clean_config']}
-  # - { role: onyx_basic_lab_mgmt_config, tags: ['mgmt_config']}
-  # - { role: mlag, tags: ['role_mlag'] }

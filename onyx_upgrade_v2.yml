@@ -51,7 +51,7 @@
           commands:
               - reload
       when: reload == "yes"
-
+      ignore_errors: yes
 
 
     - name: wait for switch to reboot

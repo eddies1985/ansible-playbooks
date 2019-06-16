@@ -1,6 +1,6 @@
 ---
 - name: onyx_clean_config
-  hosts: your_switches
+  hosts: l-csi-demo-2100-47
   gather_facts: no
   connection: network_cli
   become: yes

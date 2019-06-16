@@ -1,21 +1,10 @@
----
-#- name: get_facts_from_device
-#  onyx_facts:
-#    gather_subset: version
-
+ ---
 
 - name: wait for switch to reboot
   delegate_to: localhost
-  wait_for: 
+  wait_for:
     host: "{{ inventory_hostname }}"
     port: 22
     delay: 160
     timeout: 600
   become: false
-
-#- name: wait
-#  onyx_command:
-#     commands: show clock
-#  tags:
- #     - wait
-

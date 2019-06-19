@@ -11,7 +11,8 @@
     path: "/mswg/release/sx_mlnx_os/"
     cpu: "X86_64"   # X86_64 | PPC_M460EX
     user: eddies
-    password: eddies11
+    user: user
+    password: password
     remote_ip: 10.128.128.107
     reset: no
     command: "show clock"
@@ -39,7 +40,6 @@
     - { role: onyx_save_config, tags: ['save_config']}
     - { role: send_mail,mail_body: "Playbook finished", mail_server: "10.0.8.70", mail_subject: "do-not-reply: {{ inventory_hostname }} has been successfully provisioned", mail_from: "eddies@mellanox.com", mail_to_list: [ 'eddies@mellanox.com' ], tags: ['send_mail']}
     - { role: onyx_fix_configuration_wizard, tags: ['fix_config_wizard']}
-#   - { role: onyx_clean_images, tags: ['onyx_clean_images']}
     - { role: onyx_wait , tags: ['onyx_wait']}
     - { role: onyx_copy_scp, tags: ['onyx_copy']}
     - { role: onyx_clean_files, tags: ['onyx_clean_files']}

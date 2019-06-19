@@ -1,4 +1,4 @@
- ---
+---
 
 - name: wait for switch to reboot
   delegate_to: localhost

@@ -10,7 +10,6 @@
     version: ""
     path: "/mswg/release/sx_mlnx_os/"
     cpu: "X86_64"   # X86_64 | PPC_M460EX
-    user: eddies
     user: user
     password: password
     remote_ip: 10.128.128.107

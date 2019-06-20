@@ -2,6 +2,7 @@
 - name: mlag_playbook
   hosts: MLAG_DEMO_2100
   gather_facts: no
+  strategy: free 
   connection: network_cli
   become: yes
   become_method: enable

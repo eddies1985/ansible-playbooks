@@ -1,12 +1,9 @@
 ---
-#- name: clean_files
-#  shell: sshpass -p {{switch_password}} sftp -b {{role_path}}/files/onyx_dirs.txt {{ansible_ssh_user}}@{{inventory_hostname}}
-#  delegate_to: localhost
-
 - name: get_image_names
   onyx_command:
      commands: show images
   register: images
+  tags: images
 
 - name: get_sysdump_names
   onyx_command:
@@ -22,11 +19,6 @@
   onyx_command:
      commands: show files snapshot
   register: snapshot
-
-#- debug:
-#    msg: "Image file: {{item.split(':')[1]}} "
-#  with_items: "{{ images.stdout_lines }}"
-#  when: "'.img' in item or '.tbz' in item"
 
 - name: delete_img_files
   onyx_command:

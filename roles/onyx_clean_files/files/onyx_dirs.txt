@@ -1,4 +1,0 @@
-rm /var/opt/tms/images/*
-rm /var/opt/tms/tcpdumps/*
-rm /var/opt/tms/sysdumps/*
-rm /var/opt/tms/snapshots/*

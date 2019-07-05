@@ -35,7 +35,8 @@
           msg: "Current version: {{ current_version }}"
 
     - block:
-      - debug:
+      - name: print_current_version==requested_version
+        debug:
           msg: "Requested Version is already Installed and is currently active = {{ current_version }}"
       - meta: end_host
       when: current_version == version

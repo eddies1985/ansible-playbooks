@@ -2,7 +2,7 @@
 - name: mlag_playbook
   hosts: MLAG_DEMO_2100
   gather_facts: no
-  strategy: free 
+  strategy: free
   connection: network_cli
   become: yes
   become_method: enable
@@ -42,11 +42,15 @@
          software_upgrade: default = no
          log_path: default = ./ansible_log
   tasks:
-    - debug:
-       msg:  "{{ help.split('\n') }}"
-      tags: help
-      delegate_to: localhost
-      run_once: true
+    # - debug:
+    #    msg:  "{{ help.split('\n') }}"
+    #   tags: help
+    #   delegate_to: localhost
+    #   run_once: true
+
+     - debug:
+        var: hostvars
+       tags: help
 
     - import_role:
         name: onyx_clean_config

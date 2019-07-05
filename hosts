@@ -29,6 +29,8 @@ l-csi-demo-2100-45
 l-csi-demo-2100-44
 
 [Eth]
+l-csi-2410a1-tmp-16
+l-csi-2700-l09
 l-csi-2010a1-03
 l-csi-sn2100-02 ansible_host=l-csi-sn2100-02
 l-csi-2700-l05

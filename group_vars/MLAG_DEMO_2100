@@ -59,14 +59,14 @@ devices:
            mode: active
            ports:
              - 9
-           #l2_mode: "access vlan 1"
+           l2_mode: "access vlan 1"
      - mpo:
           id: 10
           description: mpo10
           mode: active
           ports:
             - 10
-          #l2_mode: "access vlan 1"
+          l2_mode: "access vlan 1"
 
   l-csi-demo-2100-47:
    mlag_role: master

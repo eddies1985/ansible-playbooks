@@ -46,15 +46,21 @@
       block:
       - name: check_source_file1_existence
         stat:
-          path: source_file1
+          path: "{{source_file1}}"
         register: source_file1_exists
 
       - name: check_source_file2_existence
         stat:
-          path: source_file2
+          path: "{source_file2}"
         register: source_file2_exists
 
-      - name: copy_file_to_device
+      - debug:
+          var: source_file1_exists
+
+      - debug:
+          var: source_file2_exists
+
+      - name: copy_file1_to_device
         net_put:
           dest: "{{ destination_folder }}"
           mode: binary
@@ -62,10 +68,9 @@
           src: "{{ source_file1 }}"
         tags: copy_to_onyx
         when:
-         - source_file1_exists.stat is defined
-         - source_file1_exists.stat.exists == True
+         - source_file1_exists.stat.exists
 
-      - name: copy_file_to_device
+      - name: copy_file2_to_device
         net_put:
           dest: "{{ destination_folder }}"
           mode: binary
@@ -73,9 +78,10 @@
           src: "{{ source_file2 }}"
         tags: copy_to_onyx
         when:
-           - source_file1_exists is not defined
-           - source_file2_exists.stat is defined
-           - source_file2_exists.stat.exists == True
+           - not source_file1_exists.stat.exists
+           #- source_file1_exists.stat.exists == False
+           - source_file2_exists.stat.exists
+        #   - source_file2_exists.stat.exists
 
       - name: image install
         onyx_command:

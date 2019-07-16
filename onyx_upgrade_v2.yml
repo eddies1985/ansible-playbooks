@@ -61,7 +61,7 @@
           protocol: "{{ transfer_protocol }}"
           src: "{{ source_file1 }}"
         tags: copy_to_onyx
-        when: source_file1_exists.stat.exists is defined
+        when: source_file1_exists.stat is defined
 
       - name: copy_file_to_device
         net_put:

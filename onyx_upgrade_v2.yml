@@ -78,7 +78,7 @@
           src: "{{ source_file2 }}"
         tags: copy_to_onyx
         when:
-           - not source_file1_exists.stat.exists
+           - source_file1_exists.stat.exists == False
            - source_file2_exists.stat.exists
 
       - name: image install

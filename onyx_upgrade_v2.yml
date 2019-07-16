@@ -61,7 +61,9 @@
           protocol: "{{ transfer_protocol }}"
           src: "{{ source_file1 }}"
         tags: copy_to_onyx
-        when: source_file1_exists.stat is defined
+        when:
+         - source_file1_exists.stat is defined
+         - source_file1_exists.stat.exists == True
 
       - name: copy_file_to_device
         net_put:
@@ -71,8 +73,9 @@
           src: "{{ source_file2 }}"
         tags: copy_to_onyx
         when:
-           - source_file1_exists is not defined
+           - source_file1_exists is not exists
            - source_file2_exists.stat is defined
+           - source_file2_exists.stat.exists == True
 
       - name: image install
         onyx_command:

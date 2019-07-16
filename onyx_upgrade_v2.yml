@@ -73,7 +73,7 @@
           src: "{{ source_file2 }}"
         tags: copy_to_onyx
         when:
-           - source_file1_exists is not exists
+           - source_file1_exists is not defined
            - source_file2_exists.stat is defined
            - source_file2_exists.stat.exists == True
 

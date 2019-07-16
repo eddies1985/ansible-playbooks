@@ -49,7 +49,7 @@
         tags: copy_to_onyx
 
       - import_role:
-        name: onyx_copy_scp
+          name: onyx_copy_scp
         vars:
            source_file: "{{local_path}}/image-{{ cpu }}-{{ version }}.img"
         tags: copy_to_onyx

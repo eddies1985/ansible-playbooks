@@ -47,13 +47,13 @@
       - name: check_source_file1_existence
         stat:
           path: "{{source_file1}}"
-          delegate_to: localhost
+        delegate_to: localhost
         register: source_file1_exists
 
       - name: check_source_file2_existence
         stat:
           path: "{source_file2}"
-          delegate_to: localhost
+        delegate_to: localhost
         register: source_file2_exists
 
       - debug:

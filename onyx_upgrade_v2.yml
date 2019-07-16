@@ -15,7 +15,8 @@
     force_upgrade_downgrade: "FALSE"
     version: 3.7.1200
     transfer_protocol: scp
-    source_file: "{{local_path}}/sx_mlnx_os-{{ version }}/{{ cpu  }}/image-{{ cpu }}-{{ version }}.img"
+    source_file1: "{{local_path}}/sx_mlnx_os-{{ version }}/{{ cpu  }}/image-{{ cpu }}-{{ version }}.img"
+    source_file2: "{{local_path}}/image-{{ cpu }}-{{ version }}.img"
     destination_folder: /var/opt/tms/images/
     reload: "yes"
   remote_user: admin
@@ -26,7 +27,7 @@
         commands: show version concise
       register: curr_version
 
-    - name: save_current_version
+    - name: set_fact_current_version
       set_fact:
         current_version: "{{curr_version.stdout[0].split()[1] }}"
 
@@ -43,18 +44,35 @@
 
     - name: need_to_upgrade
       block:
-      - import_role:
-         name: onyx_copy_scp
-        ignore_errors: yes
-        tags: copy_to_onyx
+      - name: check_source_file1_existence
+        stat:
+          path: source_file1
+        register: source_file1_exists
 
-      - import_role:
-          name: onyx_copy_scp
-        vars:
-           source_file: "{{local_path}}/image-{{ cpu }}-{{ version }}.img"
+      - name: check_source_file2_existence
+        stat:
+          path: source_file2
+        register: source_file2_exists
+
+      - name: copy_file_to_device
+        net_put:
+          dest: "{{ destination_folder }}"
+          mode: binary
+          protocol: "{{ transfer_protocol }}"
+          src: "{{ source_file1 }}"
+        tags: copy_to_onyx
+        when: source_file1_exists.stat.exists is defined
+
+      - name: copy_file_to_device
+        net_put:
+          dest: "{{ destination_folder }}"
+          mode: binary
+          protocol: "{{ transfer_protocol }}"
+          src: "{{ source_file2 }}"
         tags: copy_to_onyx
         when:
-
+           - source_file1_exists is not defined
+           - source_file2_exists.stat is defined
 
       - name: image install
         onyx_command:

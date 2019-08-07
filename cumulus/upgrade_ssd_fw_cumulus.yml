@@ -36,6 +36,8 @@
    - name: install cumulus-trim
      shell: apt-get -y install cumulus-trim
 
+   - name: start_trim
+     shell: /sbin/fstrim -v /
 
    - name: check_current_fw_version
      shell: sudo hdparm -i /dev/sda | grep FwRev | cut -d "," -f 2 | cut -d "=" -f 2

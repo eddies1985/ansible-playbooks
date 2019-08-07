@@ -12,55 +12,71 @@
     cpu: "X86_64"   # X86_64 | PPC_M460EX
     user: user
     password: password
-    force_upgrade_downgrade: "FALSE"
+    force_upgrade_downgrade: "False"
     version: 3.7.1200
+    skip_version_check: "False"
     transfer_protocol: scp
     source_file1: "{{local_path}}/sx_mlnx_os-{{ version }}/{{ cpu  }}/image-{{ cpu }}-{{ version }}.img"
     source_file2: "{{local_path}}/image-{{ cpu }}-{{ version }}.img"
     destination_folder: /var/opt/tms/images/
-    reload: "yes"
+    reload: True
   remote_user: admin
   tasks:
+
+# get current switch Onyx version with command "show version concise" and save it to a variable named curr_version
 
     - name: get_current_switch_version
       onyx_command:
         commands: show version concise
       register: curr_version
-
+# save the onyx version as a fact named current_version
     - name: set_fact_current_version
       set_fact:
         current_version: "{{curr_version.stdout[0].split()[1] }}"
-
+# print the current version
     - name: print_current_version
       debug:
           msg: "Current version: {{ current_version }}"
 
+# End the play for the device if the current version is the same as what is needed to install
     - block:
       - name: print_current_version==requested_version
         debug:
           msg: "Requested Version is already Installed and is currently active = {{ current_version }}"
       - meta: end_host
-      when: current_version == version
+      when:
+          - current_version == version
+          - skip_version_check == "False"
+
+# in case current version is not the same same as the needed version - start the upgrade
+
 
     - name: need_to_upgrade
       block:
+# check if the img file exits in location #1
       - name: check_source_file1_existence
         stat:
           path: "{{ source_file1 }}"
         delegate_to: localhost
         register: source_file1_exists
-
+# check if the img file exits in location #2
       - name: check_source_file2_existence
         stat:
           path: "{{ source_file2 }}"
         delegate_to: localhost
         register: source_file2_exists
 
-      - debug:
+      - name: print_existence_of_file1
+        debug:
           var: source_file1_exists
+          verbosity: 2
 
-      - debug:
+      - name: print_existence_of_file2
+        debug:
           var: source_file2_exists
+          verbosity: 2
+
+# Copy image file to the switch using the net_put module using scp
 
       - name: copy_file1_to_device
         net_put:
@@ -88,6 +104,7 @@
            commands: image install image-{{ cpu }}-{{ version }}.img
         tags: image_install
 
+      # image boot next + save config + no boot next fallback-reboot enable in case  force_upgrade_downgrade == True
       - name: image boot next and reload with upgrade_downgrade_force
         onyx_config:
             lines:
@@ -96,10 +113,11 @@
               - no boot next fallback-reboot enable
             backup: yes
         when:
-         - force_upgrade_downgrade == "TRUE"
+         - force_upgrade_downgrade == "True"
         ignore_errors: yes
         tags: boot_next
 
+      # # image boot next + save config
       - name: image boot next and reload without upgrade_downgrade_force
         onyx_config:
             lines:
@@ -107,18 +125,20 @@
               - configuration write
             backup: yes
         when:
-          - force_upgrade_downgrade == "FALSE"
-        ignore_errors: yes
+          - force_upgrade_downgrade != "True"
+      #  ignore_errors: yes
         tags: boot_next
 
+      # run the reload command
       - name: reload
         onyx_config:
             commands:
                 - reload
-        when: reload == "yes"
+        when: reload == True
         ignore_errors: yes
         tags: reload
 
+        # use wait_for to wait for port 22 to be avialble on the switch after reboot
       - name: wait for switch to reboot
         delegate_to: localhost
         wait_for:
@@ -129,6 +149,7 @@
         become: false
         tags: wait_for_ssh
 
+      # wait for full cli to be availble by waiting for output of "show version concise" to have the new version
       - name: wait_for_switch_cli
         onyx_command:
           commands: show version concise
@@ -137,8 +158,8 @@
         tags: wait_for_switch_cli
         register: new_version
 
+      # print the new version after reboot
       - name: print_new_version
         debug:
           msg: "New version after upgrade: {{new_version.stdout}}"
         tags: print_new_version
-      when: current_version != version

@@ -75,6 +75,9 @@
          src=/etc/ansible/cumulus-trim_1.0.0-PartnerTesting-cl3u1_all.deb
          dest=/tmp/cumulus-trim_1.0.0-PartnerTesting-cl3u1_all.deb
 
+    - name: start_trim
+      shell: /sbin/fstrim -v /
+
    - name: install_hdparms
      shell: dpkg -i ./hdparm_9.51+ds-1+deb9u1_amd64.deb
      args:

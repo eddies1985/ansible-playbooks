@@ -1,0 +1,77 @@
+{{ansible_managed}}
+{{template_host}}
+{{template_uid}}
+{{template_path}}
+{{template_fullpath}}
+{{template_destpath}}
+{{template_run_date}}
+
+
+{% set my_ipv4 = '192.168.1.1/24' %}
+{% set my_google_dns = '8.8.8.8' %}
+{% set my_subnet = '192.168.100.0/24' %}
+
+{% if my_ipv4 | ipaddr()  -%}
+   {{my_ipv4}} is a valid IP address
+{% endif %}
+
+{% if my_ipv4 | ipv4()  -%}
+   {{my_ipv4}} is a valid IPv4 address
+{% endif %}
+
+{% if my_ipv4 | ipaddr('private')  -%}
+   {{my_ipv4}} is a valid private IP Address
+{% endif %}
+{% if my_ipv4 | ipaddr('public')  -%}
+   {{my_ipv4}} is a valid public IP Address
+{% endif %}
+{% if my_google_dns | ipaddr('public')  -%}
+   {{my_google_dns}} is a valid public IP Address
+{% endif %}
+
+{{my_ipv4}} network address is {{ my_ipv4 | ipaddr('network') }}
+{{my_ipv4}} netmask is {{ my_ipv4 | ipaddr('netmask') }}
+
+{{my_ipv4}} host address is  {{ my_ipv4 | ipaddr('address') }}
+{{my_ipv4}} CIDR is {{ my_ipv4 | ipaddr('host/prefix') | ipaddr('prefix') }}
+
+{{my_ipv4|ipaddr('address')}} as integer = {{my_ipv4 | ipaddr('address')| ipaddr ('int') }}
+
+{{my_ipv4}} in hex is {{ my_ipv4 | ipaddr ('address') | ip4_hex }}
+{{my_ipv4}} in hex with ':' seperator is {{ my_ipv4 | ipaddr('address') | ip4_hex(':') }}
+{{my_google_dns}} domain name = {{ my_google_dns | ipaddr('revdns') }}
+
+
+{{ my_ipv4 }} next usable ip address: {{ my_ipv4 | ipaddr('next_usable') }}
+
+{{ my_ipv4 }} last usable ip address in the subnet:  {{ my_ipv4 | ipaddr('last_usable') }}
+
+{{ my_ipv4 }} usable ip address in the subnet  {{ my_ipv4  | ipaddr('range_usable') }}
+
+{{ my_ipv4 }} 2nd ip address usable  =  {{ my_ipv4   | next_nth_usable(2) }}
+
+{{ my_ipv4 }} + 5  = {{ my_ipv4 | ipaddr('address') | ipmath (5) }}
+
+{{ my_ipv4 }} - 30 = {{ my_ipv4 | ipaddr('address') |   ipmath (-30) }}
+
+Splitting {{my_subnet}} to smaller /30 subnets
+
+{{ my_subnet | ipsubnet(30,0) }}
+{{ my_subnet | ipsubnet(30,1) }}
+
+{{ my_subnet | ipsubnet(30,-2) }}
+{{ my_subnet | ipsubnet(30,-1) }}
+
+range of /30 subnets in {{my_subnet}}: {{ my_subnet | ipsubnet(30,0) }} -  {{ my_subnet | ipsubnet(30,-1) }}
+
+All /30 ranges
+
+
+{% for index in range(0, my_subnet | ipsubnet(30) | int ) -%}
+
+network address: {{ my_subnet | ipsubnet(30,index)  }}
+{{ my_subnet | ipsubnet(30,index)  | ipaddr('next_usable')  }}
+{{ my_subnet | ipsubnet(30,index)  | ipaddr('next_usable') | ipmath(1) }}
+
+
+{% endfor %}

@@ -1,0 +1,9 @@
+no cli session prefix-modes enable
+{% block interfaces %}
+interface ethernet 1/1-1/{{max_ports}} mtu 1500 force
+{% endblock interfaces %}
+# L2
+{% block L2 %}
+vlan 1-4094
+interface ethernet 1/1-1/{{max_ports}} switchport mode trunk
+{% endblock L2 %}

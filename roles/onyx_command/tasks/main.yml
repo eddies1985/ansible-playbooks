@@ -1,11 +1,11 @@
 ---
 
-- name: run a command
+- name: run_a_command
   onyx_command:
          commands: "{{ command }}"
   register: output
 - name: print output
   debug:
     msg:
-      - "the output of the command: {{command}}" 
+      - "The output of the command: {{command}}"
       - "{{ output.stdout }}"

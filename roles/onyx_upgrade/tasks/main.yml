@@ -17,7 +17,7 @@
         - no boot next fallback-reboot enable
       backup: yes
   when:
-   - force_upgrade_downgrade == "true"
+   - force_upgrade_downgrade == "True"
 
 - name: image boot next and reload without upgrade_downgrade_force
   onyx_config:
@@ -26,12 +26,12 @@
         - configuration write
       backup: yes
   when:
-    - force_upgrade_downgrade == "false"
+    - force_upgrade_downgrade == "False"
   ignore_errors: yes
 
 - name: reload
   onyx_config:
       commands:
           - reload
-  when: reload == "true"
+  when: reload == "True"
   ignore_errors: yes

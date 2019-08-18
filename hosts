@@ -52,8 +52,10 @@ l-csi-2100-tmp-16
 l-csi-2700-03
 l-csi-2010-tmp01.mtl.labs.mlnx
 l-csi-2010a1-01.mtl.labs.mlnx
+l-csi-2410-03
 10.7.31.174
 10.7.159.132
+l-csi-2410a1-tmp-17
 
 [SN2100]
 l-csi-2100-tmp9
@@ -94,6 +96,7 @@ l-csi-8700-06
 l-csi-barracuda-01
 l-csi-barracuda-02
 l-csi-7800-04 ansible_host=10.7.127.213
+l-csi-7800-05
 
 [PPC]
 l-csi-6012-03

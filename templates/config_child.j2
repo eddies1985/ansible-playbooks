@@ -1,0 +1,4 @@
+{% extends "config.j2" %}
+{% block interfaces %}
+interface ethernet 1/1-1/{{max_ports}} mtu 9216 force
+{% endblock interfaces %}

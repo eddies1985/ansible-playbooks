@@ -13,7 +13,7 @@
     user: user
     password: password
     force_upgrade_downgrade: "False"
-    version: 3.7.1200
+    version: 3.8.1304
     skip_version_check: "False"
     transfer_protocol: scp
     source_file1: "{{local_path}}/sx_mlnx_os-{{ version }}/{{ cpu  }}/image-{{ cpu }}-{{ version }}.img"

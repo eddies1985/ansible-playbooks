@@ -1,0 +1,9 @@
+---
+- name: ipaddr
+  hosts: MLAG_DEMO_2100
+  gather_facts: no
+  tasks:
+   - template:
+      src: ipaddr.j2
+      dest: "{{inventory_hostname}}_ipaddress_config.txt"
+     delegate_to: localhost

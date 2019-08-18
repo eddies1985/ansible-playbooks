@@ -9,12 +9,12 @@
   vars:
     ansible_network_os: onyx
     reset: factory
-    clean_config: "true"
+    clean_config: "True"
     wait_for_protocol_port: 22
-    force_upgrade_downgrade: "true"
+    force_upgrade_downgrade: "True"
     local_path: "/mswg/release/sx_mlnx_os/"
     destination_folder: "/var/opt/tms/images"
-    reload: "true"
+    reload: "True"
     transfer_protocol: scp
     cpu: "X86_64"   # X86_64 | PPC_M460EX
     user: root
@@ -24,7 +24,7 @@
     ntp_server: "216.239.35.0"
     version: 3.7.1200
     source_file: "{{local_path}}/sx_mlnx_os-{{ version }}/{{ cpu  }}/image-{{ cpu }}-{{ version }}.img"
-    software_upgrade: "false"
+    software_upgrade: "False"
     log_path: ./ansible.log
     debug: True
     help: |
@@ -48,18 +48,21 @@
     #   delegate_to: localhost
     #   run_once: true
 
-     - debug:
-        var: hostvars
-       tags: help
+    - name: print_all_vars
+      debug:
+       var: hostvars
+       verbosity: 2
+      tags: help
+      run_once: true
 
     - import_role:
         name: onyx_clean_config
       tags: clean_config
-      when: clean_config == "true"
+      when: clean_config == "True"
 
     - import_role:
         name: onyx_wait
-      when: clean_config == "true"
+      when: clean_config == "True"
       tags: wait1
 
     #- name: remove_known_host_entries
@@ -68,13 +71,13 @@
 
     - import_role:
         name: onyx_upgrade
-      when: software_upgrade == "true"
+      when: software_upgrade == "True"
       tags: onyx_upgrade
 
     - import_role:
         name: onyx_wait
       tags: wait2
-      when: software_upgrade == "true"
+      when: software_upgrade == "True"
 
     - import_role:
         name: onyx_basic_lab_mgmt_config

@@ -1,0 +1,13 @@
+---
+- name: block
+  hosts: l-csi-2100-tmp-16
+  gather_facts: no
+  connection: network_cli
+  become: yes
+  become_method: enable
+  vars:
+    ansible_network_os: onyx
+    max_ports: 16
+  tasks:
+   - onyx_config:
+      src: config_child.j2

@@ -1,0 +1,5 @@
+- name: restart network
+  command: /etc/rc.local
+
+- name: reload frr
+  service: name=frr state=reloaded

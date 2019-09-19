@@ -11,29 +11,18 @@
     destination_folder: "/var/opt/tms/images/"
     local_copy: "FALSE"
     tgz_file: ""
-    wjhgraf_port: 8093
-    wjhgraf_ip: ""
+    collector_port: 8093
+    collector_ip: ""
     memory_util: 300
     cpu_util: 0.5
-
-    help: |
-         Parameters available with their default values:
-
   tasks:
-   - name: help_menu
+   - name: check collector_ip
      debug:
-       msg:  "{{ help.split('\n') }}"
-     tags: help
-     delegate_to: localhost
-     run_once: true
-
-   - name: check wjhgraf_ip
-     debug:
-        msg: "{{ wjhgraf_ip | ipaddr }}"
+        msg: "{{ collector_ip | ipaddr }}"
      register: isIp
 
    - fail:
-      msg: "The variable wjhgraf_ip: {{wjhgraf_ip}} is not a vaild ip address."
+      msg: "The variable collector_ip: {{collector_ip}} is not a vaild ip address."
      when: not isIp.msg
 
    - name: copy_docker_image_to_switch
@@ -88,11 +77,11 @@
      onyx_config:
           commands: docker copy-sdk telemetry-agent to /
    - debug:
-       msg: "start wjh session with:  docker exec telemetry-agent '/opt/telemetry/utils/run_wjh_session.sh {{wjhgraf_ip}} {{wjhgraf_port}}'"
+       msg: "start wjh session with:  docker exec telemetry-agent '/opt/telemetry/utils/run_wjh_session.sh {{collector_ip}} {{collector_port}}'"
 
    - name: run wjh_session
      onyx_config:
-          commands: docker exec telemetry-agent "/opt/telemetry/utils/run_wjh_session.sh {{wjhgraf_ip}} {{wjhgraf_port}}"
+          commands: docker exec telemetry-agent "/opt/telemetry/utils/run_wjh_session.sh {{collector_ip}} {{collector_port}}"
 
    - name: save_config
      onyx_config:

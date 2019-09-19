@@ -1,0 +1,16 @@
+   - name: 10-local.rules
+     template:
+       src: 10-local.rules.j2
+       dest: /etc/udev/rules.d/10-local.rules
+   - name: install_lldpd_vim
+     dnf:
+      name:
+       - lldpd
+       - vim
+      state: latest
+
+   - name: lldpd_start_and_enable
+     service:
+       name: lldpd
+       state: started
+       enabled: yes

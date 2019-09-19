@@ -4,5 +4,5 @@ no docker start telemetry-agent
 docker pull mellanox/telemetry-agent
 docker start mellanox/telemetry-agent latest telemetry-agent now-and-init cpus 0.5 memory 300 privileged network sdk
 docker copy-sdk telemetry-agent to /
-docker exec telemetry-agent "/opt/telemetry/utils/run_wjh_session.sh {{wjhgraf_ip}} {{wjhgraf_port}}"
+docker exec telemetry-agent "/opt/telemetry/utils/run_wjh_session.sh {{collector_ip}} {{collector_port}}"
 configuration write

@@ -1,0 +1,27 @@
+ntp server {{ntp_server|default('8.8.8.8')}}
+email mailhub exchange.mtl.com
+clock timezone Asia Middle_East Jerusalem
+
+{% if ntp_server is defined %}
+
+ntp server {{ntp_server}}
+ntpdate {{ntp_server}}
+
+{% else %}
+
+ntp server time1.google.com
+ntp server time2.google.com
+ntp server time3.google.com
+ntp server time4.google.com
+ntpdate time1.google.com
+
+{% endif %}
+
+email mailhub exchange.mtl.com
+email notify recipient eddies@mellanox.com
+no email notify event health-module-status
+cli default auto-logout 0
+logging events interfaces enable
+logging events interfaces interval 30
+logging events protocols enable
+#logging monitor events notice

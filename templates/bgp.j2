@@ -1,0 +1,22 @@
+protocol bgp
+router bgp 65101 vrf default
+router bgp 65101 vrf default router-id 192.168.100.101 force
+router bgp 65101 vrf default bgp fast-external-fallover
+router bgp 65101 vrf default maximum-paths 32
+router bgp 65101 vrf default bestpath as-path multipath-relax force
+router bgp 65101 vrf default neighbor evpn peer-group
+router bgp 65101 vrf default neighbor evpn send-community
+router bgp 65101 vrf default neighbor evpn send-community extended
+router bgp 65101 vrf default neighbor 192.168.2.1 remote-as 65102
+router bgp 65101 vrf default neighbor 192.168.111.1 remote-as 65001
+router bgp 65101 vrf default neighbor 192.168.112.1 remote-as 65002
+router bgp 65101 vrf default neighbor 192.168.2.1 peer-group evpn
+router bgp 65101 vrf default neighbor 192.168.111.1 peer-group evpn
+router bgp 65101 vrf default neighbor 192.168.112.1 peer-group evpn
+router bgp 65101 neighbor evpn route-map AS_PREPEND out
+#router bgp 65101 vrf default address-family l2vpn-evpn neighbor evpn next-hop-unchanged
+#router bgp 65101 vrf default address-family l2vpn-evpn neighbor evpn activate
+router bgp 65101 vrf default redistribute connected
+
+
+#router bgp 65101 vrf default address-family l2vpn-evpn auto-create

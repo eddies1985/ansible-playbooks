@@ -14,6 +14,7 @@ onyx_vm
 SN2100
 HDR
 QA
+evpn_pra
 
 [ONYX:vars]
 ansible_network_os=onyx
@@ -57,8 +58,19 @@ l-csi-2410-03
 10.7.159.132
 l-csi-2410a1-tmp-17
 l-csi-2700s-tmp-01
+l-csi-2100-tmp-25
+
+[evpn_pra]
+leaf1     ansible_host=l-csi-2410A1-tmp-16
+leaf2     ansible_host=l-csi-2100-tmp-27
+spine1    ansible_host=l-csi-2410A1-tmp-18
+spine2    ansible_host=l-csi-2410A1-tmp-09
+gw1 ansible_host=l-csi-6036-tmp-01
+gw2 ansible_host=l-csi-sx6036-02
 
 [SN2100]
+l-csi-2100-27
+l-csi-2100-tmp-20
 l-csi-2100-tmp9
 l-csi-2100-tmp10
 l-csi-2100-13252
@@ -86,6 +98,8 @@ l-csi-2100a1-tmp-15
 l-csi-2100-1340
 l-csi-sn2100-02
 l-csi-2100-tmp-24
+l-csi-2100-27
+
 
 [IB]
 l-csi-7800-0537 ansible_host=l-csi-7800-0537
@@ -144,24 +158,26 @@ onyx_vm4 ansible_host=Onyx-VM-4
 r-qa-sw-eth-107 ansible_host=10.209.22.202
 
 [cumulus]
-ae-2100-4
+ae-2100-4 ansible_ssh_user=cumulus ansible_ssh_pass=CumulusLinux! ansible_become_method=sudo ansible_become_password=sss
 l-csi-2010-tmp02
 l-csi-2100-tmp-34 ansible_ssh_user=cumulus ansible_ssh_pass=CumulusLinux!
 10.7.159.118
-
+l-csi-2700-tmp-04 ansible_ssh_user=cumulus ansible_ssh_pass=CumulusLinux!
+# ansible_become_password=CumulusLinux!
 [HDR]
 l-csi-8700-01
 l-csi-8700-02
 
 [mlxsw]
 l-csi-2100-19 loopback=1.1.1.1/32 as=65000
-l-csi-2100-16 loopback=2.2.2.2/32 as=65001 
+l-csi-2100-16 loopback=2.2.2.2/32 as=65001
 
 [mlxsw:vars]
 ansible_ssh_user=root
 ansible_ssh_pass=switchdevftw
 
 [cumulus:vars]
-ansible_user=cumulus
+ansible_ssh_user=cumulus
 ansible_ssh_pass=CumulusLinux!
-ansible_become_pass=CumulusLinux!
+ansible_become_method=sudo
+ansible_become_password={{becomepass}}

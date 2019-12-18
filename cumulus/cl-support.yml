@@ -1,7 +1,7 @@
 ---
-- hosts: all
+- hosts: l-csi-2700-tmp-04
   become: true
-  gather_facts: no
+  gather_facts: false
   tasks:
     - name: Generate cl-support
       command: cl-support -p debug

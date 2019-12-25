@@ -1,0 +1,156 @@
+##
+## Running database "initial"
+## Generated at 2019/12/04 09:48:04 +0200
+## Hostname: spine2
+## Product release: 3.8.2102
+##
+
+##
+## Running-config temporary prefix mode setting
+##
+no cli default prefix-modes enable
+
+##
+## MLAG protocol
+##
+   protocol mlag
+   
+##
+## Interface Ethernet configuration
+##
+   interface mlag-port-channel 1-2
+   interface port-channel 1
+   interface ethernet 1/51-1/52 speed 40G force
+   interface ethernet 1/49-1/50 channel-group 1 mode active
+   interface ethernet 1/51 mlag-channel-group 1 mode active
+   interface ethernet 1/52 mlag-channel-group 2 mode active
+   interface ethernet 1/1 description leaf1
+   interface ethernet 1/2 description leaf2
+   interface ethernet 1/51 description gw1_l-csi-6036-tmp-01
+   interface ethernet 1/52 description gw2_l-csi-6036-02
+   interface mlag-port-channel 1-2 no shutdown
+   
+##
+## LAG configuration
+##
+   lacp
+   port-channel load-balance ethernet source-destination-mac
+   
+##
+## VLAN configuration
+##
+   vlan 7
+   vlan 4094
+   interface mlag-port-channel 1 switchport access vlan 7
+   interface mlag-port-channel 2 switchport access vlan 7
+   
+##
+## L3 configuration
+##
+   ip routing vrf default
+   interface ethernet 1/1-1/2 no switchport force
+   interface loopback 0
+   interface vlan 7
+   interface vlan 4094
+   interface ethernet 1/1 ip address 192.168.112.1/31 primary
+   interface ethernet 1/2 ip address 192.168.112.3/31 primary
+   interface loopback 0 ip address 192.168.100.104/32 primary
+   interface vlan 4094 ip address 192.168.1.1/30 primary
+   interface vlan 4094 mtu 9216 
+   
+##
+## DCBX PFC configuration
+##
+   dcb priority-flow-control enable force
+   interface port-channel 1 dcb priority-flow-control mode on force
+   
+##
+## MLAG configurations
+##
+   mlag-vip spine-evpn ip 1.1.1.1 /24 force
+no mlag shutdown
+   mlag system-mac 00:00:5E:00:01:5E
+   interface port-channel 1 ipl 1
+   interface vlan 4094 ipl 1 peer-address 192.168.1.2
+   
+##
+## NVE configurations
+##
+   protocol nve
+   interface nve 1
+   interface nve 1 vxlan source interface loopback 0
+   interface nve 1 nve controller bgp
+   interface nve 1 vxlan mlag-tunnel-ip 192.168.200.201
+   interface nve 1  nve vni 10007 vlan 7  
+   interface nve 1 nve neigh-suppression
+   
+##
+## BGP configuration
+##
+   protocol bgp
+   router bgp 65002 vrf default
+   router bgp 65002 vrf default router-id 192.168.200.202 force
+   router bgp 65002 vrf default bgp fast-external-fallover
+   router bgp 65002 vrf default maximum-paths 32
+   router bgp 65002 vrf default bestpath as-path multipath-relax force
+   router bgp 65002 vrf default neighbor evpn peer-group
+   router bgp 65002 vrf default neighbor evpn send-community
+   router bgp 65002 vrf default neighbor evpn send-community extended
+   router bgp 65002 vrf default neighbor 192.168.1.2 remote-as 65001
+   router bgp 65002 vrf default neighbor 192.168.112.0 remote-as 65101
+   router bgp 65002 vrf default neighbor 192.168.112.2 remote-as 65102
+   router bgp 65002 vrf default neighbor 192.168.1.2 peer-group evpn
+   router bgp 65002 vrf default neighbor 192.168.112.0 peer-group evpn
+   router bgp 65002 vrf default neighbor 192.168.112.2 peer-group evpn
+   router bgp 65002 vrf default address-family l2vpn-evpn neighbor evpn next-hop-unchanged
+   router bgp 65002 vrf default address-family l2vpn-evpn neighbor evpn activate
+   router bgp 65002 vrf default network 192.168.100.104 /32
+   router bgp 65002 vrf default network 192.168.200.201 /32
+   router bgp 65002 vrf default address-family l2vpn-evpn auto-create
+   
+##
+## Other IP configuration
+##
+   hostname spine2
+   
+##
+## Local user account configuration
+##
+   username admin password 7 $6$Gs8YevVa$xTyqlmHN38W.4YBZ3gXEJwZl1JwhUEV94vQBP82beY7o3heJKLu9cD1X.fe1KVSOW5vTplcNEGzOX4PUKWLnu/
+   username monitor password 7 $6$vA15h32A$/aLA3aeCZFwOFtT6/welKbAi46El.1OcYGB2XL4.MJf2EmPnZk4YlBBovyzZjroVkW2H5xgP5nmRowcqgQSqa.
+   
+##
+## AAA remote server configuration
+##
+# ldap bind-password ********
+# radius-server key ********
+# tacacs-server key ********
+   
+##
+## Network management configuration
+##
+# web proxy auth basic password ********
+no cli default auto-logout
+   clock timezone Asia Middle_East Jerusalem
+   email mailhub exchange.mtl.com
+no email notify event health-module-status
+   email notify recipient eddies@mellanox.com class failure
+   email notify recipient eddies@mellanox.com class info
+   email notify recipient eddies@mellanox.com detail
+no ntp server 10.4.0.134 disable
+   ntp server 10.4.0.134 keyID 0
+no ntp server 10.4.0.134 trusted-enable
+   ntp server 10.4.0.134 version 4
+   
+##
+## X.509 certificates configuration
+##
+#
+# Certificate name system-self-signed, ID c834cc63e04164a01f60a5dde6576c71f6a2a708
+# (public-cert config omitted since private-key config is hidden)
+
+##
+## Persistent prefix mode setting
+##
+cli default prefix-modes enable
+

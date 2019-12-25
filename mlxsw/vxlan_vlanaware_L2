@@ -1,0 +1,21 @@
+# install frr
+dnf copr enable nucleo/frr-git
+dnf install frr
+dnf -y install vim lldpd
+lldpd
+systemctl enable lldpd.service
+systemctl enable frr.service
+systemctl start frr.service
+#echo "SUBSYSTEM=="net", ACTION=="add", DRIVERS=="mlxsw_spectrum*", NAME="sw$attr{phys_port_name}" > /etc/udev/rules.d/10-local.rules
+
+ip link add name br0 type bridge vlan_filtering 1 vlan_default_pvid 0 mcast_snooping 0
+ip addr add 1.1.1.1/32 dev lo
+ip link add name vx10010 up mtu 9216 type vxlan id 10 local 1.1.1.1 dstport 4789 nolearning noudpcsum tos inherit ttl 100
+bridge vlan add vid 10 dev swp1 pvid untagged
+bridge vlan add vid 10 dev vx10010 pvid untagged
+
+ip link set swp13 up
+ip link set swp14 up
+
+
+ip link set br0 up

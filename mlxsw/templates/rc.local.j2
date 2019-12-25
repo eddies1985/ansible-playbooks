@@ -1,0 +1,24 @@
+#!/bin/sh
+sleep 30
+# create vlan aware bridge
+ip link add name br0 type bridge vlan_filtering 1 vlan_default_pvid 0 mcast_snooping 0
+ip addr add {{loopback}} dev lo
+ip link add name vx10010 up mtu 9216 type vxlan id 10 local {{loopback| ipaddr('address')}} dstport 4789 nolearning noudpcsum tos inherit ttl 100
+
+# port mapping to bridge
+
+ ip link set swp1 master br0
+ ip link set vx10010 master br0
+
+
+
+# vlan
+bridge vlan add vid 10 dev swp1 pvid untagged
+bridge vlan add vid 10 dev vx10010 pvid untagged
+
+# enabling ports and bridge
+
+ip link set swp1 up
+ip link set swp13 up
+ip link set swp14 up
+ip link set br0 up

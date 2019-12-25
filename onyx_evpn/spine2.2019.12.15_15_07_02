@@ -1,0 +1,139 @@
+##
+## Running database "initial"
+## Generated at 2019/12/15 13:07:24 +0000
+## Hostname: spine2
+## Product release: 3.8.2008
+##
+
+##
+## Running-config temporary prefix mode setting
+##
+no cli default prefix-modes enable
+
+##
+## MLAG protocol
+##
+   protocol mlag
+   
+##
+## Interface Ethernet configuration
+##
+   interface mlag-port-channel 1-2
+   interface port-channel 1
+   interface ethernet 1/51-1/52 speed 40G force
+   interface ethernet 1/49-1/50 channel-group 1 mode active
+   interface ethernet 1/51 mlag-channel-group 1 mode active
+   interface ethernet 1/52 mlag-channel-group 2 mode active
+   interface ethernet 1/1 description leaf1
+   interface ethernet 1/2 description leaf2
+   interface ethernet 1/51 description gw1_l-csi-6036-tmp-01
+   interface ethernet 1/52 description gw2_l-csi-6036-02
+   interface mlag-port-channel 1-2 no shutdown
+   
+##
+## LAG configuration
+##
+   lacp
+   
+##
+## VLAN configuration
+##
+   vlan 7
+   vlan 4094
+   interface mlag-port-channel 1 switchport access vlan 7
+   interface mlag-port-channel 2 switchport access vlan 7
+   
+##
+## L3 configuration
+##
+   ip routing vrf default
+   interface ethernet 1/1-1/2 no switchport force
+   interface loopback 0
+   interface vlan 7
+   interface vlan 4094
+   interface ethernet 1/1 ip address 192.168.112.1/31 primary
+   interface ethernet 1/2 ip address 192.168.112.3/31 primary
+   interface loopback 0 ip address 192.168.100.104/32 primary
+   interface vlan 4094 ip address 192.168.1.1/30 primary
+   interface vlan 4094 mtu 9216 
+   
+##
+## DCBX PFC configuration
+##
+   dcb priority-flow-control enable force
+   interface port-channel 1 dcb priority-flow-control mode on force
+   
+##
+## MLAG configurations
+##
+   mlag-vip spine-evpn ip 1.1.1.1 /24 force
+no mlag shutdown
+   mlag system-mac 00:00:5E:00:01:5E
+   interface port-channel 1 ipl 1
+   interface vlan 4094 ipl 1 peer-address 192.168.1.2
+   
+##
+## NVE configurations
+##
+   protocol nve
+   interface nve 1
+   interface nve 1 vxlan source interface loopback 0
+   interface nve 1 nve controller bgp
+   interface nve 1 vxlan mlag-tunnel-ip 192.168.200.201
+   interface nve 1  nve vni 10007 vlan 7  
+   interface nve 1 nve neigh-suppression
+   
+##
+## BGP configuration
+##
+   protocol bgp
+   router bgp 65002 vrf default
+   router bgp 65002 vrf default router-id 192.168.200.202 force
+   router bgp 65002 vrf default bgp fast-external-fallover
+   router bgp 65002 vrf default maximum-paths 32
+   router bgp 65002 vrf default bestpath as-path multipath-relax force
+   router bgp 65002 vrf default neighbor evpn peer-group
+   router bgp 65002 vrf default neighbor evpn send-community
+   router bgp 65002 vrf default neighbor evpn send-community extended
+   router bgp 65002 vrf default neighbor 192.168.1.2 remote-as 65001
+   router bgp 65002 vrf default neighbor 192.168.112.0 remote-as 65101
+   router bgp 65002 vrf default neighbor 192.168.112.2 remote-as 65102
+   router bgp 65002 vrf default neighbor 192.168.1.2 peer-group evpn
+   router bgp 65002 vrf default neighbor 192.168.112.0 peer-group evpn
+   router bgp 65002 vrf default neighbor 192.168.112.2 peer-group evpn
+   router bgp 65002 vrf default address-family l2vpn-evpn neighbor evpn next-hop-unchanged
+   router bgp 65002 vrf default address-family l2vpn-evpn neighbor evpn activate
+   router bgp 65002 vrf default network 192.168.100.104 /32
+   router bgp 65002 vrf default network 192.168.200.201 /32
+   router bgp 65002 vrf default address-family l2vpn-evpn auto-create
+   
+##
+## Other IP configuration
+##
+   hostname spine2
+   
+##
+## Local user account configuration
+##
+   username admin password 7 $6$3tvfYeBR$Et1nxZrw./EJTDi2p9uN5Qt9EWl5g4KBVBv2Id7vT1Q/URtl19mzQiGe1p4WPr0JDyS0eGSJ01ggjDhgXE5uK1
+   username monitor password 7 $6$mGx/duZE$J9xfkCLD46WUamRBDD4ohGBqUJGaERqdnUffhjqjmdBZzirWtoYDTTdxPSKT98gYx8CleKosABUbP/JxgYJ.y0
+   
+##
+## AAA remote server configuration
+##
+# ldap bind-password ********
+# radius-server key ********
+# tacacs-server key ********
+   
+##
+## Network management configuration
+##
+# web proxy auth basic password ********
+   
+##
+## X.509 certificates configuration
+##
+#
+# Certificate name system-self-signed, ID 912499a56a43a4c7291f539cbdfde6d39479deaf
+# (public-cert config omitted since private-key config is hidden)
+

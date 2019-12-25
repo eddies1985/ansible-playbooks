@@ -1,0 +1,112 @@
+##
+## Running database "initial"
+## Generated at 2019/12/11 13:03:02 +0200
+## Hostname: GW1
+##
+
+##
+## Running-config temporary prefix mode setting
+##
+no cli default prefix-modes enable
+
+##
+## License keys
+##
+   license install LK2-EFM_SX-5HGL-0KAL-64T3-2CAQ-64TK-0CHG-5T11-5N11-5K11-5R12-5L11-5M11-88A7-9EBR-D7U8-F
+   
+##
+## Port configuration
+##
+   port 1/1-1/2 type ethernet force
+   port 1/8 type ethernet force
+   port 1/10-1/11 type ethernet force
+   
+##
+## Interface Ethernet configuration
+##
+   interface port-channel 1
+   interface port-channel 11
+   interface ethernet 1/1-1/2 mtu 9216 force
+   interface port-channel 1 mtu 9216 force
+   interface ethernet 1/1-1/2 channel-group 1 mode active
+   interface ethernet 1/11 channel-group 11 mode active
+   
+##
+## LAG configuration
+##
+   lacp
+   
+##
+## VLAN configuration
+##
+   vlan 7
+   interface ethernet 1/8 switchport access vlan 7
+   interface ethernet 1/10 switchport access vlan 7
+   interface port-channel 1 switchport access vlan 7
+   interface port-channel 11 switchport access vlan 7
+   
+##
+## LLDP configuration
+##
+   lldp
+   
+##
+## Proxy Arp configuration
+##
+   interface proxy-arp 1
+   interface proxy-arp 1 ha member GW1
+   interface proxy-arp 1 ha member GW1 ip address 172.16.1.1
+   interface proxy-arp 1 ha member GW2
+   interface proxy-arp 1 ha member GW2 ip address 172.16.1.2
+   interface proxy-arp 1 ip netmask /24
+   interface proxy-arp 1 ip pkey 0x7FFF
+   interface proxy-arp 1 ip vlan 7
+   interface proxy-arp 1 mtu 4092
+   ip proxy-arp
+   proxy-arp ha evpn-proxy-arp ip 192.168.168.168 /24 force
+   
+##
+## Other IP configuration
+##
+   hostname GW1
+   
+##
+## Logging configuration
+##
+   logging monitor events notice
+   
+##
+## AAA remote server configuration
+##
+# ldap bind-password ********
+# radius-server key ********
+# tacacs-server key ********
+   
+##
+## Network management configuration
+##
+# web proxy auth basic password ********
+no cli default auto-logout
+   clock timezone Asia Middle_East Jerusalem
+   email mailhub exchange.mtl.com
+no email notify event health-module-status
+   email notify recipient eddies@mellanox.com class failure
+   email notify recipient eddies@mellanox.com class info
+   email notify recipient eddies@mellanox.com detail
+no ntp server 10.4.0.134 disable
+   ntp server 10.4.0.134 keyID 0
+no ntp server 10.4.0.134 trusted-enable
+   ntp server 10.4.0.134 version 4
+   
+##
+## X.509 certificates configuration
+##
+#
+# Certificate name system-self-signed, ID ab5f3064908e6d732203ebcb8357d0cc46c75502
+# (public-cert config omitted since private-key config is hidden)
+
+##
+## Persistent prefix mode setting
+##
+cli default prefix-modes enable
+

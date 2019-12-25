@@ -1,0 +1,14 @@
+---
+- hosts: l-csi-2700-tmp-04
+  become: yes
+  user: cumulus
+  become_method: sudo
+  gather_facts: false
+  tasks:
+    - name: gggggggggg
+      shell:  flint -d /dev/mst/mt52100_pciconf0 q
+      register: out
+
+
+    - debug:
+       var: out

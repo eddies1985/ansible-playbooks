@@ -1,0 +1,97 @@
+##
+## Running database "initial"
+## Generated at 2019/12/15 13:25:36 +0000
+## Hostname: GW2
+##
+
+##
+## Running-config temporary prefix mode setting
+##
+no cli default prefix-modes enable
+
+##
+## License keys
+##
+   license install LK2-EFM_SX-5HGL-0KAL-64RK-2CAQ-60T3-ECHN-5M11-5K11-5N11-5R12-88A2-2J4E-N838-U
+   license install LK2-RESTRICTED_CMDS_GEN2-423H-GC43-7B4N-73Q2-88A2-A6PH-EHMV-G
+   license install UPGR-6036-GW
+   
+##
+## Port configuration
+##
+   port 1/1-1/3 type ethernet force
+   port 1/10-1/11 type ethernet force
+   
+##
+## Interface Ethernet configuration
+##
+   interface port-channel 1
+   interface port-channel 11
+   interface ethernet 1/1-1/2 mtu 9216 force
+   interface port-channel 1 mtu 9216 force
+   interface ethernet 1/1-1/2 channel-group 1 mode active
+   interface ethernet 1/11 channel-group 11 mode active
+   interface port-channel 11 shutdown
+   
+##
+## LAG configuration
+##
+   lacp
+   
+##
+## VLAN configuration
+##
+   vlan 7
+   interface ethernet 1/10 switchport access vlan 7
+   interface port-channel 1 switchport access vlan 7
+   interface port-channel 11 switchport access vlan 7
+   
+##
+## LLDP configuration
+##
+   lldp
+   
+##
+## Proxy Arp configuration
+##
+   interface proxy-arp 1
+   interface proxy-arp 1 ha member GW1
+   interface proxy-arp 1 ha member GW1 ip address 172.16.1.1
+   interface proxy-arp 1 ha member GW2
+   interface proxy-arp 1 ha member GW2 ip address 172.16.1.2
+   interface proxy-arp 1 ip netmask /24
+   interface proxy-arp 1 ip pkey 0x7FFF
+   interface proxy-arp 1 ip vlan 7
+   interface proxy-arp 1 mtu 4092
+   ip proxy-arp
+   proxy-arp ha evpn-proxy-arp ip 192.168.168.168 /24 force
+   
+##
+## Other IP configuration
+##
+   hostname GW2
+   
+##
+## AAA remote server configuration
+##
+# ldap bind-password ********
+# radius-server key ********
+# tacacs-server key ********
+   
+##
+## Network management configuration
+##
+# web proxy auth basic password ********
+   
+##
+## X.509 certificates configuration
+##
+#
+# Certificate name system-self-signed, ID eef794bee84798d1e93d39d00c13e48741d3a4a8
+# (public-cert config omitted since private-key config is hidden)
+
+##
+## Persistent prefix mode setting
+##
+cli default prefix-modes enable
+

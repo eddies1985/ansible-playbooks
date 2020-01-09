@@ -138,7 +138,7 @@
         ignore_errors: yes
         tags: reload
 
-        # use wait_for to wait for port 22 to be avialble on the switch after reboot
+        # use wait_for to wait for port 22 to be available on the switch after reboot
       - name: wait for switch to reboot
         delegate_to: localhost
         wait_for:

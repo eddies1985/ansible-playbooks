@@ -19,7 +19,7 @@
     - name: create_dir
       local_action: file
       args:
-        path: "{{inventory_dir}}/{{local_path}}"
+        path: "{{local_path}}"
         state: directory
         mode: 01777
 

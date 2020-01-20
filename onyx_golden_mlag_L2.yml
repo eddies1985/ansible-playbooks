@@ -1,0 +1,98 @@
+---
+- name: onyx_golden_mlag_L2_playbook
+  hosts: golden_onyx
+  gather_facts: no
+  strategy: free
+  connection: network_cli
+  become: yes
+  become_method: enable
+  vars:
+    ansible_network_os: onyx
+    reset: factory
+    clean_config: "True"
+    wait_for_protocol_port: 22
+    force_upgrade_downgrade: "True"
+    local_path: "/mswg/release/sx_mlnx_os/"
+    destination_folder: "/var/opt/tms/images"
+    reload: "True"
+    transfer_protocol: scp
+    cpu: "X86_64"   # X86_64 | PPC_M460EX
+    user: root
+    password: password
+    remote_ip: remote_server
+    internal_network: "no"
+    ntp_server: "216.239.35.0"
+    version: 3.8.2204
+    source_file: "{{local_path}}/sx_mlnx_os-{{ version }}/{{ cpu  }}/image-{{ cpu }}-{{ version }}.img"
+    software_upgrade: "False"
+    change_hostname: "True"
+    log_path: ./ansible.log
+    debug: True
+    help: |
+         Parameters available:
+         reset:
+         clean_config:   default = true
+         wait_for_protocol_port: default = 22
+         force_upgrade_downgrade: default = True
+         path: default = "/tmp"
+         cpu: default = X86_64
+         user: default = root
+         password: default = password
+         ntp_server: default = 216.239.35.0
+         version: default = NA
+         software_upgrade: default = no
+         log_path: default = ./ansible_log
+  tasks:
+    # - debug:
+    #    msg:  "{{ help.split('\n') }}"
+    #   tags: help
+    #   delegate_to: localhost
+    #   run_once: true
+
+    - name: print_all_vars
+      debug:
+       var: hostvars
+       verbosity: 2
+      tags: help
+      run_once: true
+
+    - import_role:
+        name: onyx_clean_config
+      tags: clean_config
+      when: clean_config == "True"
+
+    - import_role:
+        name: onyx_wait
+      when: clean_config == "True"
+      tags: wait1
+
+    #- name: remove_known_host_entries
+    #  onyx_config:
+    #   commands: ssh client user admin known-host "{{remote_ip}}" remove
+
+    - import_role:
+        name: onyx_config
+      vars:
+        command:
+            - no interface mgmt0 dhcp hostname 
+            - hostname {{ inventory_hostname }}
+      when: change_hostname == "True"
+      tags: change_hostname
+
+    - import_role:
+        name: onyx_upgrade
+      when: software_upgrade == "True"
+      tags: onyx_upgrade
+
+    - import_role:
+        name: onyx_wait
+      tags: wait2
+      when: software_upgrade == "True"
+
+    - import_role:
+        name: onyx_basic_lab_mgmt_config
+      tags: basic_config
+
+    - import_role:
+        name: mlag
+      tags: mlag

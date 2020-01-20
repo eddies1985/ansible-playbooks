@@ -1,0 +1,17 @@
+- name: onyx_basic
+  hosts: ONYX
+  gather_facts: no
+  connection: network_cli
+  become: yes
+  become_method: enable
+  vars:
+    ansible_network_os: onyx
+    ntp_server: 10.4.0.134
+  remote_user: admin
+  tasks:
+    - name: basic_config
+      onyx_config:
+          src: basic_config.j2
+    - name: save_config
+      onyx_config:
+          commands: configuration write

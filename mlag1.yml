@@ -22,7 +22,7 @@
     remote_ip: remote_server
     internal_network: "no"
     ntp_server: "216.239.35.0"
-    version: 3.7.1200
+    version: 3.8.2204
     source_file: "{{local_path}}/sx_mlnx_os-{{ version }}/{{ cpu  }}/image-{{ cpu }}-{{ version }}.img"
     software_upgrade: "False"
     log_path: ./ansible.log

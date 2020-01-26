@@ -21,6 +21,8 @@
       - configuration copy clean initial
       - configuration switch-to initial no-reboot
       - configuration delete clean
+      - username admin password admin
+      - username monitor password monitor
       - configuration write
       - reload force
   register: output

@@ -6,7 +6,7 @@ global:
   default_ipl_po: 1
   default_l2_mode: trunk
   default_mtu: 1500
-  stp_mode: rpvst
+  stp_mode: rst
   vlans:
      - 1-100
      - 101-127
@@ -39,7 +39,7 @@ mlag_clusters:
       - 1
    default_l2_mode: trunk
 devices:
-  golden_leaf1:
+  golden-leaf1:
    mlag_role: slave
    mlag_cluster: leaf1-leaf2
    mpos:
@@ -53,9 +53,8 @@ devices:
           - 4
           - 11
           - 14
-        #l2_mode: "access vlan 1"
 
-  golden_leaf2:
+  golden-leaf2:
    mlag_role: master
    mlag_cluster: leaf1-leaf2
    mpos:
@@ -69,9 +68,8 @@ devices:
         - 3
         - 12
         - 13
-      #l2_mode: "access vlan 1"
 
-  golden_spine1:
+  golden-spine1:
    mlag_role: master
    mlag_cluster: spine1-spine2
    mpos:
@@ -85,8 +83,18 @@ devices:
             - 2
             - 11
             - 12
-  golden_spine2:
-      mlag_role: master
+     - mpo:
+           id: 200
+           mtu: 9216
+           description: leaf3-leaf4
+           mode: active
+           ports:
+             - 3
+             - 4
+             - 13
+             - 14
+  golden-spine2:
+      mlag_role: slave
       mlag_cluster: spine1-spine2
       mpos:
         - mpo:
@@ -99,3 +107,13 @@ devices:
               - 4
               - 13
               - 14
+        - mpo:
+            id: 200
+            mtu: 9216
+            description: leaf3-leaf4
+            mode: active
+            ports:
+              - 1
+              - 2
+              - 11
+              - 12

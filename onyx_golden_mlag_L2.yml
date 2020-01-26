@@ -74,7 +74,7 @@
         name: onyx_config
       vars:
         command:
-            - no interface mgmt0 dhcp hostname 
+            - no interface mgmt0 dhcp hostname
             - hostname {{ inventory_hostname }}
       when: change_hostname == "True"
       tags: change_hostname
@@ -96,3 +96,28 @@
     - import_role:
         name: mlag
       tags: mlag
+
+    - import_role:
+       name: onyx_config
+      vars:
+       command:
+         - configuration write
+      when: change_hostname == "True"
+      tags: change_hostname
+
+
+    - import_role:
+       name: send_mail
+      vars:
+       mail_body: "Playbook used: {{ansible_play_name}} "
+       mail_server: "10.0.8.70"
+       mail_subject: "GSO Network Golden lab: do-not-reply: {{ inventory_hostname }} has been successfully provisioned"
+       mail_from: "eddies@mellanox.com"
+       mail_to_list:
+          - eddies@mellanox.com
+          - hagaia@mellanox.com
+          - marlon@mellanox.com
+          - denisyu@mellanox.com
+          - oria@mellanox.com
+      when: change_hostname == "True"
+      tags: send_mail

@@ -3,8 +3,8 @@
 - name: wait for switch to reboot
   delegate_to: localhost
   wait_for:
-    host: "{{ inventory_hostname }}"
+    host: "{{ ansible_host}}"
     port: 22
-    delay: 160
-    timeout: 600
+    delay: 200
+    timeout: 500
   become: false

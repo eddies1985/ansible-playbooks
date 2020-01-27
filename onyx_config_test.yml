@@ -8,6 +8,6 @@
   vars:
     ansible_network_os: onyx
   tasks:
-    onyx_config:
+  - onyx_config:
       lines:
         - interface ethernet 1/1 "another test"

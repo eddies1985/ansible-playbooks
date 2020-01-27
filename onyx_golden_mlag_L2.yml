@@ -43,6 +43,8 @@
          software_upgrade: default = no
          log_path: default = ./ansible_log
   tasks:
+
+
     - import_role:
         name: onyx_clean_config
       tags: clean_config

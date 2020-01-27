@@ -10,4 +10,4 @@
   tasks:
   - onyx_config:
       lines:
-        - interface ethernet 1/1 "another test"
+        - interface ethernet 1/1 description "another test"

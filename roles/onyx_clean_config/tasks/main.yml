@@ -12,6 +12,11 @@
       - configuration delete clean
   when: '"clean" in clean_exists.stdout'
 
+- name: print_new_version
+  debug:
+    msg: "{{clean_exists.stdout}}"
+    verbosity: 3
+
 - name: clean_config
   onyx_config:
      lines:

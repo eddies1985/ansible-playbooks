@@ -43,19 +43,6 @@
          software_upgrade: default = no
          log_path: default = ./ansible_log
   tasks:
-    # - debug:
-    #    msg:  "{{ help.split('\n') }}"
-    #   tags: help
-    #   delegate_to: localhost
-    #   run_once: true
-
-  #  - name: print_all_vars
-  #    debug:
-  #     var: hostvars
-  #     verbosity: 2
-  #    tags: help
-  #    run_once: true
-
     - import_role:
         name: onyx_clean_config
       tags: clean_config

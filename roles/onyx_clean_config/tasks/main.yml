@@ -6,12 +6,6 @@
       - show configuration files | include " clean "
   register: clean_exists
 
-- name: clean_config
-  onyx_config:
-     lines:
-       - interface ethernet 1/1 description asdsds
-  
-
 - name: delete_clean_config_file
   onyx_config:
      lines:

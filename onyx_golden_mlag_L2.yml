@@ -28,20 +28,6 @@
     change_hostname: "True"
     log_path: ./ansible.log
     debug: True
-    help: |
-         Parameters available:
-         reset:
-         clean_config:   default = true
-         wait_for_protocol_port: default = 22
-         force_upgrade_downgrade: default = True
-         path: default = "/tmp"
-         cpu: default = X86_64
-         user: default = root
-         password: default = password
-         ntp_server: default = 216.239.35.0
-         version: default = NA
-         software_upgrade: default = no
-         log_path: default = ./ansible_log
   tasks:
 
 

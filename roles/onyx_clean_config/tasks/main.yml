@@ -3,7 +3,7 @@
 - name: delete_clean_config_file
   onyx_command:
      commands:
-      - show configuration files | include " clean "
+      - show configuration files | include "^clean"
   register: clean_exists
 
 - name: delete_clean_config_file

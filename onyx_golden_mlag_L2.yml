@@ -49,12 +49,12 @@
     #   delegate_to: localhost
     #   run_once: true
 
-    - name: print_all_vars
-      debug:
-       var: hostvars
-       verbosity: 2
-      tags: help
-      run_once: true
+  #  - name: print_all_vars
+  #    debug:
+  #     var: hostvars
+  #     verbosity: 2
+  #    tags: help
+  #    run_once: true
 
     - import_role:
         name: onyx_clean_config

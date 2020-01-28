@@ -7,7 +7,8 @@
   become: yes
   become_method: enable
   vars:
-    ansible_python_interpreter: /usr/bin/python3
+    #ansible_python_interpreter: /usr/bin/python3
+    send_mail: False
     ansible_network_os: onyx
     reset: factory
     clean_config: "True"
@@ -95,5 +96,5 @@
           - marlon@mellanox.com
           - denisyu@mellanox.com
           - oria@mellanox.com
-      when: change_hostname == "True"
-      tags: send_mail
+      when: send_mail == "True"
+      tags: send_mail == "True"

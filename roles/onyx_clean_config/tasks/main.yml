@@ -18,7 +18,7 @@
 #  when: '"clean" in clean_exists.stdout'
 
 - debug:
-   msg: ""{{filename.stdout}}"
+   msg: "{{filename.stdout}}"
 - name: clean_config
   onyx_config:
      lines:

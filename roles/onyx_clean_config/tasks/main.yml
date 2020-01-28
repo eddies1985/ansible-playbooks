@@ -1,31 +1,33 @@
 ---
 
-- name: delete_clean_config_file
-  onyx_command:
-     commands:
-      - show configuration files | include "^clean"
-  register: clean_exists
 
-- name: delete_clean_config_file
-  onyx_config:
-     lines:
-      - configuration delete clean
-  when: '"clean" in clean_exists.stdout'
+- name: generate a config_filename_based_on_date:
+  shell: date +"%Y%m%d%H%M%S"
+  register: filename
 
-- name: print_new_version
-  debug:
-    msg: "{{clean_exists.stdout}}"
-    verbosity: 3
+#- name: delete_clean_config_file
+#  onyx_command:
+#     commands:
+#      - show configuration files | include "^clean"
+#  register: clean_exists
 
+#- name: delete_clean_config_file
+#  onyx_config:
+#     lines:
+#      - configuration delete clean
+#  when: '"clean" in clean_exists.stdout'
+
+- debug:
+   msg: ""{{filename.stdout}}"
 - name: clean_config
   onyx_config:
      lines:
-      - configuration new clean factory keep-connect
-      - configuration switch-to clean no-reboot
+      - configuration new {{filename.stdout}} factory keep-connect
+      - configuration switch-to {{filename.stdout}} no-reboot
       - configuration delete initial
-      - configuration copy clean initial
+      - configuration copy {{filename.stdout}} initial
       - configuration switch-to initial no-reboot
-      - configuration delete clean
+      - configuration delete {{filename.stdout}}
       - username admin password admin
       - username monitor password monitor
       - configuration write

@@ -1,7 +1,7 @@
 ---
 
 
-- name: generate a config_filename_based_on_date:
+- name: generate_a_config_filename_based_on_date
   shell: date +"%Y%m%d%H%M%S"
   register: filename
 

@@ -13,13 +13,14 @@
     user: user
     password: password
     force_upgrade_downgrade: "False"
-    version: 3.8.1304
+    version: 3.8.2204
     skip_version_check: "False"
     transfer_protocol: scp
     source_file1: "{{local_path}}/sx_mlnx_os-{{ version }}/{{ cpu  }}/image-{{ cpu }}-{{ version }}.img"
     source_file2: "{{local_path}}/image-{{ cpu }}-{{ version }}.img"
     destination_folder: /var/opt/tms/images/
     reload: True
+    ignore_net_errors: "True"
   remote_user: admin
   tasks:
 
@@ -85,8 +86,10 @@
           protocol: "{{ transfer_protocol }}"
           src: "{{ source_file1 }}"
         tags: copy_to_onyx
+        ignore_errors: yes
         when:
          - source_file1_exists.stat.exists
+         - ignore_net_errors == "True"
 
       - name: copy_file2_to_device
         net_put:
@@ -94,10 +97,13 @@
           mode: binary
           protocol: "{{ transfer_protocol }}"
           src: "{{ source_file2 }}"
+        ignore_errors: yes
         tags: copy_to_onyx
         when:
            - source_file1_exists.stat.exists == False
            - source_file2_exists.stat.exists
+           - ignore_net_errors == "True"
+
 
       - name: image install
         onyx_command:

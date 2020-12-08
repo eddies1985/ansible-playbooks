@@ -8,22 +8,17 @@
   become_method: enable
   vars:
     ansible_network_os: onyx
-    #local_path: "/mswg/release/sx_mlnx_os/"
-    cpu: "X86_64"   # X86_64 | PPC_M460EX
-    force_upgrade_downgrade: "False"
-    #version: 3.8.2204
-    skip_version_check: "False"
-    fetch: "True"
+    force_upgrade_downgrade: False
+    fetch: True
     transfer_protocol: scp
     server_ip: ""
     server_user: ""
     server_password: ""
     img_file: ""
-    #source_file1: "{{local_path}}/sx_mlnx_os-{{ version }}/{{ cpu  }}/image-{{ cpu }}-{{ version }}.img"
-    #source_file2: "{{local_path}}/image-{{ cpu }}-{{ version }}.img"
+    fail_on_file: True
     destination_folder: /var/opt/tms/images/
     reload: True
-    ignore_net_errors: "True"
+    #ignore_net_errors: "True"
   remote_user: admin
   tasks:
 
@@ -49,16 +44,12 @@
       delegate_to: localhost
       register: file_exists
 
-    - name: get_file_basename
-      set_fact:
-        img_name: "{{ img_file | basename }}"
-      when:
-         - file_exists.stat.exists
     - name: file_doesnt_exists
-      debug:
+      fail:
         msg: "file {{img_file}} doesnt exist"
       when:
          - file_exists.stat.exists == False
+         - fail_on_file == True
 
   # Copy image file to the switch using the net_put module using scp
     - name: need_to_upgrade
@@ -78,18 +69,15 @@
           tags: copy_to_onyx
           ignore_errors: yes
           when:
-           - file_exists.stat.exists
-           - ignore_net_errors == "True"
-           - fetch != "True"
+           - fetch != True
      # fetch the image file using a cli command
         - name: fetch_image
-          onyx_command:
+          onyx_config:
               commands: image fetch {{transfer_protocol}}://{{server_user}}:{{server_password}}@{{server_ip}}://{{img_file}}
+              match: none
           tags: fetch_image
           when:
-               - file_exists.stat.exists
-               - ignore_net_errors == "True"
-               - fetch == "True"
+               - fetch == True
 
 
      #  install the image
@@ -107,7 +95,7 @@
                   - no boot next fallback-reboot enable
                 backup: yes
           when:
-             - force_upgrade_downgrade == "True"
+             - force_upgrade_downgrade == True
           ignore_errors: yes
           tags: boot_next
 
@@ -119,7 +107,7 @@
                   - configuration write
                 backup: yes
           when:
-              - force_upgrade_downgrade != "True"
+              - force_upgrade_downgrade != True
           tags: boot_next
 
       # run the reload command, need to set ignore errors to yes since the ssh is broken with the reload command

@@ -1,0 +1,7 @@
+---
+#- name: gather facts
+#  onyx_facts:
+#    gather_subset: all
+- name: basic_mgmt_config
+  onyx_config:
+      src: basic_config.j2

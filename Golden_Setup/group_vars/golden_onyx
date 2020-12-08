@@ -1,0 +1,119 @@
+ansible_network_os: onyx
+ansible_become: yes
+ansible_become_method: enable
+global:
+  default_ipl_vlan: 4094
+  default_ipl_po: 1
+  default_l2_mode: trunk
+  default_mtu: 1500
+  stp_mode: rst
+  vlans:
+     - 1-100
+     - 101-127
+
+mlag_clusters:
+  leaf1-leaf2:
+   system_mac: "00:00:5E:00:01:01"
+   vip: "192.168.255.1/24"
+   ipl_lag_id: "{{ global.default_ipl_po }}"
+   ipl_ports:
+      - 15
+      - 16
+   ipl_vlan: "{{ global.default_ipl_vlan }}"
+   ipl_slave_ip: "192.168.1.1/30"
+   ipl_master_ip: "192.168.1.2/30"
+   vlans:
+      - 1
+   default_l2_mode: access
+  spine1-spine2:
+   system_mac: "00:00:5E:00:01:02"
+   vip: "192.168.255.2/24"
+   ipl_lag_id: "{{ global.default_ipl_po }}"
+   ipl_ports:
+    -  15
+    -  16
+   ipl_vlan: "{{ global.default_ipl_vlan }}"
+   ipl_slave_ip: "192.168.1.5/30"
+   ipl_master_ip: "192.168.1.6/30"
+   vlans:
+      - 1
+   default_l2_mode: trunk
+devices:
+  golden-leaf1:
+   mlag_role: slave
+   mlag_cluster: leaf1-leaf2
+   mpos:
+     - mpo:
+        id: 100
+        mtu: 9216
+        description: uplink
+        mode: active
+        ports:
+          - 1
+          - 4
+          - 11
+          - 14
+
+  golden-leaf2:
+   mlag_role: master
+   mlag_cluster: leaf1-leaf2
+   mpos:
+    - mpo:
+       id: 100
+       mtu: 9216
+       description: uplink
+       mode: active
+       ports:
+        - 2
+        - 3
+        - 12
+        - 13
+
+  golden-spine1:
+   mlag_role: master
+   mlag_cluster: spine1-spine2
+   mpos:
+     - mpo:
+          id: 100
+          mtu: 9216
+          description: leaf1-leaf2
+          mode: active
+          ports:
+            - 1
+            - 2
+            - 11
+            - 12
+     - mpo:
+           id: 200
+           mtu: 9216
+           description: leaf3-leaf4
+           mode: active
+           ports:
+             - 3
+             - 4
+             - 13
+             - 14
+  golden-spine2:
+      mlag_role: slave
+      mlag_cluster: spine1-spine2
+      mpos:
+        - mpo:
+            id: 100
+            mtu: 9216
+            description: leaf1-leaf2
+            mode: active
+            ports:
+              - 3
+              - 4
+              - 13
+              - 14
+        - mpo:
+            id: 200
+            mtu: 9216
+            description: leaf3-leaf4
+            mode: active
+            ports:
+              - 1
+              - 2
+              - 11
+              - 12

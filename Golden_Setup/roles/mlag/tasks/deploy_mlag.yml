@@ -1,0 +1,9 @@
+---
+- name: config_mlag
+  onyx_config:
+    src: "{{role_path}}/config/{{inventory_hostname}}.config"
+    #src: "{{role_path}}/templates/mlag.j2"
+
+  tags:
+    - deploy_mlag
+  notify: save_config

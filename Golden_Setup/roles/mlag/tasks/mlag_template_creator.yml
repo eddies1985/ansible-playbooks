@@ -1,0 +1,38 @@
+---
+- name: check
+  assert:
+    that:
+        -  global.default_ipl_vlan >= 1
+        -  global.default_ipl_vlan <=4094
+    msg: " global.default_ipl_Vlan must be between 1 and 4094 inclusive"
+  tags:
+    - check_config_ipl_vlan
+
+- assert:
+    that:
+        -  global.default_ipl_po >= 1
+        -  global.default_ipl_po <= 4096
+    msg: " global.default_ipl_po must be between 1 and 4096 inclusive"
+  tags:
+    - check_config_ipl_po_id
+
+- assert:
+    that:
+        -  global.default_mtu >= 1500
+        -  global.default_mtu <= 9216
+    msg: " global.default_mtu must be between 1500 and 9216 inclusive"
+  tags:
+    - check_config_global_mtu
+
+- name: create_config
+  template:
+     src:  "{{role_path}}/templates/mlag.j2"
+     dest: "{{role_path}}/config/{{inventory_hostname}}.config"
+     lstrip_blocks: yes
+     trim_blocks: yes
+  delegate_to: localhost
+  tags:
+    - create_config
+
+# - debug:
+#     msg: "{{ devices[inventory_hostname].mpos}}"

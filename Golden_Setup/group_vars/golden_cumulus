@@ -1,0 +1,15 @@
+cumulus_config_files:
+  - /etc/cumulus/ports.conf
+  - /etc/network/interfaces
+  - /etc/frr/daemons
+  - /etc/frr/frr.conf
+  - /etc/hostname
+  - /etc/hostapd.conf
+  - /etc/cumulus/datapath/traffic.conf
+  - /usr/lib/python2.7/dist-packages/cumulus/__chip_config/mlx/datapath.conf
+  - /etc/cumulus/switchd.conf
+  - /etc/lsb-release
+
+cumulus_directories:
+  - /etc/network/interfaces.d
+  - /etc/cumulus/acl/policy.d

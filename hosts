@@ -2,6 +2,7 @@
 localhost  ansible_connection=local ansible_host=127.0.0.1 ansible_ssh_user=eddies ansible_ssh_pass=eddies11 ansible_become=yes ansible_become_method=sudo ansible_connection=local ansible_python_interpreter="{{ansible_playbook_python}}"
 
 [ONYX]
+l-csi-2410a1-tmp-18
 [ONYX:children]
 Eth
 IB
@@ -82,14 +83,6 @@ l-csi-2410-03
 l-csi-2410a1-tmp-17
 l-csi-2700s-tmp-01
 l-csi-2100-tmp-25
-
-[evpn_pra]
-leaf1     ansible_host=l-csi-2410A1-tmp-16
-leaf2     ansible_host=l-csi-2100-tmp-27
-spine1    ansible_host=l-csi-2410A1-tmp-18
-spine2    ansible_host=l-csi-2410A1-tmp-09
-gw1 ansible_host=l-csi-6036-tmp-01
-gw2 ansible_host=l-csi-sx6036-02
 
 [SN2100]
 l-csi-2100-27
@@ -182,15 +175,18 @@ onyx_vm4 ansible_host=Onyx-VM-4
 r-qa-sw-eth-107 ansible_host=10.209.22.202
 
 [cumulus]
-ae-2100-4 ansible_ssh_user=cumulus ansible_ssh_pass=CumulusLinux! ansible_become_method=sudo ansible_become_password=sss
-l-csi-2010-tmp02
+ae-2100-4 ansible_ssh_user=cumulus ansible_ssh_pass=CumulusLinux! ansible_become_method=sudo ansible_become_password=CumulusLinux!
+l-csi-2010-tmp02 ansible_ssh_user=cumulus ansible_ssh_pass=CumulusLinux!
 l-csi-2100-tmp-34 ansible_ssh_user=cumulus ansible_ssh_pass=CumulusLinux!
-10.7.159.118
+10.7.159.118 ansible_ssh_user=cumulus ansible_ssh_pass=CumulusLinux!
 l-csi-2700-tmp-04 ansible_ssh_user=cumulus ansible_ssh_pass=CumulusLinux!
 # ansible_become_password=CumulusLinux!
 [HDR]
 l-csi-8700-01
 l-csi-8700-02
+l-csi-8700-05
+l-csi-8700-06
+l-csi-8700-07
 
 [mlxsw]
 l-csi-2100-19 loopback=1.1.1.1/32 as=65000
@@ -204,4 +200,4 @@ ansible_ssh_pass=switchdevftw
 ansible_ssh_user=cumulus
 ansible_ssh_pass=CumulusLinux!
 ansible_become_method=sudo
-ansible_become_password={{becomepass}}
+ansible_become_password=CumulusLinux!

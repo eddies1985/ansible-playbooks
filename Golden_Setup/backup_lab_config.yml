@@ -1,0 +1,72 @@
+---
+- name: lab_onyx_config_backup
+  hosts: golden_onyx
+  gather_facts: no
+  #strategy: free
+  connection: network_cli
+  become: yes
+  become_method: enable
+  vars:
+    #ansible_python_interpreter: /usr/bin/python3
+    send_mail: False
+    send_mail_secure: never
+    ansible_network_os: onyx
+    log_path: ./ansible.log
+    debug: True
+    backup_dir: /var/config/onyx/backup/
+    swgwork_backup: /swgwork/eddies/golden_lab/backup/
+  tasks:
+
+  - shell: date +%d_%m_%Y_%H_%M
+    register: today
+    run_once: True
+    delegate_to: localhost
+
+  - onyx_config:
+     backup: yes
+     backup_options:
+       dir_path: "{{backup_dir}}/{{today.stdout}}"
+       filename: "{{inventory_hostname}}.conf"
+     commands:
+        - show version concise
+    register: files_backup
+    ignore_errors: yes
+
+  - debug:
+      var: files_backup
+      verbosity: 2
+  - debug:
+       msg: "{{files_backup.backup_path}}"
+       verbosity: 2
+
+  - shell: find {{backup_dir}}/backup/{{today.stdout}} -maxdepth 1 -type f
+    register: files_to_send
+    run_once: True
+
+# backup to /swgwork/eddies/golden_lab/backup
+
+  #- copy:
+  #   src: "{{ backup_dir}}/{{today.stdout }}"
+  #   dest: "{{swgwork_backup}}"
+  #  run_once: True
+  #  delegate_to: localhost
+
+  - import_role:
+        name: send_mail
+    vars:
+      mail_body: "Playbook used: {{ansible_play_name}} "
+      mail_server: "10.0.8.70"
+      mail_subject: "GSO Network Golden lab: all devices configuration files backup {{today.stdout}}"
+      attach: "{{ files_to_send.stdout_lines }}"
+      mail_from: "eddies@mellanox.com"
+      mail_to_list:
+         - eddies@mellanox.com
+         - hagaia@mellanox.com
+         - marlon@mellanox.com
+         - denisyu@mellanox.com
+         - oria@mellanox.com
+      secure: "{{send_mail_secure}}"
+    when: send_mail == "True"
+    tags: send_mail
+    run_once: True
+    delegate_to: localhost

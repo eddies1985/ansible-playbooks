@@ -1,0 +1,36 @@
+---
+
+
+- name: generate_a_config_filename_based_on_date
+  shell: date +"%Y%m%d%H%M%S"
+  register: filename
+
+#- name: delete_clean_config_file
+#  onyx_command:
+#     commands:
+#      - show configuration files | include "^clean"
+#  register: clean_exists
+
+#- name: delete_clean_config_file
+#  onyx_config:
+#     lines:
+#      - configuration delete clean
+#  when: '"clean" in clean_exists.stdout'
+
+- debug:
+   msg: "{{filename.stdout}}"
+- name: clean_config
+  onyx_config:
+     lines:
+      - configuration new {{ inventory_hostname }}-{{filename.stdout}} factory keep-connect
+      - configuration switch-to {{ inventory_hostname }}-{{filename.stdout}} no-reboot
+    #  - configuration delete initial
+    #  - configuration copy {{filename.stdout}} initial
+    #  - configuration switch-to initial no-reboot
+    #  - configuration delete {{filename.stdout}}
+      - username admin password admin
+      - username monitor password monitor
+      - configuration write
+      - reload force
+  register: output
+  ignore_errors: yes

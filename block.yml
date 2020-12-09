@@ -1,9 +1,0 @@
----
-- name: block
-  hosts: MLAG_DEMO_2100
-  gather_facts: no
-  tasks:
-   - template:
-      src: config_child.j2
-      dest: "{{inventory_hostname}}_config.txt"
-     delegate_to: localhost

@@ -6,6 +6,7 @@ l-csi-2410a1-tmp-18
 [ONYX:children]
 Eth
 IB
+sib2
 PPC
 MLAG
 MLAG_DEMO_2100
@@ -15,8 +16,9 @@ onyx_vm
 SN2100
 HDR
 QA
-evpn_pra
 golden_onyx
+skyway
+skyway_topo
 
 [ONYX:vars]
 ansible_network_os=onyx
@@ -25,6 +27,16 @@ ansible_become_method=enable
 ansible_ssh_user=admin
 ansible_ssh_pass=admin
 
+[skyway]
+l-csi-skyway-01
+l-csi-skyway-02
+
+[skyway_topo]
+l-csi-skyway-01
+l-csi-skyway-02
+l-csi-8700-09
+l-csi-8700-08
+l-csi-3700-11
 
 [golden]
 golden-spine1 ansible_host=l-csi-gso-2100a1-0271
@@ -53,6 +65,13 @@ l-csi-demo-2100-45
 l-csi-demo-2100-44
 
 [Eth]
+l-csi-2010a1-02
+l-csi-2410-04
+l-csi-2100-tmp-34
+l-csi-gso-2100a1-0272
+l-csi-sn2700-loan-02
+l-csi-3700-11
+l-csi-3700-07
 l-csi-3700-03
 l-csi-2410a1-tmp-16
 l-csi-2700-l09
@@ -85,6 +104,7 @@ l-csi-2700s-tmp-01
 l-csi-2100-tmp-25
 
 [SN2100]
+l-csi-2100-tmp-17
 l-csi-2100-27
 l-csi-2100-tmp-20
 l-csi-2100-tmp9
@@ -116,6 +136,14 @@ l-csi-sn2100-02
 l-csi-2100-tmp-24
 l-csi-2100-27
 
+[sib2]
+l-csi-7800-04 ansible_host=10.7.127.213
+l-csi-7800-05
+l-csi-7800-1313
+l-csi-7800-tmp
+l-csi-7800-tmp02
+l-csi-7800-0537
+ l-csi-7800-hw-lab
 
 [IB]
 l-csi-7800-0537 ansible_host=l-csi-7800-0537
@@ -125,6 +153,8 @@ l-csi-8700-03
 l-csi-8700-04
 l-csi-8700-05
 l-csi-8700-06
+l-csi-8700-08
+l-csi-8700-09
 l-csi-barracuda-01
 l-csi-barracuda-02
 l-csi-7800-04 ansible_host=10.7.127.213
@@ -175,18 +205,19 @@ onyx_vm4 ansible_host=Onyx-VM-4
 r-qa-sw-eth-107 ansible_host=10.209.22.202
 
 [cumulus]
+l-csi-2100-tmp-25 ansible_ssh_user=cumulus ansible_ssh_pass=cumulus
 ae-2100-4 ansible_ssh_user=cumulus ansible_ssh_pass=CumulusLinux! ansible_become_method=sudo ansible_become_password=CumulusLinux!
 l-csi-2010-tmp02 ansible_ssh_user=cumulus ansible_ssh_pass=CumulusLinux!
-l-csi-2100-tmp-34 ansible_ssh_user=cumulus ansible_ssh_pass=CumulusLinux!
 10.7.159.118 ansible_ssh_user=cumulus ansible_ssh_pass=CumulusLinux!
 l-csi-2700-tmp-04 ansible_ssh_user=cumulus ansible_ssh_pass=CumulusLinux!
-# ansible_become_password=CumulusLinux!
 [HDR]
 l-csi-8700-01
 l-csi-8700-02
 l-csi-8700-05
 l-csi-8700-06
 l-csi-8700-07
+l-csi-8700-08
+l-csi-8700-09
 
 [mlxsw]
 l-csi-2100-19 loopback=1.1.1.1/32 as=65000

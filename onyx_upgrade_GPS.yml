@@ -8,17 +8,16 @@
   become_method: enable
   vars:
     ansible_network_os: onyx
-    force_upgrade_downgrade: False
-    fetch: True
+    force_upgrade_downgrade: false
+    fetch: true
     transfer_protocol: scp
     server_ip: ""
     server_user: ""
     server_password: ""
     img_file: ""
-    fail_on_file: True
+    fail_on_file: true
     destination_folder: /var/opt/tms/images/
-    reload: True
-    #ignore_net_errors: "True"
+    reload: true
   remote_user: admin
   tasks:
 
@@ -48,8 +47,8 @@
       fail:
         msg: "file {{img_file}} doesnt exist"
       when:
-         - file_exists.stat.exists == False
-         - fail_on_file == True
+         - not file_exists.stat.exists
+         - fail_on_file | bool
 
   # Copy image file to the switch using the net_put module using scp
     - name: need_to_upgrade
@@ -67,17 +66,17 @@
               protocol: "{{ transfer_protocol }}"
               src: "{{ img_file }}"
           tags: copy_to_onyx
-          ignore_errors: yes
+          #ignore_errors: yes
           when:
-           - fetch != True
+           - not fetch | bool
      # fetch the image file using a cli command
         - name: fetch_image
-          onyx_config:
+          onyx_command:
               commands: image fetch {{transfer_protocol}}://{{server_user}}:{{server_password}}@{{server_ip}}://{{img_file}}
               match: none
           tags: fetch_image
           when:
-               - fetch == True
+               - fetch | bool
 
 
      #  install the image
@@ -93,9 +92,9 @@
                   - image boot next
                   - configuration write
                   - no boot next fallback-reboot enable
-                backup: yes
+              #backup: yes
           when:
-             - force_upgrade_downgrade == True
+             - force_upgrade_downgrade | bool
           ignore_errors: yes
           tags: boot_next
 
@@ -105,9 +104,9 @@
                 lines:
                   - image boot next
                   - configuration write
-                backup: yes
+                #backup: yes
           when:
-              - force_upgrade_downgrade != True
+              - not force_upgrade_downgrade | bool
           tags: boot_next
 
       # run the reload command, need to set ignore errors to yes since the ssh is broken with the reload command
@@ -115,7 +114,7 @@
           onyx_config:
                 commands:
                     - reload
-          when: reload == True
+          when: reload | bool
           ignore_errors: yes
           tags: reload
 

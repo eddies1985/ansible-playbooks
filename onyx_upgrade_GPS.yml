@@ -73,10 +73,9 @@
         - name: fetch_image
           onyx_command:
               commands: image fetch {{transfer_protocol}}://{{server_user}}:{{server_password}}@{{server_ip}}://{{img_file}}
-              match: none
           tags: fetch_image
           when:
-               - fetch | bool
+            - fetch | bool
 
 
      #  install the image

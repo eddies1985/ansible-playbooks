@@ -8,16 +8,18 @@
   become_method: enable
   vars:
     ansible_network_os: onyx
-    force_upgrade_downgrade: false
-    fetch: true
+    force_upgrade_downgrade: False
+    fetch: True
     transfer_protocol: scp
     server_ip: ""
     server_user: ""
     server_password: ""
     img_file: ""
-    fail_on_file: true
+    fail_on_file: True
     destination_folder: /var/opt/tms/images/
-    reload: true
+    reload: True
+    e_config_backup: true
+    config_backup: "{{ e_config_backup  | bool }}"
   remote_user: admin
   tasks:
 
@@ -42,6 +44,7 @@
         path: "{{ img_file }}"
       delegate_to: localhost
       register: file_exists
+      tags: check_img_file
 
     - name: file_doesnt_exists
       fail:
@@ -49,6 +52,7 @@
       when:
          - not file_exists.stat.exists
          - fail_on_file | bool
+      tags: fail_on_non_existing_file
 
   # Copy image file to the switch using the net_put module using scp
     - name: need_to_upgrade
@@ -91,7 +95,7 @@
                   - image boot next
                   - configuration write
                   - no boot next fallback-reboot enable
-              #backup: yes
+                backup: "{{ config_backup }}"
           when:
              - force_upgrade_downgrade | bool
           ignore_errors: yes
@@ -103,7 +107,7 @@
                 lines:
                   - image boot next
                   - configuration write
-                #backup: yes
+                backup: "{{ config_backup }}"
           when:
               - not force_upgrade_downgrade | bool
           tags: boot_next

@@ -1,5 +1,4 @@
 - name: onyx_upgrade
-#  hosts: ONYX:&{{limit_hosts}}
   hosts: ONYX
   gather_facts: no
   strategy: free

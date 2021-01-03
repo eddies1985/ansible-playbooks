@@ -75,7 +75,7 @@
      # fetch the image file using a cli command
         - name: fetch_image
           onyx_command:
-              commands: image fetch {{transfer_protocol}}://{{server_user}}:{{server_password}}@{{server_ip}}://{{img_file}}
+              commands: image fetch {{transfer_protocol}}://{{server_user}}:{{server_password}}@{{server_ip}}:/{{img_file}}
           tags: fetch_image
           when:
             - fetch | bool
@@ -121,15 +121,29 @@
           tags: reload
 
             # use wait_for to wait for port 22 to be available on the switch after reboot
-        - name: wait for switch to reboot
+        - name: wait for switch to reboot - inventory_hostname
           delegate_to: localhost
           wait_for:
-             host: "{{ inventory_hostname }}"
+             host: "{{ ansible_host }}"
              port: 22
              delay: 360
              timeout: 800
           become: false
           tags: wait_for_ssh
+          when:
+            - ansible_host == inventory_hostname
+
+        - name: wait for switch to reboot ansible_host
+          delegate_to: localhost
+          wait_for:
+             host: "{{ ansible_host }}"
+             port: 22
+             delay: 360
+             timeout: 800
+          become: false
+          tags: wait_for_ssh
+          when:
+            - ansible_host != inventory_hostname
 
           # wait for full cli to be availble by waiting for output of "show version concise" to have the new version
         - name: wait_for_switch_cli
